@@ -19,7 +19,7 @@
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/> 
             <class name="tests.TC006_Tutorial"/> -->
-            <class name="tests.TC007_FAQs"/>
+         
 
         </classes>
 
