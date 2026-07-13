@@ -12,11 +12,11 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import utils.TapByCoordinates;
 
-public class Glossary {
+public class Feedback {
     
     private AndroidDriver driver;
 
-    public Glossary(AndroidDriver driver) {
+    public Feedback(AndroidDriver driver) {
 
         this.driver = driver;
     }

@@ -3,22 +3,24 @@
 <suite name="RecipeFindSuite">
 
     <listeners>
-        <listener class-name="listeners.TestListener"/>
+    <listener class-name="listeners.TestListener"/>
+    <listener class-name="listeners.RetryListener"/>
     </listeners>
 
     <test name="Launch Recipe Find">
 
         <classes>
        
-            <!-- <class name="tests.TC001_Authentication_Flow"/> -->
-            <!-- <class name="tests.TC002_All_Dish_Details_home"/> -->
-            <!-- <class name="tests.TC003_WelcomeScreen"/> -->
-            <!-- <class name="tests.TC004_Searchfield"/> -->
-
+            <!-- <class name="tests.TC001_Authentication_Flow"/>
+            <class name="tests.TC002_All_Dish_Details_home"/>
+            <class name="tests.TC003_WelcomeScreen"/>
+            <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
-
-            <!-- <class name="tests.TC006_Tutorial"/> -->
-            <!-- <class name="tests.TC007_FAQs"/> -->
+            <class name="tests.TC006_Tutorial"/>
+            <class name="tests.TC007_FAQs"/> -->
+            <class name="tests.TC003_WelcomeScreen"/>
+            <class name="tests.TC008_retrydemo"/>
+            <!-- <class name="tests.TC005_HamburgerMenu"/> -->
 
         </classes>
 

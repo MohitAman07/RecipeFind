@@ -3,3 +3,6 @@
 
 # Ignore APK files
 apps/*.apk
+
+#ignore Screenshots
+screenshots/*.png
