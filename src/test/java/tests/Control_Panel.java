@@ -7,7 +7,7 @@ import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
 
-public class TC009_Control_Panel extends BaseTest {
+public class Control_Panel extends BaseTest {
 
     @Test
     public void verifyControlPanelFunctionality()
