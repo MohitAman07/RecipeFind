@@ -19,17 +19,8 @@
             <class name="tests.TC006_Tutorial"/>
             <class name="tests.TC007_FAQs"/>
             <class name="tests.TC003_WelcomeScreen"/>
-<<<<<<< HEAD
             <class name="tests.TC005_HamburgerMenu"/>-->
-            <class name="tests.TC009_Control_Panel"/>
-=======
-            <class name="tests.TC005_HamburgerMenu"/> -->
-            <class name="tests.TC008_VerifyFeedbackScreenUI"/> 
-            <class name="tests.TC009_VerifyFeedbackValidationWithoutRating"/>
-            <class name="tests.TC010_VerifyFeedbackEmojiSelection"/>
-            <class name="tests.TC011_SubmitFeedbackSuccessfully"/>
-            <class name="tests.TC012_VerifyFeedbackCancelButton"/>
->>>>>>> origin/main
+            <class name="tests.Control_Panel"/>
 
 
         </classes>
