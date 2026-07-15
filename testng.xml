@@ -17,10 +17,12 @@
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
             <class name="tests.TC006_Tutorial"/>
-            <class name="tests.TC007_FAQs"/> -->
+            <class name="tests.TC007_FAQs"/>
             <class name="tests.TC003_WelcomeScreen"/>
-            <!-- <class name="tests.TC005_HamburgerMenu"/> -->
- 
+            <class name="tests.TC005_HamburgerMenu"/>-->
+            <class name="tests.TC009_Control_Panel"/>
+
+
         </classes>
  
     </test>
