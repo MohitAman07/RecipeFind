@@ -108,10 +108,10 @@ public class ControlPanel {
                 VerifyChangestatus.isDisplayed(),
                 "Change Status option is not displayed.");
 
-        waitUtil.clickWithWait(VerifyChangestatus);
     }
 
-    /*
+    
+ /*
      * Tabs
      */
     public void clickAllTab() {
