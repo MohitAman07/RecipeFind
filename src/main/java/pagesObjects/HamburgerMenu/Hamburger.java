@@ -3,8 +3,13 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+
+import java.time.Duration;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Hamburger {
 
@@ -54,11 +59,19 @@ public class Hamburger {
      */
     public boolean isHamburgerMenuVisible() {
 
-        return !driver.findElements(
-                AppiumBy.accessibilityId(
-                        "Open navigation menu"))
-                .isEmpty();
+    try {
+
+        new WebDriverWait(driver, Duration.ofSeconds(15))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Open navigation menu")));
+
+        return true;
+
+    } catch (Exception e) {
+
+        return false;
     }
+}
 
     public void clickHamburgerMenu() {
 

@@ -26,8 +26,14 @@
             <class name="tests.TC011_SubmitFeedbackSuccessfully"/>
             <class name="tests.TC012_VerifyFeedbackCancelButton"/>
             <class name="tests.TC013_VerifyGlossary"/> -->
-            <class name="tests.TC014_verifyControlPanelUI"/>
-       
+            <!-- <class name="tests.TC014_verifyControlPanelUI"/> -->
+            <class name="tests.TC015_VerifyRecipeSearch"/>
+            <class name="tests.TC016_VerifySortOptions"/>
+            <class name="tests.TC017_VerifyGroupSearch"/>
+            <class name="tests.TC018_VerifySubmittedStatus"/>
+            <class name="tests.TC019_VerifyVerifiedStatus"/>
+            <class name="tests.TC020_VerifyRejectedStatus"/>
+            <class name="tests.TC021_VerifyDeletePendingStatus"/>
  
  
         </classes>

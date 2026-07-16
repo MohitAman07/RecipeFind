@@ -96,6 +96,18 @@ private WebElement deletePendingStatus;
 private WebElement deleteRecipe;
 
 /*
+ * Group Search Field
+ */
+@AndroidFindBy(xpath = "//android.widget.EditText")
+private WebElement groupSearchField;
+
+/*
+ * Group Search Button
+ */
+@AndroidFindBy(xpath = "//android.widget.EditText/following-sibling::android.widget.Button")
+private WebElement groupSearchButton;
+
+/*
  * Dynamic Group
  */
 private WebElement group(String groupName) {
@@ -191,15 +203,44 @@ public void clickGroups() {
     waitUtil.clickWithWait(groups);
 }
 
+/*
+ * Select Group
+ */
 public void selectGroup(String groupName) {
 
-    WebElement group = group(groupName);
+    WebElement groupElement = group(groupName);
 
     Assert.assertTrue(
-            group.isDisplayed(),
+            groupElement.isDisplayed(),
             "Group '" + groupName + "' is not displayed.");
 
-    waitUtil.clickWithWait(group);
+    waitUtil.clickWithWait(groupElement);
+}
+
+/*
+ * Group Search Field
+ */
+public void enterGroupSearch(String groupName) {
+
+    Assert.assertTrue(
+            groupSearchField.isDisplayed(),
+            "Group Search field is not displayed.");
+
+    waitUtil.clickWithWait(groupSearchField);
+    groupSearchField.clear();
+    groupSearchField.sendKeys(groupName);
+}
+
+/*
+ * Group Search Button
+ */
+public void clickGroupSearchButton() {
+
+    Assert.assertTrue(
+            groupSearchButton.isDisplayed(),
+            "Group Search button is not displayed.");
+
+    waitUtil.clickWithWait(groupSearchButton);
 }
 
 /*
@@ -555,6 +596,25 @@ public boolean isSearchFieldDisplayed() {
 public boolean isGroupsDisplayed() {
 
     return groups.isDisplayed();
+}
+
+/*
+ * Hide Keyboard
+ */
+public void hideKeyboard() {
+
+    try {
+
+        driver.hideKeyboard();
+
+        System.out.println(
+                "Keyboard hidden successfully.");
+    }
+    catch (Exception e) {
+
+        System.out.println(
+                "Keyboard is already hidden.");
+    }
 }
 
 }
