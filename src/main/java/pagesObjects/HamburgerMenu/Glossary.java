@@ -301,34 +301,6 @@ private void processVisibleGlossary(
     }
 }
 
-    // /*
-    // * Fetch Visible Content Descriptions
-    // */
-    // private Set<String> getVisibleContentDescriptions() {
-
-    //     Set<String> values =
-    //             new LinkedHashSet<>();
-
-    //     List<WebElement> elements =
-    //             driver.findElements(
-    //                     AppiumBy.xpath("//*"));
-
-    //     for (WebElement element : elements) {
-
-    //         String desc =
-    //                 element.getAttribute(
-    //                         "contentDescription");
-
-    //         if (desc != null
-    //                 && !desc.trim().isEmpty()) {
-
-    //             values.add(
-    //                     desc.trim());
-    //         }
-    //     }
-
-    //     return values;
-    // }
 
     /*
     * Scroll To Next Glossary Section
