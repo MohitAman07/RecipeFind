@@ -162,66 +162,95 @@ public class Glossary {
     }
 
     /*
-    * Process Visible Glossary
+ * Process Visible Glossary
+ */
+private void processVisibleGlossary(
+        Set<String> processedGlossary)
+        throws Exception {
+
+    List<WebElement> glossaryTerms =
+            getVisibleGlossaryHeaders();
+
+    for (WebElement glossary : glossaryTerms) {
+
+        String glossaryName =
+                glossary.getAttribute(
+                        "contentDescription");
+
+        if (glossaryName == null
+                || glossaryName.equals("Collapsed")
+                || processedGlossary.contains(glossaryName)) {
+
+            continue;
+        }
+
+        processedGlossary.add(glossaryName);
+
+        System.out.println(
+                "Glossary : "
+                        + glossaryName);
+
+        try {
+
+            
+            /*
+            * Expand Glossary
+            */
+            glossary.click();
+
+            Thread.sleep(1000);
+
+    /*
+    * Read Description
     */
-    private void processVisibleGlossary(
-            Set<String> processedGlossary)
-            throws Exception {
-
-        List<WebElement> glossaryTerms =
-                getVisibleGlossaryHeaders();
-
-        for (WebElement glossary : glossaryTerms) {
-
-            String glossaryName =
-                    glossary.getAttribute(
-                            "contentDescription");
-
-            if (glossaryName == null
-                    || glossaryName.equals(
-                            "Collapsed")
-                    || processedGlossary.contains(
-                            glossaryName)) {
-
-                continue;
-            }
-
-            processedGlossary.add(
-                    glossaryName);
-
-            System.out.println(
-                    "Glossary : "
-                            + glossaryName);
-
-            try {
-
-                glossary.click();
-
-                Thread.sleep(1000);
-
-                Set<String> beforeExpand =
-        getVisibleContentDescriptions();
-
-    glossary.click();
-
-    Thread.sleep(1000);
-
-    Set<String> afterExpand =
-            getVisibleContentDescriptions();
+    List<WebElement> views =
+            driver.findElements(
+                    AppiumBy.xpath(
+                            "//android.view.View"));
 
     boolean descriptionFound = false;
 
-    for (String value : afterExpand) {
+    for (int i = 0; i < views.size(); i++) {
 
-        if (!beforeExpand.contains(value)
-                && !value.contains("Collapsed")
-                && !value.contains("Expanded")) {
+        String value =
+                views.get(i)
+                        .getAttribute(
+                                "contentDescription");
 
-            System.out.println(
-                    "Description : "
-                            + value);
+        if (value == null
+                || value.trim().isEmpty()) {
 
-            descriptionFound = true;
+            continue;
+        }
+
+        /*
+        * Found Expanded Glossary
+        */
+        if (value.equals(
+                glossaryName.replace(
+                        ", Collapsed",
+                        ", Expanded"))) {
+
+            /*
+            * Next View Contains Description
+            */
+            if (i + 1 < views.size()) {
+
+                String description =
+                        views.get(i + 1)
+                                .getAttribute(
+                                        "contentDescription");
+
+                if (description != null
+                        && !description.trim().isEmpty()) {
+
+                    System.out.println(
+                            "Description : "
+                                    + description);
+
+                    descriptionFound = true;
+                }
+            }
 
             break;
         }
@@ -233,70 +262,73 @@ public class Glossary {
                 "Description : Not Found");
     }
 
-                driver.findElement(
-                        AppiumBy.accessibilityId(
-                                glossaryName.replace(
-                                        ", Collapsed",
-                                        ", Expanded")))
-                        .click();
+    /*
+    * Collapse Glossary
+    */
+    driver.findElement(
+            AppiumBy.accessibilityId(
+                    glossaryName.replace(
+                            ", Collapsed",
+                            ", Expanded")))
+            .click();
 
-                Thread.sleep(700);
+    Thread.sleep(700);
 
-            } catch (Exception e) {
-
-                System.out.println(
-                        "Unable To Process : "
-                                + glossaryName);
-
-                System.out.println(
-                        "Reason : "
-                                + e.getMessage());
-            }
+        } catch (Exception e) {
 
             System.out.println(
-                    "------------------------------------------------");
+                    "Unable To Process : "
+                            + glossaryName);
 
-            if (shouldScrollForNextSection(
-                    glossaryName)) {
-
-                System.out.println(
-                        "Enum Glossary Matched.");
-
-                scrollToNextSection();
-
-                Thread.sleep(1500);
-            }
-        }
-    }
-
-    /*
-    * Fetch Visible Content Descriptions
-    */
-    private Set<String> getVisibleContentDescriptions() {
-
-        Set<String> values =
-                new LinkedHashSet<>();
-
-        List<WebElement> elements =
-                driver.findElements(
-                        AppiumBy.xpath("//*"));
-
-        for (WebElement element : elements) {
-
-            String desc =
-                    element.getAttribute(
-                            "contentDescription");
-
-            if (desc != null
-                    && !desc.trim().isEmpty()) {
-
-                values.add(
-                        desc.trim());
-            }
+            System.out.println(
+                    "Reason : "
+                            + e.getMessage());
         }
 
-        return values;
+        System.out.println(
+                "------------------------------------------------");
+
+        if (shouldScrollForNextSection(
+                glossaryName)) {
+
+            System.out.println(
+                    "Enum Glossary Matched.");
+
+            scrollToNextSection();
+
+            Thread.sleep(1500);
+        }
     }
+}
+
+    // /*
+    // * Fetch Visible Content Descriptions
+    // */
+    // private Set<String> getVisibleContentDescriptions() {
+
+    //     Set<String> values =
+    //             new LinkedHashSet<>();
+
+    //     List<WebElement> elements =
+    //             driver.findElements(
+    //                     AppiumBy.xpath("//*"));
+
+    //     for (WebElement element : elements) {
+
+    //         String desc =
+    //                 element.getAttribute(
+    //                         "contentDescription");
+
+    //         if (desc != null
+    //                 && !desc.trim().isEmpty()) {
+
+    //             values.add(
+    //                     desc.trim());
+    //         }
+    //     }
+
+    //     return values;
+    // }
 
     /*
     * Scroll To Next Glossary Section

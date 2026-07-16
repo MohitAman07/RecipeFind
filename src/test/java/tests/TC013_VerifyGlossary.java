@@ -14,8 +14,17 @@ public class TC013_VerifyGlossary extends BaseTest {
     public void verifyGlossaryFunctionality()
             throws InterruptedException {
 
+        System.out.println(
+                "==================================================");
+
+        System.out.println(
+                "Executing Test Case : verifyGlossaryFunctionality");
+
+        System.out.println(
+                "==================================================");
+
         /*
-         * Wait for dashboard to stabilize
+         * Wait for Dashboard to Stabilize
          */
         Thread.sleep(3000);
 
@@ -34,6 +43,12 @@ public class TC013_VerifyGlossary extends BaseTest {
                 hamburger.isHamburgerMenuVisible(),
                 "Hamburger menu is not displayed.");
 
+        System.out.println(
+                "Hamburger menu displayed successfully.");
+
+        /*
+         * Open Hamburger Menu
+         */
         hamburger.clickHamburgerMenu();
 
         System.out.println(
@@ -48,6 +63,12 @@ public class TC013_VerifyGlossary extends BaseTest {
                 hamburger.isGlossaryVisible(),
                 "Glossary menu is not displayed.");
 
+        System.out.println(
+                "Glossary menu displayed successfully.");
+
+        /*
+         * Open Glossary
+         */
         hamburger.clickGlossary();
 
         System.out.println(
@@ -66,12 +87,12 @@ public class TC013_VerifyGlossary extends BaseTest {
                 "Glossary screen displayed successfully.");
 
         /*
-         * Bring Glossary Content Below Logo
+         * Bring Glossary Content Below Header
          */
         glossary.bringGlossaryContentIntoView();
 
         /*
-         * Fetch All Glossary Terms
+         * Verify All Glossary Terms
          */
         glossary.getAllGlossaryTerms();
 
@@ -80,7 +101,43 @@ public class TC013_VerifyGlossary extends BaseTest {
          */
         glossary.scrollGlossaryToTop();
 
+        /*
+         * Verify Back Button
+         */
+        Assert.assertTrue(
+                hamburger.isBackButtonVisible(),
+                "Back button is not displayed.");
+
         System.out.println(
-                "Glossary verification completed successfully.");
+                "Back button displayed successfully.");
+
+        /*
+         * Navigate Back
+         */
+        hamburger.clickBackButton();
+
+        System.out.println(
+                "Back button clicked successfully.");
+
+        Thread.sleep(2000);
+
+        /*
+         * Verify Home Screen
+         */
+        Assert.assertTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Home screen is not displayed after navigating back from Glossary.");
+
+        System.out.println(
+                "Successfully navigated back to Home Screen.");
+
+        System.out.println(
+                "==================================================");
+
+        System.out.println(
+                "Completed Test Case : verifyGlossaryFunctionality");
+
+        System.out.println(
+                "==================================================");
     }
 }
