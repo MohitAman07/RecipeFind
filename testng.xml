@@ -25,8 +25,8 @@
             <class name="tests.TC010_VerifyFeedbackEmojiSelection"/>
             <class name="tests.TC011_SubmitFeedbackSuccessfully"/>
             <class name="tests.TC012_VerifyFeedbackCancelButton"/>
-            <class name="tests.Control_Panel"/> -->
-            <class name="tests.TC013_VerifyGlossary"/>
+            <class name="tests.TC013_VerifyGlossary"/> -->
+            <class name="tests.TC014_verifyControlPanelUI"/>
        
  
  

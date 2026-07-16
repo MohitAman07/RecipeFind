@@ -1,259 +1,560 @@
 package pagesObjects.HamburgerMenu;
-
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import utils.Scroll;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import utils.WaitUtil;
+import org.testng.Assert;
 
 public class ControlPanel {
 
     private AndroidDriver driver;
-    private Scroll scroll;
     private WaitUtil waitUtil;
 
     public ControlPanel(AndroidDriver driver) {
 
         this.driver = driver;
-        this.scroll = new Scroll(driver);
         this.waitUtil = new WaitUtil(driver);
-
-        PageFactory.initElements(
-                new AppiumFieldDecorator(driver),
-                this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    @AndroidFindBy(accessibility = "Control Panel")
-    private WebElement control_panel;
+        /*
+ * Search
+ */
+@AndroidFindBy(xpath = "//android.widget.EditText")
+private WebElement searchField;
+
+/*
+ * Groups
+ */
+@AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]")
+private WebElement groups;
+
+/*
+ * Sort
+ */
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Sort']")
+private WebElement sortButton;
+
+/*
+ * Sort Options
+ */
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Newest']")
+private WebElement newest;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Oldest']")
+private WebElement oldest;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Name']")
+private WebElement name;
+
+/*
+ * Tabs
+ */
+@AndroidFindBy(xpath = "//android.widget.HorizontalScrollView")
+private WebElement horizontalScroll;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='All']")
+private WebElement allTab;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Submitted']")
+private WebElement submittedTab;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Verified']")
+private WebElement verifiedTab;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Rejected']")
+private WebElement rejectedTab;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Delete Pending']")
+private WebElement deletePendingTab;
+
+/*
+ * Change Status Screen
+ */
+@AndroidFindBy(xpath = "//android.view.View[@content-desc='Change Status']")
+private WebElement changeStatusScreen;
+
+/*
+ * Change Status Options
+ */
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Submitted']")
+private WebElement submittedStatus;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Verified']")
+private WebElement verifiedStatus;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Rejected']")
+private WebElement rejectedStatus;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='DeletePending']")
+private WebElement deletePendingStatus;
+
+@AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Delete Recipe']")
+private WebElement deleteRecipe;
+
+/*
+ * Dynamic Group
+ */
+private WebElement group(String groupName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='" + groupName + "']"));
+}
+
+/*
+ * Dynamic Recipe Card
+ */
+private WebElement recipeCard(String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.ImageView[contains(@content-desc,'" + recipeName + "')]"));
+}
+
+/*
+ * Dynamic Recipe Status
+ */
+private WebElement recipeStatus(String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.ImageView[contains(@content-desc,'" + recipeName
+                            + "')]/android.view.View/android.view.View[3]"));
+}
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@index='0']")
-    private WebElement Dots;
+/*
+ * Dynamic Recipe Menu (3 Dots)
+ */
+private WebElement recipeMenu(String recipeName) {
 
-    @AndroidFindBy(accessibility = "Change Status")
-    private WebElement VerifyChangestatus;
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.ImageView[contains(@content-desc,'" + recipeName
+                            + "')]/android.widget.Button"));
+}
 
-    @AndroidFindBy(accessibility = "All")
-    private WebElement All_Tab;
+/*
+ * Dynamic Recipe Name On Change Status Screen
+ */
+private WebElement changeStatusRecipe(String recipeName) {
 
-    @AndroidFindBy(accessibility = "Submitted")
-    private WebElement Submitted;
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='" + recipeName + "']"));
+}
 
-    @AndroidFindBy(accessibility = "Verified")
-    private WebElement Verified;
+/*
+ * Search Field
+ */
+public void clickSearchField() {
 
-    @AndroidFindBy(accessibility = "Rejected")
-    private WebElement Rejected;
+    Assert.assertTrue(
+            searchField.isDisplayed(),
+            "Search field is not displayed.");
 
-    @AndroidFindBy(accessibility = "DeletePending")
-    private WebElement DeletePending;
+    waitUtil.clickWithWait(searchField);
+}
 
-    @AndroidFindBy(xpath = "//android.view.View[@index='2']")
-    private WebElement Verify_Submitted_recipes;
+public void enterSearchText(String recipeName) {
 
-    @AndroidFindBy(xpath = "//android.view.View[@index='2']")
-    private WebElement Verify_Verified_Recipes;
+    Assert.assertTrue(
+            searchField.isDisplayed(),
+            "Search field is not displayed.");
 
-    @AndroidFindBy(xpath = "//android.view.View[@index='2']")
-    private WebElement Verify_Rejected_Recipes;
+    waitUtil.clickWithWait(searchField);
+    searchField.clear();
+    searchField.sendKeys(recipeName);
+}
 
-    @AndroidFindBy(xpath = "//android.view.View[@index='3']")
-    private WebElement Group_Icon;
+public void clearSearchField() {
 
-    @AndroidFindBy(accessibility = "Mohit-Testing-01-july")
-    private WebElement Group_01;
+    Assert.assertTrue(
+            searchField.isDisplayed(),
+            "Search field is not displayed.");
 
-    @AndroidFindBy(xpath = "//android.widget.EditText[@index='1']")
-    private WebElement Enter_Group_name;
+    searchField.clear();
+}
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@index='2']")
-    private WebElement Group_Search_Button;
+/*
+ * Groups
+ */
+public void clickGroups() {
 
-    @AndroidFindBy(accessibility = "Delete")
-    private WebElement Remove_Group;
+    Assert.assertTrue(
+            groups.isDisplayed(),
+            "Groups section is not displayed.");
 
-    /*
-     * Control Panel
-     */
-    public void openControlPanel() {
+    waitUtil.clickWithWait(groups);
+}
 
-        Assert.assertTrue(
-                control_panel.isDisplayed(),
-                "Control Panel is not displayed.");
+public void selectGroup(String groupName) {
 
-        waitUtil.clickWithWait(control_panel);
-    }
+    WebElement group = group(groupName);
 
-    /*
-     * Three Dots
-     */
-    public void clickDots() {
+    Assert.assertTrue(
+            group.isDisplayed(),
+            "Group '" + groupName + "' is not displayed.");
 
-        Assert.assertTrue(
-                Dots.isDisplayed(),
-                "Dots button is not displayed.");
+    waitUtil.clickWithWait(group);
+}
 
-        waitUtil.clickWithWait(Dots);
-    }
+/*
+ * Sort
+ */
+public void clickSort() {
 
-    /*
-     * Change Status
-     */
-    public void clickChangeStatus() {
+    Assert.assertTrue(
+            sortButton.isDisplayed(),
+            "Sort button is not displayed.");
 
-        Assert.assertTrue(
-                VerifyChangestatus.isDisplayed(),
-                "Change Status option is not displayed.");
+    waitUtil.clickWithWait(sortButton);
+}
 
-    }
+public void selectNewest() {
 
-    
- /*
-     * Tabs
-     */
-    public void clickAllTab() {
+    Assert.assertTrue(
+            newest.isDisplayed(),
+            "Newest option is not displayed.");
 
-        Assert.assertTrue(
-                All_Tab.isDisplayed(),
-                "All tab is not displayed.");
+    waitUtil.clickWithWait(newest);
+}
 
-        waitUtil.clickWithWait(All_Tab);
-    }
+public void selectOldest() {
 
-    public void clickSubmittedTab() {
+    Assert.assertTrue(
+            oldest.isDisplayed(),
+            "Oldest option is not displayed.");
 
-        Assert.assertTrue(
-                Submitted.isDisplayed(),
-                "Submitted tab is not displayed.");
+    waitUtil.clickWithWait(oldest);
+}
 
-        waitUtil.clickWithWait(Submitted);
-    }
+public void selectName() {
 
-    public void clickVerifiedTab() {
+    Assert.assertTrue(
+            name.isDisplayed(),
+            "Name option is not displayed.");
 
-        Assert.assertTrue(
-                Verified.isDisplayed(),
-                "Verified tab is not displayed.");
+    waitUtil.clickWithWait(name);
+}
 
-        waitUtil.clickWithWait(Verified);
-    }
+/*
+ * All Tab
+ */
+public void clickAllTab() {
 
-    public void clickRejectedTab() {
+    horizontalScroll.findElement(
+            AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
+                            + "new UiSelector().description(\"All\"))"));
 
-        Assert.assertTrue(
-                Rejected.isDisplayed(),
-                "Rejected tab is not displayed.");
+    Assert.assertTrue(
+            allTab.isDisplayed(),
+            "All tab is not displayed.");
 
-        waitUtil.clickWithWait(Rejected);
-    }
+    waitUtil.clickWithWait(allTab);
+}
 
-    public void clickDeletePendingTab() {
+/*
+ * Submitted Tab
+ */
+public void clickSubmittedTab() {
 
-        Assert.assertTrue(
-                DeletePending.isDisplayed(),
-                "Delete Pending tab is not displayed.");
+    horizontalScroll.findElement(
+            AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
+                            + "new UiSelector().description(\"Submitted\"))"));
 
-        waitUtil.clickWithWait(DeletePending);
-    }
+    Assert.assertTrue(
+            submittedTab.isDisplayed(),
+            "Submitted tab is not displayed.");
 
-    /*
-     * Recipe Verification
-     */
-    public void openSubmittedRecipe() {
+    waitUtil.clickWithWait(submittedTab);
+}
 
-        Assert.assertTrue(
-                Verify_Submitted_recipes.isDisplayed(),
-                "Submitted recipe is not displayed.");
+/*
+ * Verified Tab
+ */
+public void clickVerifiedTab() {
 
-        waitUtil.clickWithWait(Verify_Submitted_recipes);
-    }
+    horizontalScroll.findElement(
+            AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
+                            + "new UiSelector().description(\"Verified\"))"));
 
-    public void openVerifiedRecipe() {
+    Assert.assertTrue(
+            verifiedTab.isDisplayed(),
+            "Verified tab is not displayed.");
 
-        Assert.assertTrue(
-                Verify_Verified_Recipes.isDisplayed(),
-                "Verified recipe is not displayed.");
+    waitUtil.clickWithWait(verifiedTab);
+}
 
-        waitUtil.clickWithWait(Verify_Verified_Recipes);
-    }
+/*
+ * Rejected Tab
+ */
+public void clickRejectedTab() {
 
-    public void openRejectedRecipe() {
+    horizontalScroll.findElement(
+            AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
+                            + "new UiSelector().description(\"Rejected\"))"));
 
-        Assert.assertTrue(
-                Verify_Rejected_Recipes.isDisplayed(),
-                "Rejected recipe is not displayed.");
+    Assert.assertTrue(
+            rejectedTab.isDisplayed(),
+            "Rejected tab is not displayed.");
 
-        waitUtil.clickWithWait(Verify_Rejected_Recipes);
-    }
+    waitUtil.clickWithWait(rejectedTab);
+}
 
-    /*
-     * Group
-     */
-    public void clickGroupIcon() {
+/*
+ * Delete Pending Tab
+ */
+public void clickDeletePendingTab() {
 
-        Assert.assertTrue(
-                Group_Icon.isDisplayed(),
-                "Group icon is not displayed.");
+    horizontalScroll.findElement(
+            AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
+                            + "new UiSelector().description(\"Delete Pending\"))"));
 
-        waitUtil.clickWithWait(Group_Icon);
-    }
+    Assert.assertTrue(
+            deletePendingTab.isDisplayed(),
+            "Delete Pending tab is not displayed.");
 
-    public void selectGroup() {
+    waitUtil.clickWithWait(deletePendingTab);
+}
 
-        Assert.assertTrue(
-                Group_01.isDisplayed(),
-                "Group is not displayed.");
+/*
+ * Open Recipe
+ */
+public void openRecipe(String recipeName) {
 
-        waitUtil.clickWithWait(Group_01);
-    }
+    WebElement recipe = recipeCard(recipeName);
 
-    /*
-     * Group Name
-     */
-    public void clickGroupNameField() {
+    Assert.assertTrue(
+            recipe.isDisplayed(),
+            "Recipe '" + recipeName + "' is not displayed.");
 
-        Assert.assertTrue(
-                Enter_Group_name.isDisplayed(),
-                "Group Name field is not displayed.");
+    waitUtil.clickWithWait(recipe);
+}
 
-        waitUtil.clickWithWait(Enter_Group_name);
-    }
+/*
+ * Verify Recipe Displayed
+ */
+public boolean isRecipeDisplayed(String recipeName) {
 
-    public void enterGroupName(String groupName) {
+    return recipeCard(recipeName).isDisplayed();
+}
 
-        Assert.assertTrue(
-                Enter_Group_name.isDisplayed(),
-                "Group Name field is not displayed.");
+/*
+ * Get Recipe Status
+ */
+public String getRecipeStatus(String recipeName) {
 
-        waitUtil.clickWithWait(Enter_Group_name);
-        Enter_Group_name.clear();
-        Enter_Group_name.sendKeys(groupName);
-    }
+    WebElement status = recipeStatus(recipeName);
 
-    /*
-     * Search Group
-     */
-    public void clickGroupSearchButton() {
+    Assert.assertTrue(
+            status.isDisplayed(),
+            "Recipe status is not displayed.");
 
-        Assert.assertTrue(
-                Group_Search_Button.isDisplayed(),
-                "Group Search button is not displayed.");
+    return status.getAttribute("content-desc");
+}
 
-        waitUtil.clickWithWait(Group_Search_Button);
-    }
+/*
+ * Recipe Menu
+ */
+public void clickRecipeMenu(String recipeName) {
 
-    /*
-     * Remove Group
-     */
-    public void clickRemoveGroup() {
+    WebElement menu = recipeMenu(recipeName);
 
-        Assert.assertTrue(
-                Remove_Group.isDisplayed(),
-                "Remove Group button is not displayed.");
+    Assert.assertTrue(
+            menu.isDisplayed(),
+            "Recipe menu is not displayed.");
 
-        waitUtil.clickWithWait(Remove_Group);
-    }
+    waitUtil.clickWithWait(menu);
+}
+
+/*
+ * Verify Change Status Screen
+ */
+public boolean isChangeStatusScreenDisplayed() {
+
+    return changeStatusScreen.isDisplayed();
+}
+
+/*
+ * Verify Recipe Name On Change Status Screen
+ */
+public boolean isRecipeDisplayedOnChangeStatus(String recipeName) {
+
+    return changeStatusRecipe(recipeName).isDisplayed();
+}
+
+/*
+ * Submitted
+ */
+public void clickSubmittedStatus() {
+
+    Assert.assertTrue(
+            submittedStatus.isDisplayed(),
+            "Submitted option is not displayed.");
+
+    waitUtil.clickWithWait(submittedStatus);
+}
+
+/*
+ * Verified
+ */
+public void clickVerifiedStatus() {
+
+    Assert.assertTrue(
+            verifiedStatus.isDisplayed(),
+            "Verified option is not displayed.");
+
+    waitUtil.clickWithWait(verifiedStatus);
+}
+
+/*
+ * Rejected
+ */
+public void clickRejectedStatus() {
+
+    Assert.assertTrue(
+            rejectedStatus.isDisplayed(),
+            "Rejected option is not displayed.");
+
+    waitUtil.clickWithWait(rejectedStatus);
+}
+
+/*
+ * Delete Pending
+ */
+public void clickDeletePendingStatus() {
+
+    Assert.assertTrue(
+            deletePendingStatus.isDisplayed(),
+            "Delete Pending option is not displayed.");
+
+    waitUtil.clickWithWait(deletePendingStatus);
+}
+
+/*
+ * Delete Recipe
+ */
+public boolean isDeleteRecipeDisplayed() {
+
+    return !driver.findElements(
+            AppiumBy.xpath(
+                    "//android.widget.Button[@content-desc='Delete Recipe']"))
+            .isEmpty();
+}
+
+/*
+ * Change Status Options
+ */
+public boolean isSubmittedStatusDisplayed() {
+
+    return submittedStatus.isDisplayed();
+}
+
+public boolean isVerifiedStatusDisplayed() {
+
+    return verifiedStatus.isDisplayed();
+}
+
+public boolean isRejectedStatusDisplayed() {
+
+    return rejectedStatus.isDisplayed();
+}
+
+public boolean isDeletePendingStatusDisplayed() {
+
+    return deletePendingStatus.isDisplayed();
+}
+
+
+/*
+ * Tabs
+ */
+public boolean isAllTabDisplayed() {
+
+    return allTab.isDisplayed();
+}
+
+public boolean isSubmittedTabDisplayed() {
+
+    return submittedTab.isDisplayed();
+}
+
+public boolean isVerifiedTabDisplayed() {
+
+    return verifiedTab.isDisplayed();
+}
+
+public boolean isRejectedTabDisplayed() {
+
+    return rejectedTab.isDisplayed();
+}
+
+public boolean isDeletePendingTabDisplayed() {
+
+    return deletePendingTab.isDisplayed();
+}
+
+/*
+ * Sort Button
+ */
+public boolean isSortButtonDisplayed() {
+
+    return sortButton.isDisplayed();
+}
+
+/*
+ * Sort Options
+ */
+public boolean isNewestDisplayed() {
+
+    Assert.assertTrue(
+            newest.isDisplayed(),
+            "Newest option is not displayed.");
+
+    return newest.isDisplayed();
+}
+
+public boolean isOldestDisplayed() {
+
+    Assert.assertTrue(
+            oldest.isDisplayed(),
+            "Oldest option is not displayed.");
+
+    return oldest.isDisplayed();
+}
+
+public boolean isNameDisplayed() {
+
+    Assert.assertTrue(
+            name.isDisplayed(),
+            "Name option is not displayed.");
+
+    return name.isDisplayed();
+}
+
+/*
+ * Search Field
+ */
+public boolean isSearchFieldDisplayed() {
+
+    return searchField.isDisplayed();
+}
+
+/*
+ * Groups
+ */
+public boolean isGroupsDisplayed() {
+
+    return groups.isDisplayed();
+}
+
 }
