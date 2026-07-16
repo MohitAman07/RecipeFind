@@ -1,6 +1,10 @@
 package pagesObjects.HamburgerMenu;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
 public class Hamburger {
 
@@ -9,7 +13,41 @@ public class Hamburger {
     public Hamburger(AndroidDriver driver) {
 
         this.driver = driver;
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
+
+        /*
+        * Control Panel
+        */
+        @AndroidFindBy(accessibility = "Control Panel")
+        private WebElement control_panel;
+
+        /*
+        * Create Shopping List
+        */
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Create Shopping List, Collapsed']")
+        private WebElement createShoppingListCollapsed;
+
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Create Shopping List, Expanded']")
+        private WebElement createShoppingListExpanded;
+
+        /*
+        * For Self
+        */
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='For Self']")
+        private WebElement forSelf;
+
+        /*
+        * For Group
+        */
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='For Group']")
+        private WebElement forGroup;
+
+        /*
+        * Group Management
+        */
+        @AndroidFindBy(accessibility = "Group Managements")
+        private WebElement groupManagement;
 
     /*
      * Hamburger Menu Button
@@ -307,7 +345,119 @@ public class Hamburger {
                 "Back button clicked.");
     }
 
-   
+    /*
+    control pannel 
+    */
 
+    public boolean isControlPanelVisible() 
+    {
+
+        return control_panel.isDisplayed();
+    }
+
+        public void clickControlPanel() {
+
+        control_panel.click();
+
+        System.out.println("Control Panel clicked.");
+        }
+
+         /*
+        * Create Shopping List - Collapsed
+        */
+        public boolean isCreateShoppingListCollapsedVisible() {
+
+        return !driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[@content-desc='Create Shopping List, Collapsed']"))
+                .isEmpty();
+        }
+
+        /*
+        * Create Shopping List - Expanded
+        */
+        public boolean isCreateShoppingListExpandedVisible() {
+
+        return !driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[@content-desc='Create Shopping List, Expanded']"))
+                .isEmpty();
+        }
+
+        /*
+        * Expand Create Shopping List
+        */
+        public void expandCreateShoppingList() {
+
+        createShoppingListCollapsed.click();
+
+        System.out.println(
+                "Create Shopping List expanded.");
+        }
+
+        /*
+        * Collapse Create Shopping List
+        */
+        public void collapseCreateShoppingList() {
+
+        createShoppingListExpanded.click();
+
+        System.out.println(
+                "Create Shopping List collapsed.");
+        }
+
+        /*
+        * For Self
+        */
+        public boolean isForSelfVisible() {
+
+        return !driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[@content-desc='For Self']"))
+                .isEmpty();
+        }
+
+        public void clickForSelf() {
+
+        forSelf.click();
+
+        System.out.println(
+                "For Self clicked.");
+        }
+
+        /*
+        * For Group
+        */
+        public boolean isForGroupVisible() {
+
+        return !driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[@content-desc='For Group']"))
+                .isEmpty();
+        }
+
+        public void clickForGroup() {
+
+        forGroup.click();
+
+        System.out.println(
+                "For Group clicked.");
+        }
+
+/*
+ * Group Management
+ */
+        public boolean isGroupManagementVisible() {
+
+        return groupManagement.isDisplayed();
+        }
+
+        public void clickGroupManagement() {
+
+        groupManagement.click();
+
+        System.out.println(
+                "Group Management clicked.");
+        }
 
 }
