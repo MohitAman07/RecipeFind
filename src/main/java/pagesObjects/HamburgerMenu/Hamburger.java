@@ -1,6 +1,8 @@
 package pagesObjects.HamburgerMenu;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
@@ -20,6 +22,27 @@ public class Hamburger {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
+
+       public void hideKeyboardIfVisible() {
+
+    try {
+
+        if (driver.isKeyboardShown()) {
+
+            driver.pressKey(
+                    new KeyEvent(
+                            AndroidKey.BACK));
+
+            System.out.println(
+                    "Keyboard hidden successfully.");
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Keyboard already hidden.");
+    }
+}
 
         /*
         * Control Panel
@@ -75,14 +98,16 @@ public class Hamburger {
 
     public void clickHamburgerMenu() {
 
-        driver.findElement(
-                AppiumBy.accessibilityId(
-                        "Open navigation menu"))
-                .click();
+    driver.findElement(
+            AppiumBy.accessibilityId(
+                    "Open navigation menu"))
+            .click();
 
-        System.out.println(
-                "Hamburger menu clicked.");
-    }
+    hideKeyboardIfVisible();
+
+    System.out.println(
+            "Hamburger menu clicked.");
+}
 
     /*
      * Tutorial
@@ -96,6 +121,8 @@ public class Hamburger {
     }
 
     public void clickTutorial() {
+
+        hideKeyboardIfVisible();
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -119,6 +146,8 @@ public class Hamburger {
 
     public void clickFAQs() {
 
+        hideKeyboardIfVisible();
+
         driver.findElement(
                 AppiumBy.accessibilityId(
                         "FAQs"))
@@ -140,6 +169,8 @@ public class Hamburger {
     }
 
     public void clickGlossary() {
+
+        hideKeyboardIfVisible();
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -163,6 +194,8 @@ public class Hamburger {
 
     public void clickFeedback() {
 
+        hideKeyboardIfVisible();
+
         driver.findElement(
                 AppiumBy.accessibilityId(
                         "Feedback"))
@@ -177,6 +210,7 @@ public class Hamburger {
      */
     public boolean isShareVisible() {
 
+
         return !driver.findElements(
                 AppiumBy.accessibilityId(
                         "Share"))
@@ -184,6 +218,8 @@ public class Hamburger {
     }
 
     public void clickShare() {
+
+        hideKeyboardIfVisible();
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -206,6 +242,8 @@ public class Hamburger {
     }
 
     public void clickContactUs() {
+
+        hideKeyboardIfVisible();
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -262,6 +300,8 @@ public class Hamburger {
 
     public void clickLegal() {
 
+        hideKeyboardIfVisible();
+
         driver.findElement(
                 AppiumBy.accessibilityId(
                         "Legal"))
@@ -295,12 +335,16 @@ public class Hamburger {
 
     public void clickSignOut() {
 
+        hideKeyboardIfVisible();
+
         if (driver.findElements(
                 AppiumBy.accessibilityId(
                         "Sign Out"))
                 .isEmpty()) {
 
             scrollHamburgerMenu();
+        
+        hideKeyboardIfVisible();
         }
 
         driver.findElement(
@@ -316,6 +360,8 @@ public class Hamburger {
      * Scroll Hamburger Menu
      */
     private void scrollHamburgerMenu() {
+
+        hideKeyboardIfVisible();
 
         try {
 
@@ -349,14 +395,25 @@ public class Hamburger {
 
     public void clickBackButton() {
 
-        driver.findElement(
-                AppiumBy.accessibilityId(
-                        "Back"))
-                .click();
+        hideKeyboardIfVisible();
 
-        System.out.println(
-                "Back button clicked.");
+    driver.findElement(
+            AppiumBy.accessibilityId(
+                    "Back"))
+            .click();
+
+    System.out.println(
+            "Back button clicked.");
+
+    try {
+
+        Thread.sleep(2000);
+
+    } catch (InterruptedException e) {
+
+        Thread.currentThread().interrupt();
     }
+}
 
     /*
     control pannel 
@@ -369,6 +426,8 @@ public class Hamburger {
     }
 
         public void clickControlPanel() {
+
+                hideKeyboardIfVisible();
 
         control_panel.click();
 
@@ -402,6 +461,8 @@ public class Hamburger {
         */
         public void expandCreateShoppingList() {
 
+        hideKeyboardIfVisible();
+
         createShoppingListCollapsed.click();
 
         System.out.println(
@@ -412,6 +473,8 @@ public class Hamburger {
         * Collapse Create Shopping List
         */
         public void collapseCreateShoppingList() {
+
+        hideKeyboardIfVisible();
 
         createShoppingListExpanded.click();
 
@@ -432,6 +495,8 @@ public class Hamburger {
 
         public void clickForSelf() {
 
+        hideKeyboardIfVisible();
+
         forSelf.click();
 
         System.out.println(
@@ -451,6 +516,8 @@ public class Hamburger {
 
         public void clickForGroup() {
 
+        hideKeyboardIfVisible();
+
         forGroup.click();
 
         System.out.println(
@@ -466,6 +533,8 @@ public class Hamburger {
         }
 
         public void clickGroupManagement() {
+                
+        hideKeyboardIfVisible();
 
         groupManagement.click();
 

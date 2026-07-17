@@ -2,7 +2,6 @@ package tests;
 
 import base.BaseTest;
 import driver.DriverFactory;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -131,6 +130,8 @@ public class TC007_FAQs extends BaseTest {
         hamburger.clickBackButton();
 
         Thread.sleep(2000);
+
+        hamburger.hideKeyboardIfVisible();
 
         System.out.println(
                 "Back button clicked successfully.");

@@ -305,53 +305,75 @@ public class BaseTest {
         }
     }
  
-    private void ensureApplicationReady() {
- 
+        private void ensureApplicationReady() {
+
     try {
- 
+
         String currentPackage =
                 DriverFactory.getDriver()
                         .getCurrentPackage();
- 
+
         // Bring Recipe Find to foreground if another app is open
         if (!"com.quickelf.recipeFind.debug".equals(currentPackage)) {
- 
+
             DriverFactory.getDriver()
                     .activateApp("com.quickelf.recipeFind.debug");
- 
+
             Thread.sleep(2000);
- 
+
             System.out.println(
                     "Recipe Find application activated.");
         }
- 
+
         // Click Home if the Home button is available
         if (!DriverFactory.getDriver()
                 .findElements(
                         AppiumBy.xpath(
                                 "//android.widget.Button[contains(@content-desc,'Home')]"))
                 .isEmpty()) {
- 
+
             DriverFactory.getDriver()
                     .findElement(
                             AppiumBy.xpath(
                                     "//android.widget.Button[contains(@content-desc,'Home')]"))
                     .click();
- 
+
             System.out.println(
                     "Home button clicked.");
+
+            Thread.sleep(1000);
         }
- 
+
+
+        /*
+         * Deselect Search Field
+         */
+        if (!DriverFactory.getDriver()
+                .findElements(
+                        AppiumBy.xpath(
+                                "//*[starts-with(@content-desc,'Hi ')]"))
+                .isEmpty()) {
+
+            DriverFactory.getDriver()
+                    .findElement(
+                            AppiumBy.xpath(
+                                    "//*[starts-with(@content-desc,'Hi ')]"))
+                    .click();
+
+            System.out.println(
+                    "Search field deselected.");
+        }
+
         System.out.println(
                 "Application is ready for test execution.");
- 
+
     } catch (Exception e) {
- 
+
         Assert.fail(
                 "Unable to prepare application : "
                         + e.getMessage());
-                }
-        }
+    }
+}
  
     @AfterMethod(alwaysRun = true)
         public void tearDown(Method method) {

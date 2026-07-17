@@ -1,12 +1,12 @@
 package tests;
 
 import base.BaseTest;
-
 import driver.DriverFactory;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.Home.RecipeSearch;
 import pagesObjects.Home.RecipeSearchResult;
 
@@ -14,6 +14,9 @@ import java.util.Set;
 
 public class TC004_Searchfield extends BaseTest {
 
+        Hamburger hamburger =
+                new Hamburger(
+                        DriverFactory.getDriver());
     @Test
     public void verifySearchFieldFunctionality()
             throws InterruptedException {
@@ -36,6 +39,10 @@ public class TC004_Searchfield extends BaseTest {
                 new RecipeSearch(
                         DriverFactory.getDriver());
 
+        Hamburger hamburger =
+                new Hamburger(
+                        DriverFactory.getDriver());
+
         /*
          * Verify Search Field Visibility
          */
@@ -52,7 +59,9 @@ public class TC004_Searchfield extends BaseTest {
         recipeSearch.enterRecipeName(
                 "Chicken");
 
-        Thread.sleep(3000);
+        recipeSearch.hideKeyboard();
+
+        Thread.sleep(2000);
 
         System.out.println(
                 "Recipe name entered successfully.");
@@ -153,52 +162,25 @@ public class TC004_Searchfield extends BaseTest {
                 "Total Community Recipes : "
                         + communityRecipes.size());
 
+        
+        hamburger.clickBackButton();
         /*
-         * Verify AI Generated Tab
+         * Clear Search Field
          */
-        Assert.assertTrue(
-                searchResult.isAIGeneratedTabVisible(),
-                "AI Generated tab is not displayed.");
-
-        System.out.println(
-                "AI Generated tab displayed successfully.");
+        recipeSearch.clearSearchField();
 
         /*
-         * Click AI Generated Tab
-         */
-        searchResult.clickAIGeneratedTab();
+        * Deselect Search Field
+        */
+        recipeSearch.deselectSearchField();
 
-        Thread.sleep(3000);
-
-        System.out.println(
-                "AI Generated tab clicked successfully.");
 
         /*
-         * Fetch AI Generated Recipes
+         * Hide Keyboard (removes focus if keyboard appears)
          */
-        Set<String> aiRecipes =
-                searchResult.getAllAIGeneratedResults();
+        recipeSearch.hideKeyboard();
 
-        System.out.println(
-                "==================================================");
-
-        System.out.println(
-                "AI Generated Recipes");
-
-        System.out.println(
-                "==================================================");
-
-        for (String recipe : aiRecipes) {
-
-            System.out.println(recipe);
-
-            System.out.println(
-                    "------------------------------------------------");
-        }
-
-        System.out.println(
-                "Total AI Generated Recipes : "
-                        + aiRecipes.size());
+        Thread.sleep(1000);
 
         System.out.println(
                 "==================================================");

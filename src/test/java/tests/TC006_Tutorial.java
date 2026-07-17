@@ -111,6 +111,10 @@ public class TC006_Tutorial extends BaseTest {
 
         Thread.sleep(2000);
 
+        hamburger.hideKeyboardIfVisible();
+
+        Thread.sleep(2000);
+
         System.out.println(
                 "Back button clicked successfully.");
 

@@ -11,22 +11,20 @@
  
         <classes>
        
-            <!-- <class name="tests.TC001_Authentication_Flow"/>
+             <!-- <class name="tests.TC001_Authentication_Flow"/> -->
             <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
             <class name="tests.TC006_Tutorial"/>
             <class name="tests.TC007_FAQs"/>
-            <class name="tests.TC003_WelcomeScreen"/>
-            <class name="tests.TC005_HamburgerMenu"/>
             <class name="tests.TC008_VerifyFeedbackScreenUI"/>
             <class name="tests.TC009_VerifyFeedbackValidationWithoutRating"/>
             <class name="tests.TC010_VerifyFeedbackEmojiSelection"/>
             <class name="tests.TC011_SubmitFeedbackSuccessfully"/>
             <class name="tests.TC012_VerifyFeedbackCancelButton"/>
-            <class name="tests.TC013_VerifyGlossary"/> -->
-            <!-- <class name="tests.TC014_verifyControlPanelUI"/> -->
+            <class name="tests.TC013_VerifyGlossary"/>
+            <class name="tests.TC014_verifyControlPanelUI"/>
             <class name="tests.TC015_VerifyRecipeSearch"/>
             <class name="tests.TC016_VerifySortOptions"/>
             <class name="tests.TC017_VerifyGroupSearch"/>
@@ -34,8 +32,6 @@
             <class name="tests.TC019_VerifyVerifiedStatus"/>
             <class name="tests.TC020_VerifyRejectedStatus"/>
             <class name="tests.TC021_VerifyDeletePendingStatus"/>
- 
- 
         </classes>
  
     </test>

@@ -27,17 +27,23 @@ public class TC018_VerifySubmittedStatus extends BaseTest {
         /*
          * Open Hamburger Menu
          */
+        Assert.assertTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is not displayed.");
         hamburger.clickHamburgerMenu();
 
         /*
          * Open Control Panel
          */
+        Assert.assertTrue(
+                hamburger.isControlPanelVisible(),
+                "Control Panel is not displayed.");
         hamburger.clickControlPanel();
 
         /*
          * Open All Tab
          */
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         controlPanel.clickAllTab();
 
         /*

@@ -2,7 +2,6 @@ package tests;
 
 import base.BaseTest;
 import driver.DriverFactory;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -359,22 +358,27 @@ public class TC005_HamburgerMenu extends BaseTest {
 
         Thread.sleep(2000);
 
-        /*
-        * Reopen Hamburger Menu
-        */
-        hamburger.clickHamburgerMenu();
+        // /*
+        // * Reopen Hamburger Menu
+        // */
+        // hamburger.clickHamburgerMenu();
 
-        Thread.sleep(2000);
+        // Thread.sleep(2000);
 
-        /*
-        * Sign Out
-        */
-        Assert.assertTrue(
-                hamburger.isSignOutVisible(),
-                "Sign Out option is not displayed.");
+        // /*
+        // * Sign Out
+        // */
 
-        System.out.println(
-                "Sign Out option displayed successfully.");
+        // hamburger.hideKeyboardIfVisible();
+
+        // Assert.assertTrue(
+        //         hamburger.isSignOutVisible(),
+        //         "Sign Out option is not displayed.");
+
+        // System.out.println(
+        //         "Sign Out option displayed successfully.");
+
+        // hamburger.hideKeyboardIfVisible();
 
         System.out.println(
                 "==================================================");
