@@ -7,11 +7,15 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 import java.time.Duration;
-
+import java.util.List;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.interactions.Sequence;
 
 public class Hamburger {
 
@@ -23,31 +27,63 @@ public class Hamburger {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-       public void hideKeyboardIfVisible() {
+public void swipeOnTutorial() {
 
     try {
 
-        if (driver.isKeyboardShown()) {
+        WebElement tutorial = new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Tutorial")));
 
-            driver.pressKey(
-                    new KeyEvent(
-                            AndroidKey.BACK));
+        Point location = tutorial.getLocation();
+        Dimension size = tutorial.getSize();
 
-            System.out.println(
-                    "Keyboard hidden successfully.");
-        }
+        int startX = location.getX() + (size.getWidth() / 2);
+        int startY = location.getY() + (size.getHeight() / 2);
+
+        int endX = startX;
+        int endY = startY - 150; // Small upward swipe
+
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+
+        Sequence swipe = new Sequence(finger, 1);
+
+        swipe.addAction(finger.createPointerMove(Duration.ZERO,
+                PointerInput.Origin.viewport(), startX, startY));
+
+        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(300),
+                PointerInput.Origin.viewport(), endX, endY));
+
+        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(List.of(swipe));
+
+        System.out.println("Keyboard hidden using swipe.");
 
     } catch (Exception e) {
 
-        System.out.println(
-                "Keyboard already hidden.");
+        System.out.println("Keyboard already hidden.");
+    }
+}
+
+public void hideKeyboardIfVisible() {
+
+    try {
+
+        swipeOnTutorial();
+
+    } catch (Exception e) {
+
+        System.out.println("Unable to hide keyboard.");
     }
 }
 
         /*
         * Control Panel
         */
-        @AndroidFindBy(accessibility = "Control Panel")
+        @AndroidFindBy(xpath="//android.widget.Button[@content-desc=\"Control Panel\"]")
         private WebElement control_panel;
 
         /*
@@ -84,7 +120,7 @@ public class Hamburger {
 
     try {
 
-        new WebDriverWait(driver, Duration.ofSeconds(15))
+        new WebDriverWait(driver, Duration.ofSeconds(110))
                 .until(ExpectedConditions.visibilityOfElementLocated(
                         AppiumBy.accessibilityId("Open navigation menu")));
 
@@ -96,19 +132,18 @@ public class Hamburger {
     }
 }
 
-    public void clickHamburgerMenu() {
+public void clickHamburgerMenu() {
+
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOfElementLocated(
+                    AppiumBy.accessibilityId("Open navigation menu")));
 
     driver.findElement(
-            AppiumBy.accessibilityId(
-                    "Open navigation menu"))
+            AppiumBy.accessibilityId("Open navigation menu"))
             .click();
 
-    hideKeyboardIfVisible();
-
-    System.out.println(
-            "Hamburger menu clicked.");
+    System.out.println("Hamburger menu clicked.");
 }
-
     /*
      * Tutorial
      */
@@ -120,18 +155,20 @@ public class Hamburger {
                 .isEmpty();
     }
 
-    public void clickTutorial() {
+public void clickTutorial() {
 
-        hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        driver.findElement(
-                AppiumBy.accessibilityId(
-                        "Tutorial"))
-                .click();
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOfElementLocated(
+                    AppiumBy.accessibilityId("Tutorial")));
 
-        System.out.println(
-                "Tutorial clicked.");
-    }
+    driver.findElement(
+            AppiumBy.accessibilityId("Tutorial"))
+            .click();
+
+    System.out.println("Tutorial clicked.");
+}
 
     /*
      * FAQs
@@ -147,6 +184,10 @@ public class Hamburger {
     public void clickFAQs() {
 
         hideKeyboardIfVisible();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("FAQs")));
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -172,6 +213,10 @@ public class Hamburger {
 
         hideKeyboardIfVisible();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Glossary")));
+
         driver.findElement(
                 AppiumBy.accessibilityId(
                         "Glossary"))
@@ -195,6 +240,10 @@ public class Hamburger {
     public void clickFeedback() {
 
         hideKeyboardIfVisible();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Feedback")));
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -221,6 +270,10 @@ public class Hamburger {
 
         hideKeyboardIfVisible();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Share")));
+
         driver.findElement(
                 AppiumBy.accessibilityId(
                         "Share"))
@@ -244,6 +297,10 @@ public class Hamburger {
     public void clickContactUs() {
 
         hideKeyboardIfVisible();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        AppiumBy.accessibilityId("Contact Us")));
 
         driver.findElement(
                 AppiumBy.accessibilityId(
@@ -298,18 +355,22 @@ public class Hamburger {
                 .isEmpty();
     }
 
-    public void clickLegal() {
+public void clickLegal() {
 
-        hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        driver.findElement(
-                AppiumBy.accessibilityId(
-                        "Legal"))
-                .click();
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOfElementLocated(
+                    AppiumBy.accessibilityId("Legal")));
 
-        System.out.println(
-                "Legal clicked.");
-    }
+    driver.findElement(
+            AppiumBy.accessibilityId(
+                    "Legal"))
+            .click();
+
+    System.out.println(
+            "Legal clicked.");
+}
 
     /*
      * Sign Out
@@ -333,28 +394,30 @@ public class Hamburger {
                 .isEmpty();
     }
 
-    public void clickSignOut() {
+public void clickSignOut() {
 
-        hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        if (driver.findElements(
-                AppiumBy.accessibilityId(
-                        "Sign Out"))
-                .isEmpty()) {
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOfElementLocated(
+                    AppiumBy.accessibilityId("Sign Out")));
 
-            scrollHamburgerMenu();
-        
-        hideKeyboardIfVisible();
-        }
+    if (driver.findElements(
+            AppiumBy.accessibilityId(
+                    "Sign Out"))
+            .isEmpty()) {
 
-        driver.findElement(
-                AppiumBy.accessibilityId(
-                        "Sign Out"))
-                .click();
-
-        System.out.println(
-                "Sign Out clicked.");
+        scrollHamburgerMenu();
     }
+
+    driver.findElement(
+            AppiumBy.accessibilityId(
+                    "Sign Out"))
+            .click();
+
+    System.out.println(
+            "Sign Out clicked.");
+}
 
     /*
      * Scroll Hamburger Menu
@@ -395,8 +458,6 @@ public class Hamburger {
 
     public void clickBackButton() {
 
-        hideKeyboardIfVisible();
-
     driver.findElement(
             AppiumBy.accessibilityId(
                     "Back"))
@@ -427,12 +488,17 @@ public class Hamburger {
 
         public void clickControlPanel() {
 
-                hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        control_panel.click();
+    new WebDriverWait(driver, Duration.ofSeconds(20))
+            .until(ExpectedConditions.visibilityOf(
+                    control_panel));
 
-        System.out.println("Control Panel clicked.");
-        }
+    control_panel.click();
+
+    System.out.println(
+            "Control Panel clicked.");
+}
 
          /*
         * Create Shopping List - Collapsed
@@ -457,31 +523,38 @@ public class Hamburger {
         }
 
         /*
-        * Expand Create Shopping List
-        */
-        public void expandCreateShoppingList() {
+ * Expand Create Shopping List
+ */
+public void expandCreateShoppingList() {
 
-        hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        createShoppingListCollapsed.click();
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOf(
+                    createShoppingListCollapsed));
 
-        System.out.println(
-                "Create Shopping List expanded.");
-        }
+    createShoppingListCollapsed.click();
 
-        /*
-        * Collapse Create Shopping List
-        */
-        public void collapseCreateShoppingList() {
+    System.out.println(
+            "Create Shopping List expanded.");
+}
 
-        hideKeyboardIfVisible();
+/*
+ * Collapse Create Shopping List
+ */
+public void collapseCreateShoppingList() {
 
-        createShoppingListExpanded.click();
+    hideKeyboardIfVisible();
 
-        System.out.println(
-                "Create Shopping List collapsed.");
-        }
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOf(
+                    createShoppingListExpanded));
 
+    createShoppingListExpanded.click();
+
+    System.out.println(
+            "Create Shopping List collapsed.");
+}
         /*
         * For Self
         */
@@ -493,15 +566,19 @@ public class Hamburger {
                 .isEmpty();
         }
 
-        public void clickForSelf() {
+    public void clickForSelf() {
 
-        hideKeyboardIfVisible();
+    hideKeyboardIfVisible();
 
-        forSelf.click();
+    new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(ExpectedConditions.visibilityOf(
+                    forSelf));
 
-        System.out.println(
-                "For Self clicked.");
-        }
+    forSelf.click();
+
+    System.out.println(
+            "For Self clicked.");
+}
 
         /*
         * For Group
@@ -517,6 +594,10 @@ public class Hamburger {
         public void clickForGroup() {
 
         hideKeyboardIfVisible();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(
+                        forGroup));
 
         forGroup.click();
 
@@ -536,10 +617,42 @@ public class Hamburger {
                 
         hideKeyboardIfVisible();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(
+                        groupManagement));
+
         groupManagement.click();
 
         System.out.println(
                 "Group Management clicked.");
         }
+
+
+     /*
+     * Check if Hamburger Menu is Open
+     */
+    public boolean isHamburgerMenuOpen() {
+
+    return !driver.findElements(
+            AppiumBy.accessibilityId(
+                    "Tutorial"))
+            .isEmpty();
+}
+
+        /*
+        * Close Hamburger Menu
+        */
+        public void closeHamburgerMenu() {
+
+        if (isHamburgerMenuOpen()) {
+
+                driver.pressKey(
+                        new KeyEvent(
+                                AndroidKey.BACK));
+
+                System.out.println(
+                        "Hamburger menu closed.");
+        }
+}
 
 }
