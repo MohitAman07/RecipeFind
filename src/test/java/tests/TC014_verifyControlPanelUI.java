@@ -171,26 +171,30 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         DriverFactory.getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
 
         /*
-         * Verify Sort Options
-         */
-        controlPanel.clickSort();
+ * Verify Sort Options
+ */
+Thread.sleep(3000);
 
-        Assert.assertTrue(
-                controlPanel.isNewestDisplayed(),
-                "Newest option is not displayed.");
+controlPanel.clickSort();
 
-        Assert.assertTrue(
-                controlPanel.isOldestDisplayed(),
-                "Oldest option is not displayed.");
+Assert.assertTrue(
+        controlPanel.isNewestDisplayed(),
+        "Newest option is not displayed.");
 
-        Assert.assertTrue(
-                controlPanel.isNameDisplayed(),
-                "Name option is not displayed.");
+Assert.assertTrue(
+        controlPanel.isOldestDisplayed(),
+        "Oldest option is not displayed.");
 
-        /*
-         * Close Sort Picklist
-         */
-        DriverFactory.getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
+Assert.assertTrue(
+        controlPanel.isNameDisplayed(),
+        "Name option is not displayed.");
+
+/*
+ * Select Newest to close the sort dialog
+ */
+controlPanel.selectNewest();
+
+Thread.sleep(2000);
 
         /*
          * Navigate Back From Control Panel

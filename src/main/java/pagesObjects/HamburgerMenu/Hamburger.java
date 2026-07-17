@@ -1,12 +1,11 @@
 package pagesObjects.HamburgerMenu;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -640,19 +639,40 @@ public void collapseCreateShoppingList() {
 }
 
         /*
-        * Close Hamburger Menu
-        */
-        public void closeHamburgerMenu() {
+ * Close Hamburger Menu
+ */
+public void closeHamburgerMenu() {
 
-        if (isHamburgerMenuOpen()) {
+    if (!isHamburgerMenuOpen()) {
+        return;
+    }
 
-                driver.pressKey(
-                        new KeyEvent(
-                                AndroidKey.BACK));
+    Dimension size = driver.manage().window().getSize();
 
-                System.out.println(
-                        "Hamburger menu closed.");
-        }
+    // Tap outside the drawer (right side of the screen)
+    int x = (int) (size.getWidth() * 0.90);
+    int y = (int) (size.getHeight() * 0.30);
+
+    PointerInput finger =
+            new PointerInput(PointerInput.Kind.TOUCH, "finger");
+
+    Sequence tap = new Sequence(finger, 1);
+
+    tap.addAction(finger.createPointerMove(
+            Duration.ZERO,
+            PointerInput.Origin.viewport(),
+            x,
+            y));
+
+    tap.addAction(finger.createPointerDown(
+            PointerInput.MouseButton.LEFT.asArg()));
+
+    tap.addAction(finger.createPointerUp(
+            PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(Collections.singletonList(tap));
+
+    System.out.println("Hamburger menu closed.");
 }
 
 }

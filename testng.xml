@@ -12,11 +12,11 @@
         <classes>
        
              <!-- <class name="tests.TC001_Authentication_Flow"/> -->
-            <!-- <class name="tests.TC002_All_Dish_Details_home"/>
-            <class name="tests.TC003_WelcomeScreen"/> -->
-            <!-- <class name="tests.TC004_Searchfield"/> -->
+            <class name="tests.TC002_All_Dish_Details_home"/>
+            <class name="tests.TC003_WelcomeScreen"/>
+            <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
-            <!-- <class name="tests.TC006_Tutorial"/>
+            <class name="tests.TC006_Tutorial"/>
             <class name="tests.TC007_FAQs"/>
             <class name="tests.TC008_VerifyFeedbackScreenUI"/>
             <class name="tests.TC009_VerifyFeedbackValidationWithoutRating"/>
@@ -31,7 +31,8 @@
             <class name="tests.TC018_VerifySubmittedStatus"/>
             <class name="tests.TC019_VerifyVerifiedStatus"/>
             <class name="tests.TC020_VerifyRejectedStatus"/>
-            <class name="tests.TC021_VerifyDeletePendingStatus"/> -->
+            <class name="tests.TC021_VerifyDeletePendingStatus"/>
+            
         </classes>
  
     </test>
