@@ -40,7 +40,7 @@ public class TC014_verifyControlPanelUI extends BaseTest {
          */
 
         hamburger.clickControlPanel();
-
+        Thread.sleep(3000);        
         /*
          * Verify Search Field
          */
