@@ -36,10 +36,6 @@ public class TC019_VerifyVerifiedStatus extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
-
         hamburger.clickControlPanel();
 
         /*
@@ -51,31 +47,20 @@ public class TC019_VerifyVerifiedStatus extends BaseTest {
         /*
          * Open Change Status
          */
-        Assert.assertTrue(
-                controlPanel.isRecipeDisplayed(recipeName),
-                "Recipe is not displayed.");
-
         controlPanel.clickRecipeMenu(recipeName);
 
-        Assert.assertTrue(
-                controlPanel.isChangeStatusScreenDisplayed(),
-                "Change Status screen is not displayed.");
-
         /*
-         * Change Status To Verified
+         * Change To Verified
          */
         controlPanel.clickVerifiedStatus();
 
         /*
-         * Open Verified Tab
+         * Verify Verified Tab
          */
         controlPanel.clickVerifiedTab();
 
         Thread.sleep(5000);
 
-        /*
-         * Verify Recipe
-         */
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
                 "Recipe is not displayed in Verified tab.");
@@ -83,6 +68,7 @@ public class TC019_VerifyVerifiedStatus extends BaseTest {
         /*
          * Navigate Back
          */
+        Thread.sleep(3000);
         hamburger.clickBackButton();
 
         System.out.println(

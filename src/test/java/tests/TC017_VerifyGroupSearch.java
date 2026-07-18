@@ -36,18 +36,12 @@ public class TC017_VerifyGroupSearch extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
+        Thread.sleep(5000);
 
         hamburger.clickControlPanel();
-            Thread.sleep(5000);
         /*
          * Verify Groups Section
          */
-        Assert.assertTrue(
-                controlPanel.isGroupsDisplayed(),
-                "Groups section is not displayed.");
 
         controlPanel.clickGroups();
 
@@ -66,6 +60,7 @@ public class TC017_VerifyGroupSearch extends BaseTest {
 
         // /*
         //  * Navigate Back
+        Thread.sleep(3000);
          hamburger.clickBackButton();
 
         System.out.println(

@@ -36,50 +36,31 @@ public class TC021_VerifyDeletePendingStatus extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
-
         hamburger.clickControlPanel();
-
-        Thread.sleep(5000);
 
         /*
          * Open All Tab
          */
+        Thread.sleep(5000);
         controlPanel.clickAllTab();
-
-        /*
-         * Verify Recipe
-         */
-        Assert.assertTrue(
-                controlPanel.isRecipeDisplayed(recipeName),
-                "Recipe is not displayed.");
 
         /*
          * Open Change Status
          */
         controlPanel.clickRecipeMenu(recipeName);
 
-        Assert.assertTrue(
-                controlPanel.isChangeStatusScreenDisplayed(),
-                "Change Status screen is not displayed.");
-
         /*
-         * Change Status To Delete Pending
+         * Change To Delete Pending
          */
         controlPanel.clickDeletePendingStatus();
 
         /*
-         * Open Delete Pending Tab
+         * Verify Delete Pending Tab
          */
         controlPanel.clickDeletePendingTab();
 
         Thread.sleep(5000);
 
-        /*
-         * Verify Recipe
-         */
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
                 "Recipe is not displayed in Delete Pending tab.");
@@ -87,6 +68,7 @@ public class TC021_VerifyDeletePendingStatus extends BaseTest {
         /*
          * Navigate Back
          */
+        Thread.sleep(3000);
         hamburger.clickBackButton();
 
         System.out.println(

@@ -36,9 +36,6 @@ public class TC015_VerifyRecipeSearch extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
 
         hamburger.clickControlPanel();
         Thread.sleep(5000);

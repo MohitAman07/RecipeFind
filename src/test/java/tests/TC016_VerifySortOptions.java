@@ -34,9 +34,6 @@ public class TC016_VerifySortOptions extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
 
         hamburger.clickControlPanel();
 

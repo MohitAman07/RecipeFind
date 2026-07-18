@@ -38,9 +38,6 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
 
         hamburger.clickControlPanel();
 

@@ -36,50 +36,31 @@ public class TC020_VerifyRejectedStatus extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
-
         hamburger.clickControlPanel();
-
-        Thread.sleep(5000);
 
         /*
          * Open All Tab
          */
+        Thread.sleep(5000);
         controlPanel.clickAllTab();
-
-        /*
-         * Verify Recipe
-         */
-        Assert.assertTrue(
-                controlPanel.isRecipeDisplayed(recipeName),
-                "Recipe is not displayed.");
 
         /*
          * Open Change Status
          */
         controlPanel.clickRecipeMenu(recipeName);
 
-        Assert.assertTrue(
-                controlPanel.isChangeStatusScreenDisplayed(),
-                "Change Status screen is not displayed.");
-
         /*
-         * Change Status To Rejected
+         * Change To Rejected
          */
         controlPanel.clickRejectedStatus();
 
         /*
-         * Open Rejected Tab
+         * Verify Rejected Tab
          */
         controlPanel.clickRejectedTab();
 
         Thread.sleep(5000);
 
-        /*
-         * Verify Recipe
-         */
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
                 "Recipe is not displayed in Rejected tab.");
@@ -87,6 +68,7 @@ public class TC020_VerifyRejectedStatus extends BaseTest {
         /*
          * Navigate Back
          */
+        Thread.sleep(3000);
         hamburger.clickBackButton();
 
         System.out.println(

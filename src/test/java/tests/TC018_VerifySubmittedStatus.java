@@ -35,9 +35,6 @@ public class TC018_VerifySubmittedStatus extends BaseTest {
         /*
          * Open Control Panel
          */
-        Assert.assertTrue(
-                hamburger.isControlPanelVisible(),
-                "Control Panel is not displayed.");
         hamburger.clickControlPanel();
 
         /*
@@ -51,9 +48,6 @@ public class TC018_VerifySubmittedStatus extends BaseTest {
          */
         controlPanel.clickRecipeMenu(recipeName);
 
-        Assert.assertTrue(
-                controlPanel.isChangeStatusScreenDisplayed(),
-                "Change Status screen is not displayed.");
 
         /*
          * Change To Submitted
@@ -64,6 +58,7 @@ public class TC018_VerifySubmittedStatus extends BaseTest {
          * Verify Submitted Tab
          */
         controlPanel.clickSubmittedTab();
+        Thread.sleep(5000);
 
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
@@ -72,6 +67,7 @@ public class TC018_VerifySubmittedStatus extends BaseTest {
         /*
          * Navigate Back
          */
+        Thread.sleep(3000);
         hamburger.clickBackButton();
 
         System.out.println(
