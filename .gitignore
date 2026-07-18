@@ -1,6 +1,9 @@
 # Project exclude paths
 /target/*
 
+# Keep the PDF reports
+!target/ExecutionReport*.pdf
+
 # Ignore APK files
 apps/*.apk
 

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import reports.PDFReportGenerator;
 
 
 import com.aventstack.extentreports.ExtentTest;
@@ -247,6 +248,8 @@ public void onTestSkipped(ITestResult result) {
 public void onFinish(ITestContext context) {
 
     ExtentManager.getInstance().flush();
+
+    PDFReportGenerator.generate(context);
 
     Map<String, String> results =
             new LinkedHashMap<>();
