@@ -53,6 +53,8 @@ public class TC022_VerifyCreateGroupDashboard extends BaseTest {
 
         Thread.sleep(3000);
 
+        groupManagement.hideKeyboard();
+
         /*
          * Verify Create Group Dashboard
          */

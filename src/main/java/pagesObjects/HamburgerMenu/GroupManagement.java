@@ -83,7 +83,7 @@ public class GroupManagement {
     /*
      * Group Name Field
      */
-    @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[1]")
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[1]")
     private WebElement groupNameField;
 
     /*
@@ -95,7 +95,7 @@ public class GroupManagement {
     /*
      * Group Description Field
      */
-    @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[2]")
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[2]")
     private WebElement groupDescriptionField;
 
     /*
@@ -107,8 +107,8 @@ public class GroupManagement {
     /*
      * Group Domain Field
      */
-    @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.widget.EditText[3]")
-    private WebElement groupDomainField;
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[3]")
+        private WebElement groupDomainField;
 
     /*
      * Assign Admin Heading
@@ -649,6 +649,7 @@ public boolean isUserNotFoundMessageDisplayed() {
         return false;
     }
 }
+
 
 }
 

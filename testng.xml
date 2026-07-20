@@ -12,7 +12,7 @@
         <classes>
        
              <!-- <class name="tests.TC001_Authentication_Flow"/> -->
-            <class name="tests.TC002_All_Dish_Details_home"/>
+            <!-- <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
@@ -33,6 +33,8 @@
             <class name="tests.TC020_VerifyRejectedStatus"/>
             <class name="tests.TC021_VerifyDeletePendingStatus"/>
             <class name="tests.TC022_VerifyCreateGroupDashboard"/>
+            <class name="tests.TC023_VerifyViewAllGroupsDashboard"/> -->
+            <class name="tests.TC024_VerifyValidGroupSearch"/>
             
         </classes>
  
