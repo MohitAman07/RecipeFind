@@ -156,6 +156,10 @@ public class TC030_VerifyGroupVisibleToAssignedGroupAdmin extends BaseTest {
         hamburger.clickBackButton();
 
         Thread.sleep(3000);
+        
+        hamburger.clickBackButton();
+
+        Thread.sleep(3000);
 
         hamburger.clickHamburgerMenu();
 
