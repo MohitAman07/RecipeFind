@@ -50,11 +50,11 @@ public class TC025_VerifyInvalidGroupSearch extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-        groupManagement.hideKeyboard();
+        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 
-        groupManagement.hideKeyboard();
+        hamburger.hideKeyboardIfVisible();;
 
         hamburger.clickGroupManagement();
 

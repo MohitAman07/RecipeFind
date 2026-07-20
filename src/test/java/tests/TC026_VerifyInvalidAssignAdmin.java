@@ -50,7 +50,7 @@ public class TC026_VerifyInvalidAssignAdmin extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-        groupManagement.hideKeyboard();
+        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 

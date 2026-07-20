@@ -47,7 +47,7 @@ public class TC027_VerifyMandatoryFieldValidation extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-        groupManagement.hideKeyboard();
+        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 

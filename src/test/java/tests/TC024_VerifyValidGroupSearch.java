@@ -60,6 +60,8 @@ public class TC024_VerifyValidGroupSearch extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
+        hamburger.hideKeyboardIfVisible();
+
         Thread.sleep(3000);
 
         hamburger.clickGroupManagement();

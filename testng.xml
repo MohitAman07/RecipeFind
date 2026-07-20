@@ -31,7 +31,7 @@
             <class name="tests.TC018_VerifySubmittedStatus"/>
             <class name="tests.TC019_VerifyVerifiedStatus"/>
             <class name="tests.TC020_VerifyRejectedStatus"/>
-            <class name="tests.TC021_VerifyDeletePendingStatus"/>
+            <class name="tests.TC021_VerifyDeletePendingStatus"/> -->
             <class name="tests.TC022_VerifyCreateGroupDashboard"/>
             <class name="tests.TC023_VerifyViewAllGroupsDashboard"/>
             <class name="tests.TC024_VerifyValidGroupSearch"/>
@@ -39,7 +39,7 @@
             <class name="tests.TC026_VerifyInvalidAssignAdmin"/>
             <class name="tests.TC027_VerifyMandatoryFieldValidation"/>
             <class name="tests.TC028_VerifyInvalidGroupDomain"/>
-            <class name="tests.TC029_VerifyCancelGroupCreation"/> -->
+            <class name="tests.TC029_VerifyCancelGroupCreation"/>
             <class name="tests.TC030_VerifyGroupVisibleToAssignedGroupAdmin"/>
             
         </classes>

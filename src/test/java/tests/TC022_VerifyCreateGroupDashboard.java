@@ -47,6 +47,8 @@ public class TC022_VerifyCreateGroupDashboard extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
+        hamburger.hideKeyboardIfVisible();
+
         Thread.sleep(3000);
 
         hamburger.clickGroupManagement();

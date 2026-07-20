@@ -56,7 +56,7 @@ public class TC028_VerifyInvalidGroupDomain extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-         groupManagement.hideKeyboard();
+        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 
