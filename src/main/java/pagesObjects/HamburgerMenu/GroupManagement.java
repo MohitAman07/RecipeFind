@@ -140,6 +140,15 @@ public class GroupManagement {
     @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Cancel']")
     private WebElement cancelButton;
 
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Group name is required']")
+    private WebElement groupNameRequiredMessage;
+
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Group description is required']")
+    private WebElement groupDescriptionRequiredMessage;
+
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Enter a valid domain']")
+    private WebElement invalidDomainMessage;
+
 
     /*
      * Dynamic Group
@@ -648,6 +657,21 @@ public boolean isUserNotFoundMessageDisplayed() {
 
         return false;
     }
+}
+
+public boolean isGroupNameRequiredMessageDisplayed() {
+
+    return groupNameRequiredMessage.isDisplayed();
+}
+
+public boolean isGroupDescriptionRequiredMessageDisplayed() {
+
+    return groupDescriptionRequiredMessage.isDisplayed();
+}
+
+public boolean isInvalidDomainMessageDisplayed() {
+
+    return invalidDomainMessage.isDisplayed();
 }
 
 
