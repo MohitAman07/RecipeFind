@@ -41,7 +41,7 @@ public class TC024_VerifyValidGroupSearch extends BaseTest {
                 "Automation Group Description";
 
         String groupDomain =
-                "Automation Domain";
+                "www.google.com";
 
         String adminUser =
                 ConfigReader.getProperty(
@@ -92,8 +92,10 @@ public class TC024_VerifyValidGroupSearch extends BaseTest {
 
         Thread.sleep(2000);
 
-        groupManagement.clickTickButton();
+        groupManagement.hideKeyboard();
 
+        groupManagement.clickTickButton();
+        
         Thread.sleep(2000);
         groupManagement.hideKeyboard();
 

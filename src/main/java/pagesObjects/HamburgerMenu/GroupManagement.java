@@ -119,8 +119,8 @@ public class GroupManagement {
     /*
      * Assign Admin Field
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Assign Admin']")
-    private WebElement assignAdminField;
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[4]")
+        private WebElement assignAdminField;
 
     /*
      * Tick Button
