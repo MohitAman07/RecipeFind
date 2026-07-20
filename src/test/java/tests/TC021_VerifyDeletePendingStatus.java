@@ -71,6 +71,12 @@ public class TC021_VerifyDeletePendingStatus extends BaseTest {
         Thread.sleep(3000);
         hamburger.clickBackButton();
 
+        Thread.sleep(3000);
+
+        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
+        hamburger.clickSignOut();
+
         System.out.println(
                 "========== Delete Pending Status Verified Successfully ==========");
     }

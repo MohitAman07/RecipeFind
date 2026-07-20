@@ -15,6 +15,13 @@ import pagesObjects.Signup.SignUpPage;
 import utils.ConfigReader;
  
 public class BaseTest {
+        protected String loginEmail =
+        ConfigReader.getProperty(
+                "gmail.email");
+
+        protected String loginPassword =
+                ConfigReader.getProperty(
+                        "gmail.password");
  
         @BeforeMethod(alwaysRun = true)
         public void setUp(Method method) {
@@ -33,12 +40,12 @@ public class BaseTest {
  
         verifyApplicationLaunch();
  
-        authenticateUser();
+        authenticateUser(loginEmail,loginPassword);
  
         ensureApplicationReady();
         }
  
-    private void verifyApplicationLaunch() {
+    protected void verifyApplicationLaunch() {
  
         String currentPackage =
                 DriverFactory.getDriver()
@@ -57,39 +64,34 @@ public class BaseTest {
                         + currentPackage);
     }
  
-    protected void authenticateUser() {
- 
-        try {
- 
-            boolean authenticationCompleted = false;
- 
-            SignUpPage signUpPage =
-                    new SignUpPage(
-                            DriverFactory.getDriver());
- 
-            GoogleAccountPage googlePage =
-                    new GoogleAccountPage(
-                            DriverFactory.getDriver());
- 
-            GoogleLoginPage googleLoginPage =
-                    new GoogleLoginPage(
-                            DriverFactory.getDriver());
- 
-            AudioPermissionPage audioPage =
-                    new AudioPermissionPage(
-                            DriverFactory.getDriver());
- 
-            NearbyPermissionPage nearbyPage =
-                    new NearbyPermissionPage(
-                            DriverFactory.getDriver());
- 
-            String email =
-                    ConfigReader.getProperty(
-                            "gmail.email");
- 
-            String password =
-                    ConfigReader.getProperty(
-                            "gmail.password");
+   protected void authenticateUser(
+        String email,
+        String password) {
+
+    try {
+
+        boolean authenticationCompleted = false;
+
+        SignUpPage signUpPage =
+                new SignUpPage(
+                        DriverFactory.getDriver());
+
+        GoogleAccountPage googlePage =
+                new GoogleAccountPage(
+                        DriverFactory.getDriver());
+
+        GoogleLoginPage googleLoginPage =
+                new GoogleLoginPage(
+                        DriverFactory.getDriver());
+
+        AudioPermissionPage audioPage =
+                new AudioPermissionPage(
+                        DriverFactory.getDriver());
+
+        NearbyPermissionPage nearbyPage =
+                new NearbyPermissionPage(
+                        DriverFactory.getDriver());
+
  
             /*
              * Sign Up Screen
@@ -305,7 +307,7 @@ public class BaseTest {
         }
     }
  
-        private void ensureApplicationReady() {
+        protected void ensureApplicationReady() {
 
     try {
 

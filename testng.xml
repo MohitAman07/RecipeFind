@@ -32,6 +32,7 @@
             <class name="tests.TC019_VerifyVerifiedStatus"/>
             <class name="tests.TC020_VerifyRejectedStatus"/>
             <class name="tests.TC021_VerifyDeletePendingStatus"/>
+            <class name="tests.TC022_VerifyCreateGroupDashboard"/>
             
         </classes>
  
