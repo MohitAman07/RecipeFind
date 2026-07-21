@@ -1,6 +1,10 @@
 package pagesObjects.HamburgerMenu;
 
+import java.util.Map;
+
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
@@ -125,7 +129,7 @@ public class GroupManagement {
     /*
      * Tick Button
      */
-    @AndroidFindBy(xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.widget.Button[1]")
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Assign Admin']/following::android.widget.Button[1]")
     private WebElement tickButton;
 
     /*
@@ -674,6 +678,318 @@ public boolean isInvalidDomainMessageDisplayed() {
     return invalidDomainMessage.isDisplayed();
 }
 
+/*
+ * Edit Group
+ */
+@AndroidFindBy(xpath = "//android.view.View[@content-desc='Edit']")
+private WebElement editGroupButton;
+
+@AndroidFindBy(xpath = "(//android.widget.EditText)[4]/following::android.widget.Button[1]")
+private WebElement editMemberTickButton;
+
+/*
+ * Edit Group Fields
+ */
+@AndroidFindBy(xpath = "(//android.widget.EditText)[1]")
+private WebElement editGroupNameField;
+
+@AndroidFindBy(xpath = "(//android.widget.EditText)[2]")
+private WebElement editGroupDescriptionField;
+
+@AndroidFindBy(xpath = "(//android.widget.EditText)[3]")
+private WebElement editGroupDomainField;
+
+/*
+ * Members
+ */
+@AndroidFindBy(xpath = "//android.view.View[@content-desc='Members']")
+private WebElement membersHeading;
+
+@AndroidFindBy(xpath = "(//android.widget.EditText)[4]")
+private WebElement memberSearchField;
+
+/*
+ * Member Section
+ */
+@AndroidFindBy(xpath = "//android.widget.ScrollView")
+private WebElement membersScrollView;
+
+/*
+ * Validation
+ */
+@AndroidFindBy(xpath = "//android.view.View[@content-desc='A group must have at least one admin.']")
+private WebElement oneAdminValidation;
+
+/*
+ * Save Button
+ */
+@AndroidFindBy(xpath = "//android.view.View[@content-desc='Save']")
+private WebElement saveButton;
+
+/*
+ * Edit Group
+ */
+public boolean isEditButtonDisplayed() {
+
+    return !driver.findElements(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Edit']"))
+            .isEmpty();
+}
+
+public boolean isMembersHeadingDisplayed() {
+
+    return membersHeading.isDisplayed();
+}
+
+public boolean isMemberSearchFieldDisplayed() {
+
+    return memberSearchField.isDisplayed();
+}
+
+public boolean isOneAdminValidationDisplayed() {
+
+    return !driver.findElements(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='A group must have at least one admin.']"))
+            .isEmpty();
+}
+
+public void clickEditGroup() {
+
+    editGroupButton.click();
+
+    System.out.println(
+            "Edit Group clicked.");
+}
+
+public void clearGroupName() {
+
+    editGroupNameField.click();
+
+    editGroupNameField.sendKeys(
+            Keys.chord(
+                    Keys.CONTROL,
+                    "a"));
+
+    editGroupNameField.sendKeys(
+            Keys.DELETE);
+
+    System.out.println(
+            "Group Name cleared.");
+}
+
+public void enterUpdatedGroupName(
+        String groupName) {
+
+    editGroupNameField.clear();
+
+    editGroupNameField.sendKeys(
+            groupName);
+
+    System.out.println(
+            "Updated Group Name entered.");
+}
+
+public void clearGroupDescription() {
+
+    editGroupDescriptionField.clear();
+
+    System.out.println(
+            "Group Description cleared.");
+}
+
+public String getGroupDescription() {
+
+    return editGroupDescriptionField.getText();
+}
+
+public void enterUpdatedGroupDescription(
+        String description) {
+
+    editGroupDescriptionField.click();
+
+    editGroupDescriptionField.clear();
+
+    editGroupDescriptionField.sendKeys(
+            description);
+
+    System.out.println(
+            "Updated Group Description entered.");
+}
+
+public boolean isGroupDescriptionDisplayed(
+        String description) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.EditText[@text='"
+                            + description
+                            + "']"))
+            .isDisplayed();
+}
+
+public void clearGroupDomain() {
+
+    editGroupDomainField.clear();
+
+    System.out.println(
+            "Group Domain cleared.");
+}
+
+public boolean isGroupDomainDisplayed(
+        String domain) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.EditText[@text='"
+                            + domain
+                            + "']"))
+            .isDisplayed();
+}
+
+public void enterUpdatedGroupDomain(
+        String domain) {
+
+    editGroupDomainField.click();
+
+    editGroupDomainField.clear();
+
+    editGroupDomainField.sendKeys(
+            domain);
+
+    System.out.println(
+            "Updated Group Domain entered.");
+}
+
+public void enterMemberSearch(
+        String member) {
+
+    memberSearchField.click();
+
+    memberSearchField.clear();
+
+    memberSearchField.sendKeys(
+            member);
+
+    System.out.println(
+            "Member entered : "
+                    + member);
+}
+
+public void clickMember(
+        String email) {
+
+    driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.Button[contains(@content-desc,'"
+                            + email
+                            + "')]"))
+            .click();
+
+    System.out.println(
+            "Member selected.");
+}
+
+public boolean isMemberDisplayed(
+        String email) {
+
+    return !driver.findElements(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + email
+                            + "')]"))
+            .isEmpty();
+}
+
+public void makeMemberAdmin(
+        String email) {
+
+    driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + email
+                            + "')]/android.widget.Button"))
+            .click();
+
+    System.out.println(
+            "Member promoted to Admin.");
+}
+
+public void removeAdmin(
+        String email) {
+
+    driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + email
+                            + "')]/android.widget.Button"))
+            .click();
+
+    System.out.println(
+            "Admin removed.");
+}
+
+public void deleteMember(
+        String email) {
+
+    driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + email
+                            + "')]/android.widget.Button[2]"))
+            .click();
+
+    System.out.println(
+            "Member deleted.");
+}
+
+public void scrollMembersSection() {
+
+    try {
+
+        driver.executeScript(
+                "mobile: swipeGesture",
+                Map.of(
+                        "elementId",
+                        ((RemoteWebElement) membersScrollView).getId(),
+                        "direction",
+                        "up",
+                        "percent",
+                        0.75));
+
+        System.out.println(
+                "Members section scrolled.");
+    }
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to scroll Members section.");
+    }
+}
+
+/*
+ * Click Save Button
+ */
+public void clickSaveButton() {
+
+    saveButton.click();
+
+    System.out.println(
+            "Save button clicked.");
+}
+
+/*
+ * Click Edit Member Tick Button
+ */
+public void clickEditMemberTickButton() {
+
+    waitUtil.clickWithWait(
+            editMemberTickButton);
+
+    System.out.println(
+            "Edit Member Tick button clicked.");
+}
 
 }
 

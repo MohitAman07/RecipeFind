@@ -12,7 +12,7 @@
         <classes>
        
              <!-- <class name="tests.TC001_Authentication_Flow"/> -->
-            <!-- <class name="tests.TC002_All_Dish_Details_home"/>
+            <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
@@ -31,7 +31,7 @@
             <class name="tests.TC018_VerifySubmittedStatus"/>
             <class name="tests.TC019_VerifyVerifiedStatus"/>
             <class name="tests.TC020_VerifyRejectedStatus"/>
-            <class name="tests.TC021_VerifyDeletePendingStatus"/> -->
+            <class name="tests.TC021_VerifyDeletePendingStatus"/>
             <class name="tests.TC022_VerifyCreateGroupDashboard"/>
             <class name="tests.TC023_VerifyViewAllGroupsDashboard"/>
             <class name="tests.TC024_VerifyValidGroupSearch"/>
@@ -41,6 +41,13 @@
             <class name="tests.TC028_VerifyInvalidGroupDomain"/>
             <class name="tests.TC029_VerifyCancelGroupCreation"/>
             <class name="tests.TC030_VerifyGroupVisibleToAssignedGroupAdmin"/>
+            <class name="tests.TC031_VerifyEditGroupName"/>
+            <class name="tests.TC032_VerifyEditGroupDescription"/>
+            <class name="tests.TC033_VerifyEditGroupDomain"/>
+            <class name="tests.TC034_VerifyEditAllGroupDetails"/>
+            <class name="tests.TC035_VerifyGroupAdminCanEditAssignedGroup"/>
+            <class name="tests.TC036_VerifyReviewerCanEditOnlyAssignedGroup"/>
+            
             
         </classes>
  
