@@ -223,6 +223,7 @@ public class TC030_VerifyGroupVisibleToAssignedGroupAdmin extends BaseTest {
 
         Thread.sleep(3000);
 
+
         /*
          * Verify Created Group Is Visible
          */
@@ -230,6 +231,25 @@ public class TC030_VerifyGroupVisibleToAssignedGroupAdmin extends BaseTest {
                 groupManagement.isGroupDisplayed(
                         groupName),
                 "Created group is visible for assigned Group Admin.");
+
+                /*
+         * Logout Super Admin
+         */
+        Thread.sleep(3000);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(3000);
+
+        hamburger.clickHamburgerMenu();
+
+        hamburger.hideKeyboardIfVisible();
+
+        Thread.sleep(3000);
+
+        hamburger.clickSignOut();
+
+        Thread.sleep(8000);
 
         System.out.println(
                 "TC030_VerifyGroupVisibleToAssignedGroupAdmin executed successfully.");

@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -32,8 +34,8 @@ public class PDFReportGenerator {
             String timestamp =
                     new SimpleDateFormat(
                             "dd-MMM-yyyy_hh-mm-a")
-                            .format(
-                                    currentDate);
+                                    .format(
+                                            currentDate);
 
             String pdfPath =
                     "target/ExecutionReport_"
@@ -87,8 +89,8 @@ public class PDFReportGenerator {
                             "Execution Date : "
                                     + new SimpleDateFormat(
                                             "dd-MMM-yyyy")
-                                            .format(
-                                                    currentDate),
+                                                    .format(
+                                                            currentDate),
                             normalFont));
 
             document.add(
@@ -96,8 +98,8 @@ public class PDFReportGenerator {
                             "Execution Time : "
                                     + new SimpleDateFormat(
                                             "hh:mm:ss a")
-                                            .format(
-                                                    currentDate),
+                                                    .format(
+                                                            currentDate),
                             normalFont));
 
             document.add(
@@ -109,19 +111,60 @@ public class PDFReportGenerator {
                     new Paragraph(" "));
 
             /*
+             * Collect Final Test Results
+             */
+            Map<String, ITestResult> finalResults =
+                    new TreeMap<>();
+
+            /*
+             * Passed Tests
+             */
+            for (ITestResult result :
+                    context.getPassedTests()
+                            .getAllResults()) {
+
+                finalResults.put(
+                        result.getTestClass()
+                                .getRealClass()
+                                .getSimpleName(),
+                        result);
+            }
+
+            /*
+             * Failed Tests
+             */
+            for (ITestResult result :
+                    context.getFailedTests()
+                            .getAllResults()) {
+
+                finalResults.put(
+                        result.getTestClass()
+                                .getRealClass()
+                                .getSimpleName(),
+                        result);
+            }
+
+            /*
              * Execution Summary
              */
-            int passed =
-                    context.getPassedTests().size();
+            int passed = 0;
+            int failed = 0;
 
-            int failed =
-                    context.getFailedTests().size();
+            for (ITestResult result :
+                    finalResults.values()) {
 
-            int skipped =
-                    context.getSkippedTests().size();
+                if (result.getStatus() == ITestResult.SUCCESS) {
+
+                    passed++;
+
+                } else {
+
+                    failed++;
+                }
+            }
 
             int total =
-                    passed + failed + skipped;
+                    passed + failed;
 
             document.add(
                     new Paragraph(
@@ -130,22 +173,17 @@ public class PDFReportGenerator {
 
             document.add(
                     new Paragraph(
-                            "Passed  : " + passed,
+                            "Passed : " + passed,
                             normalFont));
 
             document.add(
                     new Paragraph(
-                            "Failed  : " + failed,
+                            "Failed : " + failed,
                             normalFont));
 
             document.add(
                     new Paragraph(
-                            "Skipped : " + skipped,
-                            normalFont));
-
-            document.add(
-                    new Paragraph(
-                            "Total   : " + total,
+                            "Total  : " + total,
                             normalFont));
 
             document.add(
@@ -167,33 +205,29 @@ public class PDFReportGenerator {
                             2
                     });
 
-            PdfPCell header1 =
+            table.addCell(
                     new PdfPCell(
                             new Paragraph(
                                     "Test Case",
-                                    headingFont));
+                                    headingFont)));
 
-            PdfPCell header2 =
+            table.addCell(
                     new PdfPCell(
                             new Paragraph(
                                     "Status",
-                                    headingFont));
+                                    headingFont)));
 
-            PdfPCell header3 =
+            table.addCell(
                     new PdfPCell(
                             new Paragraph(
                                     "Execution Time",
-                                    headingFont));
-
-            table.addCell(header1);
-            table.addCell(header2);
-            table.addCell(header3);
+                                    headingFont)));
 
             /*
-             * Passed Tests
+             * Add Final Sorted Results
              */
             for (ITestResult result :
-                    context.getPassedTests().getAllResults()) {
+                    finalResults.values()) {
 
                 table.addCell(
                         result.getTestClass()
@@ -201,45 +235,9 @@ public class PDFReportGenerator {
                                 .getSimpleName());
 
                 table.addCell(
-                        "PASSED");
-
-                table.addCell(
-                        formatExecutionTime(
-                                result));
-            }
-
-            /*
-             * Failed Tests
-             */
-            for (ITestResult result :
-                    context.getFailedTests().getAllResults()) {
-
-                table.addCell(
-                        result.getTestClass()
-                                .getRealClass()
-                                .getSimpleName());
-
-                table.addCell(
-                        "FAILED");
-
-                table.addCell(
-                        formatExecutionTime(
-                                result));
-            }
-
-            /*
-             * Skipped Tests
-             */
-            for (ITestResult result :
-                    context.getSkippedTests().getAllResults()) {
-
-                table.addCell(
-                        result.getTestClass()
-                                .getRealClass()
-                                .getSimpleName());
-
-                table.addCell(
-                        "SKIPPED");
+                        result.getStatus() == ITestResult.SUCCESS
+                                ? "PASSED"
+                                : "FAILED");
 
                 table.addCell(
                         formatExecutionTime(
@@ -298,8 +296,8 @@ public class PDFReportGenerator {
 
             return new DecimalFormat(
                     "0.00")
-                    .format(
-                            duration / 1000.0)
+                            .format(
+                                    duration / 1000.0)
                     + " sec";
         }
 

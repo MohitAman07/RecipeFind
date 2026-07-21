@@ -1,13 +1,17 @@
 package pagesObjects.HamburgerMenu;
 
-import java.util.Map;
+import java.time.Duration;
+import java.util.List;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import driver.DriverFactory;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -440,9 +444,6 @@ public void enterGroupName(
 public void enterGroupDescription(
         String description) {
 
-    Assert.assertTrue(
-            groupDescriptionField.isDisplayed(),
-            "Group Description field is not displayed.");
 
     waitUtil.clickWithWait(
             groupDescriptionField);
@@ -462,10 +463,6 @@ public void enterGroupDescription(
 public void enterGroupDomain(
         String domain) {
 
-    Assert.assertTrue(
-            groupDomainField.isDisplayed(),
-            "Group Domain field is not displayed.");
-
     waitUtil.clickWithWait(
             groupDomainField);
 
@@ -484,10 +481,6 @@ public void enterGroupDomain(
  */
 public void enterAssignAdmin(
         String email) {
-
-    Assert.assertTrue(
-            assignAdminField.isDisplayed(),
-            "Assign Admin field is not displayed.");
 
     waitUtil.clickWithWait(
             assignAdminField);
@@ -944,28 +937,43 @@ public void deleteMember(
             "Member deleted.");
 }
 
-public void scrollMembersSection() {
+// public void scrollMembersSection() {
 
-    try {
+//     try {
 
-        driver.executeScript(
-                "mobile: swipeGesture",
-                Map.of(
-                        "elementId",
-                        ((RemoteWebElement) membersScrollView).getId(),
-                        "direction",
-                        "up",
-                        "percent",
-                        0.75));
+//         driver.executeScript(
+//                 "mobile: swipeGesture",
+//                 Map.of(
+//                         "elementId",
+//                         ((RemoteWebElement) membersScrollView).getId(),
+//                         "direction",
+//                         "up",
+//                         "percent",
+//                         0.75));
 
-        System.out.println(
-                "Members section scrolled.");
+//         System.out.println(
+//                 "Members section scrolled.");
+//     }
+//     catch (Exception e) {
+
+//         System.out.println(
+//                 "Unable to scroll Members section.");
+//     }
+// }
+
+/*
+ * Scroll Members Section If Required
+ */
+public void scrollMembersSectionIfRequired(
+        String email) {
+
+    if (isUserAdmin(
+            email)) {
+
+        return;
     }
-    catch (Exception e) {
 
-        System.out.println(
-                "Unable to scroll Members section.");
-    }
+    scrollMembersSection();
 }
 
 /*
@@ -990,6 +998,132 @@ public void clickEditMemberTickButton() {
     System.out.println(
             "Edit Member Tick button clicked.");
 }
+
+// /*
+//  * Verify User Is Admin
+//  */
+// public boolean isUserAdmin(
+//         String email) {
+
+//     try {
+
+//         String xpath =
+//                 "//android.view.View[contains(@content-desc,'Admin') and contains(@content-desc,'"
+//                         + email
+//                         + "')]";
+
+//         return DriverFactory.getDriver()
+//                 .findElement(
+//                         AppiumBy.xpath(xpath))
+//                 .isDisplayed();
+
+//     } catch (Exception e) {
+
+//         return false;
+//     }
+// }
+
+/*
+ * Verify User Is Admin
+ */
+public boolean isUserAdmin(
+        String email) {
+
+    String xpath =
+            "//android.view.View[contains(@content-desc,'Admin') and contains(@content-desc,'"
+                    + email
+                    + "')]";
+
+    for (int i = 0; i < 3; i++) {
+
+        try {
+
+            if (DriverFactory.getDriver()
+                    .findElement(
+                            AppiumBy.xpath(
+                                    xpath))
+                    .isDisplayed()) {
+
+                return true;
+            }
+
+        } catch (Exception e) {
+
+        }
+
+        scrollMembersSection();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    return false;
+}
+
+/*
+ * Scroll Members Section
+ */
+public void scrollMembersSection() {
+
+    Dimension size =
+            DriverFactory.getDriver()
+                    .manage()
+                    .window()
+                    .getSize();
+
+    int startX =
+            size.width / 2;
+
+    int startY =
+            (int) (size.height * 0.75);
+
+    int endY =
+            (int) (size.height * 0.30);
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    startX,
+                    startY));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(700),
+                    PointerInput.Origin.viewport(),
+                    startX,
+                    endY));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    DriverFactory.getDriver()
+            .perform(
+                    List.of(
+                            swipe));
+
+    System.out.println(
+            "Members section scrolled successfully.");
+}
+
+
 
 }
 

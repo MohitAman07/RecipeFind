@@ -47,6 +47,9 @@
             <class name="tests.TC034_VerifyEditAllGroupDetails"/>
             <class name="tests.TC035_VerifyGroupAdminCanEditAssignedGroup"/>
             <class name="tests.TC036_VerifyReviewerCanEditOnlyAssignedGroup"/>
+            <class name="tests.TC037_VerifyRemoveGroupMember"/>
+            <class name="tests.TC038_VerifyLastAdminValidation"/>
+            <class name="tests.TC039_VerifyRemoveOneAdmin"/>
             
             
         </classes>

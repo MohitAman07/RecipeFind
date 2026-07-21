@@ -383,6 +383,27 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
                 groupManagement.isEditButtonDisplayed(),
                 "Edit button should not be displayed for Group B.");
 
+        /*
+         * Logout reviewer acc 
+         */
+        hamburger.clickBackButton();
+
+        Thread.sleep(3000);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(3000);
+
+        hamburger.clickHamburgerMenu();
+
+        hamburger.hideKeyboardIfVisible();
+
+        Thread.sleep(3000);
+
+        hamburger.clickSignOut();
+
+        Thread.sleep(8000);      
+
         System.out.println(
                 "TC036_VerifyReviewerCanEditOnlyAssignedGroup executed successfully.");
     }

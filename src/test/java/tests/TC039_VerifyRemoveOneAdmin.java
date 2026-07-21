@@ -12,7 +12,7 @@ import pagesObjects.HamburgerMenu.Hamburger;
 import utils.ConfigReader;
 import utils.ValidationUtil;
 
-public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
+public class TC039_VerifyRemoveOneAdmin extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     @Override
@@ -31,26 +31,26 @@ public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
     }
 
     @Test
-    public void verifyGroupAdminCanEditAssignedGroup()
+    public void verifyRemoveOneAdmin()
             throws Exception {
 
         String groupName =
-                "Automation Group "
+                "Multiple Admin "
                         + System.currentTimeMillis();
 
-        String updatedGroupName =
-                "Updated By Group Admin "
-                        + System.currentTimeMillis();
-
-        String groupDescription =
+        String description =
                 "Automation Group Description";
 
-        String groupDomain =
+        String domain =
                 "www.google.com";
 
-        String adminUser =
+        String groupAdmin =
                 ConfigReader.getProperty(
                         "groupadmin.email");
+
+        String reviewer =
+                ConfigReader.getProperty(
+                        "reviewer.email");
 
         Hamburger hamburger =
                 new Hamburger(
@@ -74,29 +74,25 @@ public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
         Thread.sleep(3000);
 
         /*
-         * Create New Group
+         * Create Group
          */
-        groupManagement.hideKeyboard();
-
-        Thread.sleep(2000);
-
         groupManagement.enterGroupName(
                 groupName);
 
         groupManagement.hideKeyboard();
 
         groupManagement.enterGroupDescription(
-                groupDescription);
+                description);
 
         groupManagement.hideKeyboard();
 
         groupManagement.enterGroupDomain(
-                groupDomain);
+                domain);
 
         groupManagement.hideKeyboard();
 
         groupManagement.enterAssignAdmin(
-                adminUser);
+                groupAdmin);
 
         Thread.sleep(2000);
 
@@ -106,157 +102,79 @@ public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
 
         Thread.sleep(2000);
 
-        groupManagement.hideKeyboard();
-
         groupManagement.clickAdminUser(
-                adminUser);
+                groupAdmin);
 
         Thread.sleep(2000);
 
-        groupManagement.hideKeyboard();
-
         groupManagement.clickCreateGroup();
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         /*
-         * Navigate To Groups Dashboard
+         * Open Created Group
          */
         groupManagement.clickViewAllGroups();
 
         Thread.sleep(3000);
 
-        groupManagement.hideKeyboard();
-
-        groupManagement.scrollGroupsList();
-
-        Thread.sleep(3000);
-
-        /*
-         * Search Created Group
-         */
         groupManagement.enterGroupSearch(
                 groupName);
 
         groupManagement.clickGroupSearchButton();
 
         Thread.sleep(3000);
-
-        groupManagement.hideKeyboard();
 
         ValidationUtil.verifyTrue(
                 groupManagement.isGroupDisplayed(
                         groupName),
                 "Group created successfully.");
 
-        /*
-         * Logout Super Admin
-         */
-        Thread.sleep(3000);
-
-        hamburger.clickBackButton();
-
-        Thread.sleep(3000);
-
-        hamburger.clickBackButton();
-
-        Thread.sleep(3000);
-
-        hamburger.clickHamburgerMenu();
-
-        hamburger.hideKeyboardIfVisible();
-
-        Thread.sleep(3000);
-
-        hamburger.clickSignOut();
-
-        Thread.sleep(8000);
-
-        /*
-         * Login As Group Admin
-         */
-        authenticateUser(
-                ConfigReader.getProperty(
-                        "groupadmin.email"),
-                ConfigReader.getProperty(
-                        "groupadmin.password"));
-
-        ensureApplicationReady();
-
-        Thread.sleep(5000);
-
-        /*
-         * Reinitialize Page Objects
-         */
-        hamburger =
-                new Hamburger(
-                        DriverFactory.getDriver());
-
-        groupManagement =
-                new GroupManagement(
-                        DriverFactory.getDriver());
-
-        /*
-         * Navigate To Group Management
-         */
-        hamburger.clickHamburgerMenu();
-
-        hamburger.hideKeyboardIfVisible();
-
-        Thread.sleep(3000);
-
-        hamburger.clickGroupManagement();
-
-        Thread.sleep(3000);
-
-        /*
-         * Search Assigned Group
-         */
-        groupManagement.hideKeyboard();
-
-        groupManagement.enterGroupSearch(
-                groupName);
-
-        groupManagement.hideKeyboard();
-
-        groupManagement.clickGroupSearchButton();
-
-        Thread.sleep(3000);
-
-        ValidationUtil.verifyTrue(
-                groupManagement.isGroupDisplayed(
-                        groupName),
-                "Assigned group displayed successfully.");
-
-        /*
-         * Open Group
-         */
         groupManagement.selectGroup(
                 groupName);
 
         Thread.sleep(3000);
 
-        ValidationUtil.verifyTrue(
-                groupManagement.isEditButtonDisplayed(),
-                "Edit button displayed successfully.");
-
         /*
-         * Edit Group Name
+         * Add Reviewer As Member
          */
         groupManagement.clickEditGroup();
 
         Thread.sleep(3000);
 
+        groupManagement.enterMemberSearch(
+                reviewer);
+
         groupManagement.hideKeyboard();
 
-        groupManagement.clearGroupName();
+        Thread.sleep(1000);
 
-        groupManagement.enterUpdatedGroupName(
-                updatedGroupName);
+        groupManagement.clickEditMemberTickButton();
 
         Thread.sleep(2000);
 
-        groupManagement.hideKeyboard();
+        groupManagement.clickMember(
+                reviewer);
+
+        Thread.sleep(2000);
+
+        ValidationUtil.verifyTrue(
+                groupManagement.isMemberDisplayed(
+                        reviewer),
+                "Reviewer added successfully.");
+
+        /*
+         * Promote Reviewer To Admin
+         */
+        groupManagement.makeMemberAdmin(
+                reviewer);
+
+        Thread.sleep(3000);
+
+        ValidationUtil.verifyTrue(
+                groupManagement.isUserAdmin(
+                        reviewer),
+                "Reviewer promoted to Admin successfully.");
 
         groupManagement.clickSaveButton();
 
@@ -264,43 +182,98 @@ public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
 
         hamburger.clickBackButton();
 
-        /*
-         * Verify Updated Group
+        Thread.sleep(3000);
+
+                /*
+         * Re-open Group
          */
         groupManagement.enterGroupSearch(
-                updatedGroupName);
+                groupName);
 
         groupManagement.clickGroupSearchButton();
 
         Thread.sleep(3000);
 
-        groupManagement.hideKeyboard();
-
         ValidationUtil.verifyTrue(
                 groupManagement.isGroupDisplayed(
-                        updatedGroupName),
-                "Group Admin updated the assigned group successfully.");
+                        groupName),
+                "Group displayed successfully.");
 
-                /*
-         * Logout group Admin
-         */
+        groupManagement.selectGroup(
+                groupName);
+
         Thread.sleep(3000);
+
+        /*
+         * Open Edit Group
+         */
+        groupManagement.clickEditGroup();
+
+        Thread.sleep(3000);
+
+        /*
+         * Verify Both Users Are Admins
+         */
+        ValidationUtil.verifyTrue(
+                groupManagement.isUserAdmin(
+                        groupAdmin),
+                "Group Admin is displayed as Admin.");
+
+        ValidationUtil.verifyTrue(
+                groupManagement.isUserAdmin(
+                        reviewer),
+                "Reviewer is displayed as Admin.");
+
+        /*
+         * Remove One Admin
+         */
+        groupManagement.removeAdmin(
+                groupAdmin);
+
+        Thread.sleep(3000);
+
+        groupManagement.clickSaveButton();
+
+        Thread.sleep(5000);
 
         hamburger.clickBackButton();
 
         Thread.sleep(3000);
 
-        hamburger.clickHamburgerMenu();
+        /*
+         * Verify Admin Removed Successfully
+         */
+        groupManagement.enterGroupSearch(
+                groupName);
 
-        hamburger.hideKeyboardIfVisible();
+        groupManagement.clickGroupSearchButton();
 
         Thread.sleep(3000);
 
-        hamburger.clickSignOut();
+        ValidationUtil.verifyTrue(
+                groupManagement.isGroupDisplayed(
+                        groupName),
+                "Group displayed successfully.");
 
-        Thread.sleep(8000);
+        groupManagement.selectGroup(
+                groupName);
 
-        System.out.println(
-                "TC035_VerifyGroupAdminCanEditAssignedGroup executed successfully.");
+        Thread.sleep(3000);
+
+        groupManagement.clickEditGroup();
+
+        Thread.sleep(3000);
+
+        ValidationUtil.verifyFalse(
+                groupManagement.isUserAdmin(
+                        groupAdmin),
+                "Group Admin removed successfully.");
+
+        ValidationUtil.verifyTrue(
+                groupManagement.isUserAdmin(
+                        reviewer),
+                "Reviewer remains as Admin.");
+
     }
+
 }
