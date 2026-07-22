@@ -2,6 +2,7 @@ package pagesObjects.Home;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
@@ -56,11 +57,6 @@ public class Notification {
     @AndroidFindBy(xpath = "//android.widget.ScrollView")
     private WebElement notificationScrollView;
 
-    /*
-     * Dismiss Button
-     */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Dismiss']")
-    private WebElement dismissButton;
 
     /*
      * Dynamic Notification
@@ -231,38 +227,121 @@ public class Notification {
                 "Notification clicked.");
     }
 
-    /*
-     * Close Notification Panel
-     */
-    public void clickDismissButton() {
 
-        waitUtil.clickWithWait(
-                dismissButton);
+/*
+ * Close Notification Panel
+ */
+public void clickDismissButton() {
 
-        System.out.println(
-                "Notification panel closed.");
-    }
+    Dimension size =
+            driver.manage()
+                    .window()
+                    .getSize();
 
-    /*
-     * Get Latest Notification
-     */
-    public String getLatestNotification() {
+    int x =
+            size.getWidth() / 2;
 
-        List<WebElement> notifications =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "//android.widget.ScrollView/android.view.View"));
+    int y =
+            (int) (size.getHeight() * 0.92);
 
-        if (notifications.isEmpty()) {
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
 
-            return "";
-        }
+    Sequence tap =
+            new Sequence(
+                    finger,
+                    1);
 
-        return notifications
-                .get(0)
-                .getAttribute(
+    tap.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    x,
+                    y));
+
+    tap.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    tap.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Collections.singletonList(
+                    tap));
+
+    System.out.println(
+            "Notification panel closed.");
+}
+
+//     /*
+//      * Get Latest Notification
+//      */
+//     public String getLatestNotification() {
+
+//         List<WebElement> notifications =
+//                 driver.findElements(
+//                         AppiumBy.xpath(
+//                                 "//android.widget.ScrollView/android.view.View"));
+
+//         if (notifications.isEmpty()) {
+
+//             return "";
+//         }
+
+//         return notifications
+//                 .get(0)
+//                 .getAttribute(
+//                         "content-desc");
+//     }
+
+/*
+ * Get Latest Notifications
+ */
+public List<String> getLatestNotifications() {
+
+    List<String> latestNotifications =
+            new ArrayList<>();
+
+    List<WebElement> notifications =
+            driver.findElements(
+                    AppiumBy.xpath(
+                            "//android.widget.ScrollView/android.view.View"));
+
+    for (WebElement notification : notifications) {
+
+        String content =
+                notification.getAttribute(
                         "content-desc");
+
+        /*
+         * Latest notifications are displayed in bold.
+         * Once a non-bold notification is reached,
+         * stop collecting.
+         */
+        String fontWeight =
+                notification.getCssValue(
+                        "font-weight");
+
+        if ("700".equals(
+                fontWeight)
+                || "bold".equalsIgnoreCase(
+                        fontWeight)) {
+
+            latestNotifications.add(
+                    content);
+
+        } else {
+
+            break;
+        }
     }
+
+    return latestNotifications;
+}
 
     /*
      * Notification Count

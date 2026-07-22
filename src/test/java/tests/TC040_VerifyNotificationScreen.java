@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
-import pagesObjects.HamburgerMenu.*;
+import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.Home.Notification;
 import utils.ValidationUtil;
 
@@ -18,7 +18,10 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
         Notification notification =
                 new Notification(
                         DriverFactory.getDriver());
-        Hamburger hamburger=new Hamburger(DriverFactory.getDriver());
+
+        Hamburger hamburger =
+                new Hamburger(
+                        DriverFactory.getDriver());
 
         /*
          * Verify Notification Bell
@@ -28,8 +31,8 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
                 "Notification Bell is displayed.");
 
         /*
-        * Verify Notification Badge (Optional)
-        */
+         * Verify Notification Badge (Optional)
+         */
         if (notification.isNotificationBadgeDisplayed()) {
 
             int badgeCount =
@@ -69,15 +72,14 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
                 "Notifications are available.");
 
         /*
-         * Verify Latest Notification
+         * Verify Latest Notifications
          */
-        String latestNotification =
-                notification.getLatestNotification();
+        List<String> latestNotifications =
+                notification.getLatestNotifications();
 
-        ValidationUtil.verifyFalse(
-                latestNotification.isBlank(),
-                "Latest Notification : "
-                        + latestNotification);
+        ValidationUtil.verifyTrue(
+                latestNotifications.size() > 0,
+                "Latest notifications are available.");
 
         /*
          * Verify All Notifications
@@ -90,25 +92,33 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
                 "Notifications retrieved successfully.");
 
         /*
-         * Verify Latest Notification Exists
+         * Verify All Latest Notifications Exist
          */
-        ValidationUtil.verifyTrue(
-                notifications.contains(
-                        latestNotification),
-                "Latest notification exists in the notification list.");
+        for (String latestNotification : latestNotifications) {
+
+            ValidationUtil.verifyTrue(
+                    notifications.contains(
+                            latestNotification),
+                    "Latest notification exists in the notification list: "
+                            + latestNotification);
+        }
 
         /*
          * Close Notification Panel
          */
+        Thread.sleep(3000);
+
         notification.clickDismissButton();
 
         Thread.sleep(3000);
 
+        /*
+         * Logout
+         */
         hamburger.clickHamburgerMenu();
 
         hamburger.hideKeyboardIfVisible();
 
         hamburger.clickSignOut();
-
     }
 }

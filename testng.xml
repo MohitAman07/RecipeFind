@@ -48,10 +48,10 @@
             <class name="tests.TC035_VerifyGroupAdminCanEditAssignedGroup"/>
             <class name="tests.TC036_VerifyReviewerCanEditOnlyAssignedGroup"/>
             <class name="tests.TC037_VerifyRemoveGroupMember"/>
-            <class name="tests.TC038_VerifyLastAdminValidation"/>
-            <class name="tests.TC039_VerifyRemoveOneAdmin"/>
-            <class name="tests.TC040_VerifyNotificationScreen"/> -->
-            <class name="tests.TC041_VerifyMyRecipesDashboard"/>
+            <class name="tests.TC038_VerifyLastAdminValidation"/> -->
+            <!-- <class name="tests.TC039_VerifyRemoveOneAdmin"/> -->
+            <class name="tests.TC040_VerifyNotificationScreen"/>
+            <!-- <class name="tests.TC041_VerifyMyRecipesDashboard"/> -->
             
             
         </classes>
