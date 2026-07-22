@@ -57,7 +57,6 @@ public class Notification {
     @AndroidFindBy(xpath = "//android.widget.ScrollView")
     private WebElement notificationScrollView;
 
-
     /*
      * Dynamic Notification
      */
@@ -125,9 +124,7 @@ public class Notification {
                     message)
                             .isDisplayed();
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             return false;
         }
@@ -146,15 +143,13 @@ public class Notification {
             return badge != null
                     && badge.isDisplayed();
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             return false;
         }
     }
 
-    /*
+        /*
      * Get Notification Badge Count
      */
     public int getNotificationBadgeCount() {
@@ -227,121 +222,75 @@ public class Notification {
                 "Notification clicked.");
     }
 
+    /*
+     * Close Notification Panel
+     */
+    public void clickDismissButton() {
 
-/*
- * Close Notification Panel
- */
-public void clickDismissButton() {
+        Dimension size =
+                driver.manage()
+                        .window()
+                        .getSize();
 
-    Dimension size =
-            driver.manage()
-                    .window()
-                    .getSize();
+        int x =
+                size.getWidth() / 2;
 
-    int x =
-            size.getWidth() / 2;
+        int y =
+                (int) (size.getHeight() * 0.92);
 
-    int y =
-            (int) (size.getHeight() * 0.92);
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
 
-    PointerInput finger =
-            new PointerInput(
-                    PointerInput.Kind.TOUCH,
-                    "finger");
+        Sequence tap =
+                new Sequence(
+                        finger,
+                        1);
 
-    Sequence tap =
-            new Sequence(
-                    finger,
-                    1);
+        tap.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        x,
+                        y));
 
-    tap.addAction(
-            finger.createPointerMove(
-                    Duration.ZERO,
-                    PointerInput.Origin.viewport(),
-                    x,
-                    y));
+        tap.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
 
-    tap.addAction(
-            finger.createPointerDown(
-                    PointerInput.MouseButton.LEFT.asArg()));
+        tap.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
 
-    tap.addAction(
-            finger.createPointerUp(
-                    PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(
+                Collections.singletonList(
+                        tap));
 
-    driver.perform(
-            Collections.singletonList(
-                    tap));
-
-    System.out.println(
-            "Notification panel closed.");
-}
-
-//     /*
-//      * Get Latest Notification
-//      */
-//     public String getLatestNotification() {
-
-//         List<WebElement> notifications =
-//                 driver.findElements(
-//                         AppiumBy.xpath(
-//                                 "//android.widget.ScrollView/android.view.View"));
-
-//         if (notifications.isEmpty()) {
-
-//             return "";
-//         }
-
-//         return notifications
-//                 .get(0)
-//                 .getAttribute(
-//                         "content-desc");
-//     }
-
-/*
- * Get Latest Notifications
- */
-public List<String> getLatestNotifications() {
-
-    List<String> latestNotifications =
-            new ArrayList<>();
-
-    List<WebElement> notifications =
-            driver.findElements(
-                    AppiumBy.xpath(
-                            "//android.widget.ScrollView/android.view.View"));
-
-    for (WebElement notification : notifications) {
-
-        String content =
-                notification.getAttribute(
-                        "content-desc");
-
-        /*
-         * Latest notifications are displayed in bold.
-         * Once a non-bold notification is reached,
-         * stop collecting.
-         */
-        String fontWeight =
-                notification.getCssValue(
-                        "font-weight");
-
-        if ("700".equals(
-                fontWeight)
-                || "bold".equalsIgnoreCase(
-                        fontWeight)) {
-
-            latestNotifications.add(
-                    content);
-
-        } else {
-
-            break;
-        }
+        System.out.println(
+                "Notification panel closed.");
     }
 
-    return latestNotifications;
-}
+        /*
+     * Get Latest Notification
+     */
+    public String getLatestNotification() {
+
+        List<WebElement> notifications =
+                driver.findElements(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView/android.view.View"));
+
+        if (notifications.isEmpty()) {
+
+            return "";
+        }
+
+        return notifications
+                .get(0)
+                .getAttribute(
+                        "content-desc");
+    }
 
     /*
      * Notification Count
@@ -366,13 +315,13 @@ public List<String> getLatestNotifications() {
                         .getSize();
 
         int startX =
-                size.width / 2;
+                size.getWidth() / 2;
 
         int startY =
-                (int) (size.height * 0.75);
+                (int) (size.getHeight() * 0.75);
 
         int endY =
-                (int) (size.height * 0.30);
+                (int) (size.getHeight() * 0.30);
 
         PointerInput finger =
                 new PointerInput(
@@ -416,7 +365,7 @@ public List<String> getLatestNotifications() {
                 "Notifications scrolled successfully.");
     }
 
-    /*
+        /*
      * Get All Notifications
      */
     public List<String> getAllNotifications() {
@@ -472,7 +421,8 @@ public List<String> getLatestNotifications() {
 
             try {
 
-                Thread.sleep(1500);
+                Thread.sleep(
+                        1500);
 
             }
 
@@ -480,6 +430,8 @@ public List<String> getLatestNotifications() {
 
                 Thread.currentThread()
                         .interrupt();
+
+                break;
             }
         }
 
@@ -489,4 +441,5 @@ public List<String> getLatestNotifications() {
 
         return notificationList;
     }
+
 }

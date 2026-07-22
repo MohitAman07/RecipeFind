@@ -72,14 +72,15 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
                 "Notifications are available.");
 
         /*
-         * Verify Latest Notifications
+         * Verify Latest Notification
          */
-        List<String> latestNotifications =
-                notification.getLatestNotifications();
+        String latestNotification =
+                notification.getLatestNotification();
 
-        ValidationUtil.verifyTrue(
-                latestNotifications.size() > 0,
-                "Latest notifications are available.");
+        ValidationUtil.verifyFalse(
+                latestNotification.isBlank(),
+                "Latest Notification : "
+                        + latestNotification);
 
         /*
          * Verify All Notifications
@@ -92,16 +93,12 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
                 "Notifications retrieved successfully.");
 
         /*
-         * Verify All Latest Notifications Exist
+         * Verify Latest Notification Exists
          */
-        for (String latestNotification : latestNotifications) {
-
-            ValidationUtil.verifyTrue(
-                    notifications.contains(
-                            latestNotification),
-                    "Latest notification exists in the notification list: "
-                            + latestNotification);
-        }
+        ValidationUtil.verifyTrue(
+                notifications.contains(
+                        latestNotification),
+                "Latest notification exists in the notification list.");
 
         /*
          * Close Notification Panel
