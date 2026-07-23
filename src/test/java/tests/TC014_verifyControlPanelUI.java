@@ -29,11 +29,16 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Hamburger Menu
          */
+        Thread.sleep(3000);
         Assert.assertTrue(
                 hamburger.isHamburgerMenuVisible(),
                 "Hamburger menu is not displayed.");
 
         hamburger.clickHamburgerMenu();
+
+        hamburger.hideKeyboardIfVisible();
+
+        Thread.sleep(3000);
 
         /*
          * Verify Control Panel
@@ -115,6 +120,7 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Recipe Card
          */
+        Thread.sleep(3000);
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
                 "Recipe is not displayed.");
@@ -122,6 +128,7 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Change Status Screen
          */
+        Thread.sleep(3000);
         controlPanel.clickRecipeMenu(recipeName);
 
         Assert.assertTrue(

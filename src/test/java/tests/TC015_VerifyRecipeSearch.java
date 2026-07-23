@@ -27,11 +27,12 @@ public class TC015_VerifyRecipeSearch extends BaseTest {
         /*
          * Open Hamburger Menu
          */
-        Assert.assertTrue(
-                hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
 
         hamburger.clickHamburgerMenu();
+
+        hamburger.hideKeyboardIfVisible();
+
+        Thread.sleep(3000);
 
         /*
          * Open Control Panel

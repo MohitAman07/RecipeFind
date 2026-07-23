@@ -326,6 +326,8 @@ public class TC042_VerifyNotificationAfterGroupAssignment extends BaseTest {
         /*
          * Open Notification Panel
          */
+        Thread.sleep(3000);
+        
         notification.clickNotificationBell();
 
         Thread.sleep(3000);

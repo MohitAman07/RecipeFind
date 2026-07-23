@@ -21,6 +21,7 @@ import utils.WaitUtil;
 public class MyRecipes {
 
     private AndroidDriver driver;
+
     private WaitUtil waitUtil;
 
     public MyRecipes(
@@ -42,55 +43,67 @@ public class MyRecipes {
     /*
      * My Recipes Tab
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='My Recipes\nTab 2 of 2']")
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc='My Recipes\nTab 2 of 2']")
     private WebElement myRecipesTab;
 
     /*
-     * Search Recipe
+     * Search
      */
-    @AndroidFindBy(xpath = "//android.widget.EditText")
+    @AndroidFindBy(
+            xpath = "//android.widget.EditText")
     private WebElement searchField;
 
     /*
      * Sort
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Sort']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Sort']")
     private WebElement sortButton;
 
     /*
      * Sort Options
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Newest']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Newest']")
     private WebElement newest;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Oldest']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Oldest']")
     private WebElement oldest;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Name']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Name']")
     private WebElement name;
 
     /*
      * Recipe Status Tabs
      */
-    @AndroidFindBy(xpath = "//android.widget.HorizontalScrollView")
+    @AndroidFindBy(
+            xpath = "//android.widget.HorizontalScrollView")
     private WebElement horizontalScroll;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='All']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='All']")
     private WebElement allTab;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Submitted']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Submitted']")
     private WebElement submittedTab;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Verified']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Verified']")
     private WebElement verifiedTab;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Rejected']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Rejected']")
     private WebElement rejectedTab;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Delete Pending']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Delete Pending']")
     private WebElement deletePendingTab;
 
-    /*
+        /*
      * Dynamic Recipe Card
      */
     private WebElement recipeCard(
@@ -98,9 +111,87 @@ public class MyRecipes {
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "//android.widget.ImageView[contains(@content-desc,'"
+                        "//android.view.View[contains(@content-desc,'"
                                 + recipeName
                                 + "')]"));
+    }
+
+    /*
+     * Dynamic Recipe Menu (3 Dots)
+     */
+    private WebElement recipeMenu(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.widget.Button"));
+    }
+
+    /*
+     * Dynamic Recipe Author
+     */
+    private WebElement recipeAuthor(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.view.View[contains(@content-desc,'by ')]"));
+    }
+
+    /*
+     * Dynamic Comment Icon
+     */
+    private WebElement recipeCommentIcon(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.widget.ImageView[1]"));
+    }
+
+    /*
+     * Dynamic Cooking Time
+     */
+    private WebElement recipeCookingTime(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "(//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]//android.view.View[contains(@content-desc,'Min')])[1]"));
+    }
+
+    /*
+     * Dynamic Serving Time
+     */
+    private WebElement recipeServingTime(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "(//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]//android.view.View[contains(@content-desc,'Min')])[2]"));
+    }
+
+    /*
+     * Dynamic Recipe Status Icon
+     */
+    private WebElement recipeStatus(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.view.View[3]/android.view.View[3]"));
     }
 
     /*
@@ -111,7 +202,7 @@ public class MyRecipes {
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "//android.widget.ImageView[contains(@content-desc,'"
+                        "//android.view.View[contains(@content-desc,'"
                                 + recipeName
                                 + "')]//android.widget.Button[@content-desc='Nutrition Panel']"));
     }
@@ -124,7 +215,7 @@ public class MyRecipes {
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "//android.widget.ImageView[contains(@content-desc,'"
+                        "//android.view.View[contains(@content-desc,'"
                                 + recipeName
                                 + "')]//android.widget.Button[@content-desc='Delete nutrition panel']"));
     }
@@ -135,7 +226,9 @@ public class MyRecipes {
     private WebElement findRecipeCard(
             String recipeName) {
 
-        for (int attempt = 1; attempt <= 5; attempt++) {
+        for (int attempt = 1;
+                attempt <= 5;
+                attempt++) {
 
             try {
 
@@ -148,9 +241,7 @@ public class MyRecipes {
                     return recipe;
                 }
 
-            }
-
-            catch (NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
 
             }
 
@@ -175,7 +266,7 @@ public class MyRecipes {
     }
 
     /*
-     * Search Recipe
+     * Search
      */
     public void clickSearchField() {
 
@@ -313,6 +404,48 @@ public class MyRecipes {
     }
 
     /*
+     * Recipe Menu
+     */
+    public void clickRecipeMenu(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                recipeMenu(
+                        recipeName));
+
+        System.out.println(
+                "Recipe menu clicked.");
+    }
+
+    /*
+     * Recipe Author
+     */
+    public void clickRecipeAuthor(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                recipeAuthor(
+                        recipeName));
+
+        System.out.println(
+                "Recipe author clicked.");
+    }
+
+    /*
+     * Comment Icon
+     */
+    public void clickCommentIcon(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                recipeCommentIcon(
+                        recipeName));
+
+        System.out.println(
+                "Comment icon clicked.");
+    }
+
+    /*
      * Nutrition Panel
      */
     public void clickNutritionPanel(
@@ -341,6 +474,42 @@ public class MyRecipes {
     }
 
     /*
+     * Get Cooking Time
+     */
+    public String getCookingTime(
+            String recipeName) {
+
+        return recipeCookingTime(
+                recipeName)
+                .getAttribute(
+                        "content-desc");
+    }
+
+    /*
+     * Get Serving Time
+     */
+    public String getServingTime(
+            String recipeName) {
+
+        return recipeServingTime(
+                recipeName)
+                .getAttribute(
+                        "content-desc");
+    }
+
+    /*
+     * Get Recipe Status
+     */
+    public String getRecipeStatus(
+            String recipeName) {
+
+        return recipeStatus(
+                recipeName)
+                .getAttribute(
+                        "content-desc");
+    }
+
+        /*
      * Verify Recipe Displayed
      */
     public boolean isRecipeDisplayed(
@@ -350,76 +519,138 @@ public class MyRecipes {
 
             return findRecipeCard(
                     recipeName)
-                            .isDisplayed();
+                    .isDisplayed();
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             return false;
         }
     }
 
     /*
-     * Scroll Recipes
+     * Verify Recipe Author
      */
-    public void scrollRecipes() {
+    public boolean isRecipeAuthorDisplayed(
+            String recipeName) {
 
-        Dimension size =
-                DriverFactory.getDriver()
-                        .manage()
-                        .window()
-                        .getSize();
+        try {
 
-        int startX =
-                size.width / 2;
+            return recipeAuthor(
+                    recipeName)
+                    .isDisplayed();
 
-        int startY =
-                (int) (size.height * 0.75);
+        } catch (Exception e) {
 
-        int endY =
-                (int) (size.height * 0.30);
+            return false;
+        }
+    }
 
-        PointerInput finger =
-                new PointerInput(
-                        PointerInput.Kind.TOUCH,
-                        "finger");
+    /*
+     * Verify Comment Icon
+     */
+    public boolean isCommentIconDisplayed(
+            String recipeName) {
 
-        Sequence swipe =
-                new Sequence(
-                        finger,
-                        1);
+        try {
 
-        swipe.addAction(
-                finger.createPointerMove(
-                        Duration.ZERO,
-                        PointerInput.Origin.viewport(),
-                        startX,
-                        startY));
+            return recipeCommentIcon(
+                    recipeName)
+                    .isDisplayed();
 
-        swipe.addAction(
-                finger.createPointerDown(
-                        PointerInput.MouseButton.LEFT.asArg()));
+        } catch (Exception e) {
 
-        swipe.addAction(
-                finger.createPointerMove(
-                        Duration.ofMillis(
-                                700),
-                        PointerInput.Origin.viewport(),
-                        startX,
-                        endY));
+            return false;
+        }
+    }
 
-        swipe.addAction(
-                finger.createPointerUp(
-                        PointerInput.MouseButton.LEFT.asArg()));
+    /*
+     * Verify Cooking Time
+     */
+    public boolean isCookingTimeDisplayed(
+            String recipeName) {
 
-        DriverFactory.getDriver()
-                .perform(
-                        List.of(
-                                swipe));
+        try {
 
-        System.out.println(
-                "Recipes scrolled successfully.");
+            return recipeCookingTime(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Verify Serving Time
+     */
+    public boolean isServingTimeDisplayed(
+            String recipeName) {
+
+        try {
+
+            return recipeServingTime(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Verify Recipe Status
+     */
+    public boolean isRecipeStatusDisplayed(
+            String recipeName) {
+
+        try {
+
+            return recipeStatus(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Verify Nutrition Panel
+     */
+    public boolean isNutritionPanelDisplayed(
+            String recipeName) {
+
+        try {
+
+            return nutritionPanel(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Verify Delete Nutrition Panel
+     */
+    public boolean isDeleteNutritionPanelDisplayed(
+            String recipeName) {
+
+        try {
+
+            return deleteNutritionPanel(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
 
     /*
@@ -493,43 +724,138 @@ public class MyRecipes {
     }
 
     /*
-     * Verify Nutrition Panel
+     * Scroll Recipes
      */
-    public boolean isNutritionPanelDisplayed(
-            String recipeName) {
+    public void scrollRecipes() {
 
-        try {
+        Dimension size =
+                DriverFactory.getDriver()
+                        .manage()
+                        .window()
+                        .getSize();
 
-            return nutritionPanel(
-                    recipeName)
-                            .isDisplayed();
+        int startX =
+                size.width / 2;
 
-        }
+        int startY =
+                (int) (size.height * 0.75);
 
-        catch (Exception e) {
+        int endY =
+                (int) (size.height * 0.30);
 
-            return false;
-        }
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        startX,
+                        startY));
+
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(
+                                700),
+                        PointerInput.Origin.viewport(),
+                        startX,
+                        endY));
+
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        DriverFactory.getDriver()
+                .perform(
+                        List.of(
+                                swipe));
+
+        System.out.println(
+                "Recipes scrolled successfully.");
     }
 
     /*
-     * Verify Delete Nutrition Panel
+     * Get All Recipes
      */
-    public boolean isDeleteNutritionPanelDisplayed(
-            String recipeName) {
+    public List<String> getAllRecipes() {
 
-        try {
+        List<String> recipeList =
+                new ArrayList<>();
 
-            return deleteNutritionPanel(
-                    recipeName)
-                            .isDisplayed();
+        String previousLastRecipe =
+                "";
 
+        while (true) {
+
+            List<WebElement> recipes =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.view.View[contains(@content-desc,'Min')]"));
+
+            for (WebElement recipe : recipes) {
+
+                String content =
+                        recipe.getAttribute(
+                                "content-desc");
+
+                if (content != null
+                        && !content.isBlank()
+                        && !recipeList.contains(
+                                content)) {
+
+                    recipeList.add(
+                            content);
+                }
+            }
+
+            if (recipeList.isEmpty()) {
+
+                break;
+            }
+
+            String currentLastRecipe =
+                    recipeList.get(
+                            recipeList.size() - 1);
+
+            if (currentLastRecipe.equals(
+                    previousLastRecipe)) {
+
+                break;
+            }
+
+            previousLastRecipe =
+                    currentLastRecipe;
+
+            scrollRecipes();
+
+            try {
+
+                Thread.sleep(
+                        1500);
+
+            } catch (InterruptedException e) {
+
+                Thread.currentThread()
+                        .interrupt();
+            }
         }
 
-        catch (Exception e) {
+        System.out.println(
+                "Total Recipes : "
+                        + recipeList.size());
 
-            return false;
-        }
+        return recipeList;
     }
 
     /*
@@ -544,87 +870,10 @@ public class MyRecipes {
             System.out.println(
                     "Keyboard hidden successfully.");
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             System.out.println(
                     "Keyboard is already hidden.");
         }
     }
-
-/*
- * Get All Recipes
- */
-public List<String> getAllRecipes() {
-
-    List<String> recipeList =
-            new ArrayList<>();
-
-    String previousLastRecipe =
-            "";
-
-    while (true) {
-
-        List<WebElement> recipes =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "//android.widget.ImageView"));
-
-        for (WebElement recipe : recipes) {
-
-            String content =
-                    recipe.getAttribute(
-                            "content-desc");
-
-            if (content != null
-                    && !content.isBlank()
-                    && !recipeList.contains(
-                            content)) {
-
-                recipeList.add(
-                        content);
-            }
-        }
-
-        if (recipeList.isEmpty()) {
-
-            break;
-        }
-
-        String currentLastRecipe =
-                recipeList.get(
-                        recipeList.size() - 1);
-
-        if (currentLastRecipe.equals(
-                previousLastRecipe)) {
-
-            break;
-        }
-
-        previousLastRecipe =
-                currentLastRecipe;
-
-        scrollRecipes();
-
-        try {
-
-            Thread.sleep(
-                    1500);
-
-        }
-
-        catch (InterruptedException e) {
-
-            Thread.currentThread()
-                    .interrupt();
-        }
-    }
-
-    System.out.println(
-            "Total Recipes : "
-                    + recipeList.size());
-
-    return recipeList;
-}
 }

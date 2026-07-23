@@ -27,6 +27,7 @@ public class TC017_VerifyGroupSearch extends BaseTest {
         /*
          * Open Hamburger Menu
          */
+        Thread.sleep(3000);
         Assert.assertTrue(
                 hamburger.isHamburgerMenuVisible(),
                 "Hamburger menu is not displayed.");
