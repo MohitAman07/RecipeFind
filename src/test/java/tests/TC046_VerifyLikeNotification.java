@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
+import pagesObjects.Contribute.MyRecipiesDashboard.RecipeDetailsPage;
 import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.Home.Notification;
 import pagesObjects.Home.RecipeSearch;
@@ -14,7 +15,7 @@ import pagesObjects.Home.RecipeSearchResult;
 import utils.ConfigReader;
 import utils.ValidationUtil;
 
-public class TC043_VerifyFollowNotification extends BaseTest {
+public class TC046_VerifyLikeNotification extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     @Override
@@ -29,18 +30,19 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                 ConfigReader.getProperty(
                         "superadmin.password");
 
-        super.setUp(method);
+        super.setUp(
+                method);
     }
 
     @Test
-    public void verifyFollowNotification()
+    public void verifyLikeNotification()
             throws Exception {
 
         String recipeName =
                 "Basmati Rice";
 
         String superAdminName =
-                "Aman Mohit";
+                "Aman";
 
         Hamburger hamburger =
                 new Hamburger(
@@ -52,6 +54,10 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         RecipeSearchResult searchResult =
                 new RecipeSearchResult(
+                        DriverFactory.getDriver());
+
+        RecipeDetailsPage recipeDetails =
+                new RecipeDetailsPage(
                         DriverFactory.getDriver());
 
         Notification notification =
@@ -73,11 +79,13 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         recipeSearch.hideKeyboard();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         recipeSearch.clickSearchButton();
 
-        Thread.sleep(4000);
+        Thread.sleep(
+                4000);
 
         /*
          * Verify Search Results
@@ -98,7 +106,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
          */
         searchResult.clickCommunityTab();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Recipe Card
@@ -110,34 +119,86 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                         + " recipe displayed successfully.");
 
         /*
-         * Verify Follow Button
+         * Open Recipe
          */
-        ValidationUtil.verifyTrue(
-                searchResult.isFollowButtonDisplayed(
-                        recipeName),
-                "Follow button displayed successfully.");
-
-        /*
-         * Click Follow Button
-         */
-        searchResult.clickFollowButton(
+        searchResult.openRecipe(
                 recipeName);
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                4000);
+
+        /*
+         * Verify Recipe Details Page
+         */
+        ValidationUtil.verifyTrue(
+                recipeDetails.isRecipeDisplayed(
+                        recipeName),
+                "Recipe Details page opened successfully.");
+
+        /*
+         * Scroll To Bottom
+         */
+        recipeDetails.scrollToBottom();
+
+        Thread.sleep(
+                3000);
+
+                /*
+         * Get Initial Like Count
+         */
+        String likeCount =
+                recipeDetails.getLikeCount();
 
         System.out.println(
-                "Follow button clicked successfully.");
+                "Current Like Count : "
+                        + likeCount);
 
-            /*
-         * Back To Home Dashboard
+        /*
+         * Verify Like Button
+         */
+        ValidationUtil.verifyTrue(
+                recipeDetails.isLikeButtonDisplayed(),
+                "Like button displayed successfully.");
+
+        /*
+         * Click Like Button
+         */
+        recipeDetails.clickLikeButton();
+
+        Thread.sleep(
+                3000);
+
+        /*
+         * Verify Like Count Updated
+         */
+        String updatedLikeCount =
+                recipeDetails.getLikeCount();
+
+        System.out.println(
+                "Updated Like Count : "
+                        + updatedLikeCount);
+
+
+        /*
+         * Navigate Back To Search Results
          */
         hamburger.clickBackButton();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                2000);
+
+        /*
+         * Navigate Back To Home Dashboard
+         */
+        hamburger.clickBackButton();
+
+        Thread.sleep(
+                3000);
 
         recipeSearch.hideKeyboard();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         /*
          * Logout Super Admin
@@ -146,11 +207,13 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         hamburger.hideKeyboardIfVisible();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         hamburger.clickSignOut();
 
-        Thread.sleep(8000);
+        Thread.sleep(
+                8000);
 
         /*
          * Login As Group Admin
@@ -163,7 +226,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         ensureApplicationReady();
 
-        Thread.sleep(5000);
+        Thread.sleep(
+                5000);
 
         /*
          * Reinitialize Page Objects
@@ -176,7 +240,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                 new Notification(
                         DriverFactory.getDriver());
 
-        /*
+
+            /*
          * Verify Notification Bell
          */
         ValidationUtil.verifyTrue(
@@ -188,7 +253,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
          */
         notification.clickNotificationBell();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Notification Screen
@@ -198,20 +264,33 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                 "Notification panel opened successfully.");
 
         /*
-         * Verify Follow Notification
+         * Verify Like Notification
          */
-        boolean followNotificationFound =
-                notification.isFollowNotificationAvailable(
-                        superAdminName);
+        boolean likeNotificationFound =
+                notification.isLikeNotificationAvailable(
+                        superAdminName,
+                        recipeName);
 
         /*
-         * Notification Received
+         * Print Latest Notification
          */
-        if (followNotificationFound) {
+        String latestNotification =
+                notification.getLatestNotification();
+
+        System.out.println(
+                "Latest Notification :");
+
+        System.out.println(
+                latestNotification);
+
+        /*
+         * Like Notification Received
+         */
+        if (likeNotificationFound) {
 
             ValidationUtil.verifyTrue(
                     true,
-                    "Follow notification received successfully.");
+                    "Like notification received successfully.");
         }
 
         /*
@@ -220,17 +299,18 @@ public class TC043_VerifyFollowNotification extends BaseTest {
         else {
 
             System.out.println(
-                    "Follow notification not found.");
+                    "Like notification not found.");
 
             System.out.println(
                     "Retrying by regenerating notification...");
 
-                /*
+            /*
              * Close Notification Panel
              */
             notification.clickDismissButton();
 
-            Thread.sleep(2000);
+            Thread.sleep(
+                    2000);
 
             /*
              * Logout Group Admin
@@ -239,11 +319,13 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
             hamburger.hideKeyboardIfVisible();
 
-            Thread.sleep(2000);
+            Thread.sleep(
+                    2000);
 
             hamburger.clickSignOut();
 
-            Thread.sleep(8000);
+            Thread.sleep(
+                    8000);
 
             /*
              * Login As Super Admin Again
@@ -256,7 +338,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
             ensureApplicationReady();
 
-            Thread.sleep(5000);
+            Thread.sleep(
+                    5000);
 
             /*
              * Reinitialize Page Objects
@@ -273,72 +356,94 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                     new RecipeSearchResult(
                             DriverFactory.getDriver());
 
-            /*
-             * Search Recipe Again
+            recipeDetails =
+                    new RecipeDetailsPage(
+                            DriverFactory.getDriver());
+                /*
+             * Verify Search Field
              */
             ValidationUtil.verifyTrue(
                     recipeSearch.isSearchFieldVisible(),
                     "Search field displayed successfully.");
 
+            /*
+             * Search Recipe Again
+             */
             recipeSearch.enterRecipeName(
                     recipeName);
 
             recipeSearch.hideKeyboard();
 
-            Thread.sleep(2000);
+            Thread.sleep(
+                    2000);
 
             recipeSearch.clickSearchButton();
 
-            Thread.sleep(4000);
+            Thread.sleep(
+                    4000);
 
             /*
              * Open Community Tab
              */
             searchResult.clickCommunityTab();
 
-            Thread.sleep(3000);
+            Thread.sleep(
+                    3000);
 
             /*
-             * Verify Recipe Card
+             * Open Recipe
              */
-            ValidationUtil.verifyTrue(
-                    searchResult.isRecipeDisplayed(
-                            recipeName),
-                    recipeName
-                            + " recipe displayed successfully.");
-
-            /*
-             * First Click
-             * (If already following -> Unfollow)
-             * (If not following -> Follow)
-             */
-            Thread.sleep(3000);
-            
-            searchResult.clickFollowButton(
+            searchResult.openRecipe(
                     recipeName);
 
-            Thread.sleep(3000);
-
-            System.out.println(
-                    "Fresh follow notification generated.");
+            Thread.sleep(
+                    4000);
 
             /*
-             * Back To Home Dashboard
+             * Scroll To Bottom
+             */
+            recipeDetails.scrollToBottom();
+
+            Thread.sleep(
+                    3000);
+
+            /*
+             * Generate Fresh Like Notification
+             */
+            recipeDetails.clickLikeButton();
+
+            Thread.sleep(
+                    3000);
+
+            System.out.println(
+                    "Fresh like notification generated.");
+
+            /*
+             * Navigate Back To Home Dashboard
              */
             hamburger.clickBackButton();
 
-            Thread.sleep(3000);
+            Thread.sleep(
+                    2000);
 
-            /*
-             * Clear Search Field
-             */
+            hamburger.clickBackButton();
+
+            Thread.sleep(
+                    2000);
+
+            hamburger.clickBackButton();
+
+            Thread.sleep(
+                    3000);
+
             recipeSearch.clearSearchField();
 
             recipeSearch.deselectSearchField();
 
             recipeSearch.hideKeyboard();
 
-            Thread.sleep(2000);
+            Thread.sleep(
+                    2000);
 
             /*
              * Logout Super Admin
@@ -347,13 +452,15 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
             hamburger.hideKeyboardIfVisible();
 
-            Thread.sleep(2000);
+            Thread.sleep(
+                    2000);
 
             hamburger.clickSignOut();
 
-            Thread.sleep(8000);
+            Thread.sleep(
+                    8000);
 
-                /*
+            /*
              * Login As Group Admin Again
              */
             authenticateUser(
@@ -364,7 +471,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
             ensureApplicationReady();
 
-            Thread.sleep(5000);
+            Thread.sleep(
+                    5000);
 
             /*
              * Reinitialize Page Objects
@@ -389,7 +497,8 @@ public class TC043_VerifyFollowNotification extends BaseTest {
              */
             notification.clickNotificationBell();
 
-            Thread.sleep(3000);
+            Thread.sleep(
+                    3000);
 
             /*
              * Verify Notification Screen
@@ -399,23 +508,27 @@ public class TC043_VerifyFollowNotification extends BaseTest {
                     "Notification panel opened successfully.");
 
             /*
-             * Verify Follow Notification After Retry
+             * Verify Like Notification After Retry
              */
             ValidationUtil.verifyTrue(
-                    notification.isFollowNotificationAvailable(
-                            superAdminName),
-                    "Follow notification received after retry.");
+                    notification.isLikeNotificationAvailable(
+                            superAdminName,
+                            recipeName),
+                    "Like notification received after retry.");
 
         } // End else
+
 
         /*
          * Close Notification Panel
          */
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         notification.clickDismissButton();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         /*
          * Logout Group Admin
@@ -424,17 +537,19 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         hamburger.hideKeyboardIfVisible();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         hamburger.clickSignOut();
 
-        Thread.sleep(5000);
+        Thread.sleep(
+                5000);
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "TC043_VerifyFollowNotification executed successfully.");
+                "TC046_VerifyLikeNotification executed successfully.");
 
         System.out.println(
                 "==================================================");

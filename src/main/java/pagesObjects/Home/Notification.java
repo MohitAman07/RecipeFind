@@ -539,4 +539,63 @@ public boolean isCommentNotificationAvailable(
     }
 }
 
+/*
+ * Dynamic Like Notification
+ */
+private WebElement likeNotification(
+        String authorName,
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[starts-with(@content-desc,'"
+                            + authorName
+                            + " liked on your "
+                            + recipeName
+                            + "')]"));
+}
+
+/*
+ * Verify Like Notification
+ */
+public boolean isLikeNotificationAvailable(
+        String authorName,
+        String recipeName) {
+
+    try {
+
+        return likeNotification(
+                authorName,
+                recipeName)
+                .isDisplayed();
+
+    } catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Get Like Notification
+ */
+public String getLikeNotification(
+        String authorName,
+        String recipeName) {
+
+    String notification =
+            likeNotification(
+                    authorName,
+                    recipeName)
+                    .getAttribute(
+                            "content-desc");
+
+    System.out.println(
+            "Like Notification :");
+
+    System.out.println(
+            notification);
+
+    return notification;
+}
+
 }

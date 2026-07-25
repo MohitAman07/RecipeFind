@@ -293,8 +293,22 @@ public class TC045_VerifyCommentNotification extends BaseTest {
                         recipeName);
 
         /*
+        * Print Latest Notification
+        */
+        String latestNotification =
+                notification.getLatestNotification();
+
+        System.out.println(
+                "Latest Notification :");
+
+System.out.println(
+        latestNotification);
+
+        /*
          * Comment Notification Received
          */
+
+        
         if (commentNotificationFound) {
 
             ValidationUtil.verifyTrue(

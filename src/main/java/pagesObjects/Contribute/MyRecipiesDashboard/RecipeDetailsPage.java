@@ -103,19 +103,18 @@ public class RecipeDetailsPage {
                         "//android.widget.Button"));
     }
 
-    /*
-     * Dynamic Like Button
-     */
-    private WebElement likeButton(
-            String likeCount) {
+        /*
+        * Dynamic Like Button
+        */
+        private WebElement likeButton(
+                String likeCount) {
 
         return driver.findElement(
                 AppiumBy.xpath(
                         "//android.widget.Button[@content-desc='"
                                 + likeCount
                                 + "']"));
-    }
-
+        }
     /*
      * Comment Button
      */
@@ -510,15 +509,16 @@ public class RecipeDetailsPage {
         }
     }
 
-    /*
-     * Get Like Count
-     */
-    public String getLikeCount() {
+
+        /*
+        * Get Like Count
+        */
+        public String getLikeCount() {
 
         WebElement like =
                 driver.findElement(
                         AppiumBy.xpath(
-                                "//android.widget.Button[@content-desc]"));
+                                "//android.widget.ImageView[@content-desc]/preceding-sibling::android.widget.Button[1]"));
 
         String count =
                 like.getAttribute(
@@ -529,7 +529,7 @@ public class RecipeDetailsPage {
                         + count);
 
         return count;
-    }
+        }
 
     /*
      * Verify Comment Button
@@ -571,6 +571,22 @@ public class RecipeDetailsPage {
 
         return count;
     }
+
+    /*
+        * Click Like Button
+        */
+        public void clickLikeButton() {
+
+        String likeCount =
+                getLikeCount();
+
+        waitUtil.clickWithWait(
+                likeButton(
+                        likeCount));
+
+        System.out.println(
+                "Like button clicked.");
+        }
 
     /*
      * Click Comment Button
