@@ -3,6 +3,7 @@ package pagesObjects.Home;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -19,6 +20,7 @@ import utils.WaitUtil;
 public class RecipeSearchResult {
 
     private final AndroidDriver driver;
+
     private final WaitUtil waitUtil;
 
     public RecipeSearchResult(
@@ -28,10 +30,11 @@ public class RecipeSearchResult {
                 driver;
 
         this.waitUtil =
-                new WaitUtil(driver);
+                new WaitUtil(
+                        driver);
     }
 
-        /*
+    /*
      * Dynamic Recipe Card
      */
     private WebElement recipeCard(
@@ -42,6 +45,84 @@ public class RecipeSearchResult {
                         "//android.view.View[contains(@content-desc,'"
                                 + recipeName
                                 + "')]"));
+    }
+
+    /*
+     * Find Recipe Card
+     */
+    private WebElement findRecipeCard(
+            String recipeName) {
+
+        String previousFirstRecipe =
+                "";
+
+        while (true) {
+
+            /*
+             * Check Whether Recipe Is Visible
+             */
+            List<WebElement> recipes =
+        driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[starts-with(@content-desc,'"
+                                + recipeName
+                                + "\n')]"));
+
+            if (!recipes.isEmpty()
+                    && recipes.get(
+                            0)
+                            .isDisplayed()) {
+
+                System.out.println(
+                        "Recipe found : "
+                                + recipeName);
+
+                return recipes.get(
+                        0);
+            }
+
+            /*
+             * Capture First Visible Recipe
+             */
+            List<WebElement> visibleRecipes =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
+
+            String currentFirstRecipe =
+                    "";
+
+            if (!visibleRecipes.isEmpty()) {
+
+                currentFirstRecipe =
+                        visibleRecipes
+                                .get(
+                                        0)
+                                .getAttribute(
+                                        "content-desc");
+            }
+
+            /*
+             * End Of List
+             */
+            if (currentFirstRecipe.equals(
+                    previousFirstRecipe)) {
+
+                break;
+            }
+
+            previousFirstRecipe =
+                    currentFirstRecipe;
+
+            scrollCommunityRecipes();
+
+            waitUtil.sleep(
+                    1500);
+        }
+
+        throw new NoSuchElementException(
+                "Recipe not found : "
+                        + recipeName);
     }
 
     /*
@@ -80,7 +161,7 @@ public class RecipeSearchResult {
                 AppiumBy.xpath(
                         "//android.view.View[contains(@content-desc,'"
                                 + recipeName
-                                + "')]/android.widget.ImageView[2]"));
+                                + "')/android.widget.ImageView[2]"));
     }
 
     /*
@@ -192,7 +273,7 @@ public class RecipeSearchResult {
 
         try {
 
-            return recipeCard(
+            return findRecipeCard(
                     recipeName)
                     .isDisplayed();
 
@@ -208,9 +289,12 @@ public class RecipeSearchResult {
     public void openRecipe(
             String recipeName) {
 
+        WebElement recipe =
+                findRecipeCard(
+                        recipeName);
+
         waitUtil.clickWithWait(
-                recipeCard(
-                        recipeName));
+                recipe);
 
         System.out.println(
                 "Recipe opened : "
@@ -313,81 +397,14 @@ public class RecipeSearchResult {
                 "Comment icon clicked.");
     }
 
-
         /*
      * Click Recipe Card
      */
     public void clickRecipeCard(
             String recipeName) {
 
-        String previousFirstRecipe =
-                "";
-
-        while (true) {
-
-            /*
-             * Check Whether Recipe Is Visible
-             */
-            List<WebElement> recipes =
-                    driver.findElements(
-                            AppiumBy.xpath(
-                                    "//android.view.View[contains(@content-desc,'"
-                                            + recipeName
-                                            + "')]"));
-
-            if (!recipes.isEmpty()) {
-
-                waitUtil.clickWithWait(
-                        recipes.get(0));
-
-                System.out.println(
-                        "Recipe card clicked : "
-                                + recipeName);
-
-                return;
-            }
-
-            /*
-             * Capture First Visible Recipe
-             */
-            List<WebElement> visibleRecipes =
-                    driver.findElements(
-                            AppiumBy.xpath(
-                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
-
-            String currentFirstRecipe =
-                    "";
-
-            if (!visibleRecipes.isEmpty()) {
-
-                currentFirstRecipe =
-                        visibleRecipes
-                                .get(0)
-                                .getAttribute(
-                                        "content-desc");
-            }
-
-            /*
-             * End Of List Reached
-             */
-            if (currentFirstRecipe.equals(
-                    previousFirstRecipe)) {
-
-                break;
-            }
-
-            previousFirstRecipe =
-                    currentFirstRecipe;
-
-            scrollCommunityRecipes();
-
-            waitUtil.sleep(
-                    1500);
-        }
-
-        throw new RuntimeException(
-                "Recipe not found : "
-                        + recipeName);
+        openRecipe(
+                recipeName);
     }
 
     /*
@@ -436,7 +453,7 @@ public class RecipeSearchResult {
                 "Community recipes scrolled.");
     }
 
-        /*
+    /*
      * Fetch All Community Recipe Cards
      */
     public Set<String> getAllCommunityResults() {
@@ -464,7 +481,8 @@ public class RecipeSearchResult {
             if (!cards.isEmpty()) {
 
                 currentFirstRecipe =
-                        cards.get(0)
+                        cards.get(
+                                0)
                                 .getAttribute(
                                         "content-desc");
             }
@@ -546,7 +564,7 @@ public class RecipeSearchResult {
         return recipes;
     }
 
-    /*
+        /*
      * Scroll Community Results
      */
     private void scrollCommunityResults() {
@@ -592,7 +610,7 @@ public class RecipeSearchResult {
                 "Community Results Scrolled.");
     }
 
-        /*
+    /*
      * Fetch All AI Generated Recipe Cards
      */
     public Set<String> getAllAIGeneratedResults()
@@ -698,7 +716,8 @@ public class RecipeSearchResult {
             if (!cards.isEmpty()) {
 
                 currentFirstRecipe =
-                        cards.get(0)
+                        cards.get(
+                                0)
                                 .getAttribute(
                                         "content-desc");
             }
@@ -809,7 +828,7 @@ public class RecipeSearchResult {
                 "AI Results Scrolled.");
     }
 
-        /*
+    /*
      * AI Generation Failed
      */
     public boolean isAIGenerationFailed() {
@@ -859,7 +878,7 @@ public class RecipeSearchResult {
 
         try {
 
-            return recipeCard(
+            return findRecipeCard(
                     recipeName)
                     .isDisplayed();
 
@@ -878,7 +897,7 @@ public class RecipeSearchResult {
             String recipeName) {
 
         waitUtil.clickWithWait(
-                recipeCard(
+                findRecipeCard(
                         recipeName));
 
         System.out.println(
@@ -914,14 +933,15 @@ public class RecipeSearchResult {
                 "Recipe comments opened.");
     }
 
-    /*
+
+        /*
      * Get Recipe Name
      */
     public String getRecipeName(
             String recipeName) {
 
         String content =
-                recipeCard(
+                findRecipeCard(
                         recipeName)
                         .getAttribute(
                                 "content-desc");
@@ -942,7 +962,7 @@ public class RecipeSearchResult {
     public String getRecipeCardContent(
             String recipeName) {
 
-        return recipeCard(
+        return findRecipeCard(
                 recipeName)
                 .getAttribute(
                         "content-desc");
@@ -953,6 +973,9 @@ public class RecipeSearchResult {
      */
     public String getFollowStatus(
             String recipeName) {
+
+        findRecipeCard(
+                recipeName);
 
         return followButton(
                 recipeName)

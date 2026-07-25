@@ -501,4 +501,42 @@ public boolean isFollowNotificationAvailable(
     return false;
 }
 
+/*
+ * Dynamic Comment Notification
+ */
+private WebElement commentNotification(
+        String commenterName,
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + commenterName
+                            + " commented on your "
+                            + recipeName
+                            + "')]"));
+}
+
+/*
+ * Verify Comment Notification
+ */
+public boolean isCommentNotificationAvailable(
+        String commenterName,
+        String recipeName) {
+
+    try {
+
+        return commentNotification(
+                commenterName,
+                recipeName)
+                .isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
 }
