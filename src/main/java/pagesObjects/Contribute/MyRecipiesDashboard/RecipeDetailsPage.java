@@ -3,7 +3,6 @@ package pagesObjects.Contribute.MyRecipiesDashboard;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
@@ -11,6 +10,9 @@ import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Collections;
+
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
@@ -1719,4 +1721,88 @@ public void scrollToBottom() {
         System.out.println(
                 "Comment deleted.");
     }
+
+/*
+ * Dynamic Comment Card
+ */
+private WebElement CommentCard(
+        String comment) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + comment
+                            + "')]"));
+}
+
+/*
+ * Find Comment By Unique Comment
+ */
+private WebElement findCommentByAuthor(
+        String commentAuthor,
+        String comment) {
+
+    return commentCard(
+            comment);
+}
+
+/*
+ * Tap By Coordinates
+ */
+private void tapByCoordinates(
+        int x,
+        int y) {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence tap =
+            new Sequence(
+                    finger,
+                    1);
+
+    tap.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    x,
+                    y));
+
+    tap.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    tap.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Collections.singletonList(
+                    tap));
+}
+
+/*
+ * Delete Comment Through Super Admin
+ */
+public void deleteCommentThroughSuperRole(
+        String commentAuthor,
+        String comment) {
+
+    tapByCoordinates(
+            991,
+            377);
+
+    System.out.println(
+            "Super Admin delete icon tapped.");
+
+    System.out.println(
+            "Author : "
+                    + commentAuthor);
+
+    System.out.println(
+            "Comment : "
+                    + comment);
+}
 }

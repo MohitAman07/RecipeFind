@@ -57,6 +57,7 @@
             <class name="tests.TC044_VerifyRecipeCommentOperations"/>
             <class name="tests.TC045_VerifyCommentNotification"/>
             <class name="tests.TC046_VerifyLikeNotification"/>
+            <class name="tests.TC047_VerifySuperAdminDeleteComment"/>
             
             
         </classes>
