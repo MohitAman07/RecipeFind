@@ -155,6 +155,7 @@ public class TC044_VerifyRecipeCommentOperations extends BaseTest {
         /*
          * Scroll To Bottom
          */
+        Thread.sleep(3000);
         recipeDetails.scrollToBottom();
 
         Thread.sleep(

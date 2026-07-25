@@ -135,13 +135,6 @@ public class TC043_VerifyFollowNotification extends BaseTest {
 
         Thread.sleep(3000);
 
-        /*
-         * Clear Search Field
-         */
-        recipeSearch.clearSearchField();
-
-        recipeSearch.deselectSearchField();
-
         recipeSearch.hideKeyboard();
 
         Thread.sleep(2000);

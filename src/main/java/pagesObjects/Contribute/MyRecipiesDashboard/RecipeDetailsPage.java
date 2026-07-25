@@ -1409,52 +1409,61 @@ public class RecipeDetailsPage {
         }
     }
 
-        /*
-     * Scroll To Bottom
-     */
-    public void scrollToBottom() {
+    /*
+ * Scroll To Bottom
+ */
+public void scrollToBottom() {
 
-        String previousLastElement =
+    String previousLastElement =
+            "";
+
+    int stableCount =
+            0;
+
+    while (stableCount < 2) {
+
+        List<WebElement> visibleElements =
+                driver.findElements(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView//*[@content-desc]"));
+
+        String currentLastElement =
                 "";
 
-        while (true) {
+        if (!visibleElements.isEmpty()) {
 
-            List<WebElement> visibleElements =
-                    driver.findElements(
-                            AppiumBy.xpath(
-                                    "//android.widget.ScrollView//*[@content-desc]"));
-
-            String currentLastElement =
-                    "";
-
-            if (!visibleElements.isEmpty()) {
-
-                currentLastElement =
-                        visibleElements
-                                .get(
-                                        visibleElements.size() - 1)
-                                .getAttribute(
-                                        "content-desc");
-            }
-
-            if (currentLastElement.equals(
-                    previousLastElement)) {
-
-                System.out.println(
-                        "Reached bottom of recipe details.");
-
-                break;
-            }
-
-            previousLastElement =
-                    currentLastElement;
-
-            scrollDown();
-
-            waitUtil.sleep(
-                    1500);
+            currentLastElement =
+                    visibleElements
+                            .get(
+                                    visibleElements.size() - 1)
+                            .getAttribute(
+                                    "content-desc");
         }
+
+        if (currentLastElement.equals(
+                previousLastElement)) {
+
+            stableCount++;
+
+        }
+
+        else {
+
+            stableCount = 0;
+        }
+
+        previousLastElement =
+                currentLastElement;
+
+        scrollDown();
+
+        waitUtil.sleep(
+                1500);
     }
+
+    System.out.println(
+            "Reached bottom of recipe details.");
+}
 
     /*
      * Scroll Down
