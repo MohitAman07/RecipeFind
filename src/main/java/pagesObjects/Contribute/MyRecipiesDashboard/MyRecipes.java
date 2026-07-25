@@ -11,7 +11,6 @@ import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 
-import driver.DriverFactory;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -20,9 +19,9 @@ import utils.WaitUtil;
 
 public class MyRecipes {
 
-    private AndroidDriver driver;
+    private final AndroidDriver driver;
 
-    private WaitUtil waitUtil;
+    private final WaitUtil waitUtil;
 
     public MyRecipes(
             AndroidDriver driver) {
@@ -220,40 +219,110 @@ public class MyRecipes {
                                 + "')]//android.widget.Button[@content-desc='Delete nutrition panel']"));
     }
 
+
     /*
-     * Find Recipe Card
-     */
-    private WebElement findRecipeCard(
-            String recipeName) {
+ * Find Recipe Card
+ */
+private WebElement findRecipeCard(
+        String recipeName) {
 
-        for (int attempt = 1;
-                attempt <= 5;
-                attempt++) {
+    String previousFirstRecipe =
+            "";
 
-            try {
-
-                WebElement recipe =
-                        recipeCard(
-                                recipeName);
-
-                if (recipe.isDisplayed()) {
-
-                    return recipe;
-                }
-
-            } catch (NoSuchElementException e) {
-
-            }
-
-            scrollRecipes();
-        }
-
-        throw new NoSuchElementException(
-                "Recipe not found : "
-                        + recipeName);
-    }
+    while (true) {
 
         /*
+         * Check Whether Recipe Is Visible
+         */
+        List<WebElement> recipes =
+                driver.findElements(
+                        AppiumBy.xpath(
+                                "//android.view.View[contains(@content-desc,'"
+                                        + recipeName
+                                        + "')]"));
+
+        if (!recipes.isEmpty()
+                && recipes.get(0).isDisplayed()) {
+
+            System.out.println(
+                    "Recipe found : "
+                            + recipeName);
+
+            return recipes.get(0);
+        }
+
+        /*
+         * Capture First Visible Recipe
+         */
+        List<WebElement> visibleRecipes =
+                driver.findElements(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'\n')]"));
+
+        String currentFirstRecipe =
+                "";
+
+        if (!visibleRecipes.isEmpty()) {
+
+            currentFirstRecipe =
+                    visibleRecipes
+                            .get(0)
+                            .getAttribute(
+                                    "content-desc");
+        }
+
+        /*
+         * End Of List Reached
+         */
+        if (currentFirstRecipe.equals(
+                previousFirstRecipe)) {
+
+            break;
+        }
+
+        previousFirstRecipe =
+                currentFirstRecipe;
+
+        scrollRecipes();
+
+        waitUtil.sleep(
+                1500);
+    }
+
+    throw new NoSuchElementException(
+            "Recipe not found : "
+                    + recipeName);
+}
+
+/*
+ * Open Recipe
+ */
+public void openRecipe(
+        String recipeName) {
+
+    WebElement recipe =
+            findRecipeCard(
+                    recipeName);
+
+    waitUtil.clickWithWait(
+            recipe);
+
+    System.out.println(
+            "Recipe opened : "
+                    + recipeName);
+}
+
+/*
+ * Click Recipe Card
+ */
+public void clickRecipeCard(
+        String recipeName) {
+
+    openRecipe(
+            recipeName);
+}
+
+    /*
      * My Recipes Tab
      */
     public void clickMyRecipesTab() {
@@ -266,12 +335,20 @@ public class MyRecipes {
     }
 
     /*
-     * Search
+     * Search Field
      */
+    public boolean isSearchFieldDisplayed() {
+
+        return searchField.isDisplayed();
+    }
+
     public void clickSearchField() {
 
         waitUtil.clickWithWait(
                 searchField);
+
+        System.out.println(
+                "Search field clicked.");
     }
 
     public void enterSearchText(
@@ -284,43 +361,87 @@ public class MyRecipes {
 
         searchField.sendKeys(
                 recipeName);
+
+        System.out.println(
+                "Recipe searched : "
+                        + recipeName);
     }
 
     public void clearSearchField() {
 
         searchField.clear();
+
+        System.out.println(
+                "Search field cleared.");
     }
 
     /*
      * Sort
      */
+    public boolean isSortButtonDisplayed() {
+
+        return sortButton.isDisplayed();
+    }
+
     public void clickSort() {
 
         waitUtil.clickWithWait(
                 sortButton);
+
+        System.out.println(
+                "Sort button clicked.");
+    }
+
+    public boolean isNewestDisplayed() {
+
+        return newest.isDisplayed();
     }
 
     public void selectNewest() {
 
         waitUtil.clickWithWait(
                 newest);
+
+        System.out.println(
+                "Newest selected.");
+    }
+
+    public boolean isOldestDisplayed() {
+
+        return oldest.isDisplayed();
     }
 
     public void selectOldest() {
 
         waitUtil.clickWithWait(
                 oldest);
+
+        System.out.println(
+                "Oldest selected.");
+    }
+
+    public boolean isNameDisplayed() {
+
+        return name.isDisplayed();
     }
 
     public void selectName() {
 
         waitUtil.clickWithWait(
                 name);
+
+        System.out.println(
+                "Name selected.");
     }
 
     /*
      * All Tab
      */
+    public boolean isAllTabDisplayed() {
+
+        return allTab.isDisplayed();
+    }
+
     public void clickAllTab() {
 
         horizontalScroll.findElement(
@@ -330,11 +451,19 @@ public class MyRecipes {
 
         waitUtil.clickWithWait(
                 allTab);
+
+        System.out.println(
+                "All tab selected.");
     }
 
     /*
      * Submitted Tab
      */
+    public boolean isSubmittedTabDisplayed() {
+
+        return submittedTab.isDisplayed();
+    }
+
     public void clickSubmittedTab() {
 
         horizontalScroll.findElement(
@@ -344,11 +473,19 @@ public class MyRecipes {
 
         waitUtil.clickWithWait(
                 submittedTab);
+
+        System.out.println(
+                "Submitted tab selected.");
     }
 
     /*
      * Verified Tab
      */
+    public boolean isVerifiedTabDisplayed() {
+
+        return verifiedTab.isDisplayed();
+    }
+
     public void clickVerifiedTab() {
 
         horizontalScroll.findElement(
@@ -358,11 +495,19 @@ public class MyRecipes {
 
         waitUtil.clickWithWait(
                 verifiedTab);
+
+        System.out.println(
+                "Verified tab selected.");
     }
 
     /*
      * Rejected Tab
      */
+    public boolean isRejectedTabDisplayed() {
+
+        return rejectedTab.isDisplayed();
+    }
+
     public void clickRejectedTab() {
 
         horizontalScroll.findElement(
@@ -372,11 +517,19 @@ public class MyRecipes {
 
         waitUtil.clickWithWait(
                 rejectedTab);
+
+        System.out.println(
+                "Rejected tab selected.");
     }
 
     /*
      * Delete Pending Tab
      */
+    public boolean isDeletePendingTabDisplayed() {
+
+        return deletePendingTab.isDisplayed();
+    }
+
     public void clickDeletePendingTab() {
 
         horizontalScroll.findElement(
@@ -386,23 +539,10 @@ public class MyRecipes {
 
         waitUtil.clickWithWait(
                 deletePendingTab);
-    }
-
-    /*
-     * Open Recipe
-     */
-    public void openRecipe(
-            String recipeName) {
-
-        waitUtil.clickWithWait(
-                findRecipeCard(
-                        recipeName));
 
         System.out.println(
-                "Recipe opened : "
-                        + recipeName);
+                "Delete Pending tab selected.");
     }
-
     /*
      * Recipe Menu
      */
@@ -414,7 +554,8 @@ public class MyRecipes {
                         recipeName));
 
         System.out.println(
-                "Recipe menu clicked.");
+                "Recipe menu clicked : "
+                        + recipeName);
     }
 
     /*
@@ -428,7 +569,8 @@ public class MyRecipes {
                         recipeName));
 
         System.out.println(
-                "Recipe author clicked.");
+                "Recipe author clicked : "
+                        + recipeName);
     }
 
     /*
@@ -442,7 +584,8 @@ public class MyRecipes {
                         recipeName));
 
         System.out.println(
-                "Comment icon clicked.");
+                "Comment icon clicked : "
+                        + recipeName);
     }
 
     /*
@@ -456,7 +599,8 @@ public class MyRecipes {
                         recipeName));
 
         System.out.println(
-                "Nutrition Panel opened.");
+                "Nutrition Panel opened : "
+                        + recipeName);
     }
 
     /*
@@ -470,44 +614,67 @@ public class MyRecipes {
                         recipeName));
 
         System.out.println(
-                "Delete Nutrition Panel clicked.");
+                "Delete Nutrition Panel clicked : "
+                        + recipeName);
     }
 
     /*
-     * Get Cooking Time
+     * Cooking Time
      */
     public String getCookingTime(
             String recipeName) {
 
-        return recipeCookingTime(
-                recipeName)
-                .getAttribute(
-                        "content-desc");
+        String cookingTime =
+                recipeCookingTime(
+                        recipeName)
+                        .getAttribute(
+                                "content-desc");
+
+        System.out.println(
+                "Cooking Time : "
+                        + cookingTime);
+
+        return cookingTime;
     }
 
     /*
-     * Get Serving Time
+     * Serving Time
      */
     public String getServingTime(
             String recipeName) {
 
-        return recipeServingTime(
-                recipeName)
-                .getAttribute(
-                        "content-desc");
+        String servingTime =
+                recipeServingTime(
+                        recipeName)
+                        .getAttribute(
+                                "content-desc");
+
+        System.out.println(
+                "Serving Time : "
+                        + servingTime);
+
+        return servingTime;
     }
 
     /*
-     * Get Recipe Status
+     * Recipe Status
      */
     public String getRecipeStatus(
             String recipeName) {
 
-        return recipeStatus(
-                recipeName)
-                .getAttribute(
-                        "content-desc");
+        String status =
+                recipeStatus(
+                        recipeName)
+                        .getAttribute(
+                                "content-desc");
+
+        System.out.println(
+                "Recipe Status : "
+                        + status);
+
+        return status;
     }
+
 
         /*
      * Verify Recipe Displayed
@@ -661,76 +828,15 @@ public class MyRecipes {
         return myRecipesTab.isDisplayed();
     }
 
-    /*
-     * Verify Search Field
-     */
-    public boolean isSearchFieldDisplayed() {
 
-        return searchField.isDisplayed();
-    }
 
-    /*
-     * Verify Sort Button
-     */
-    public boolean isSortButtonDisplayed() {
-
-        return sortButton.isDisplayed();
-    }
-
-    /*
-     * Verify Sort Options
-     */
-    public boolean isNewestDisplayed() {
-
-        return newest.isDisplayed();
-    }
-
-    public boolean isOldestDisplayed() {
-
-        return oldest.isDisplayed();
-    }
-
-    public boolean isNameDisplayed() {
-
-        return name.isDisplayed();
-    }
-
-    /*
-     * Verify Tabs
-     */
-    public boolean isAllTabDisplayed() {
-
-        return allTab.isDisplayed();
-    }
-
-    public boolean isSubmittedTabDisplayed() {
-
-        return submittedTab.isDisplayed();
-    }
-
-    public boolean isVerifiedTabDisplayed() {
-
-        return verifiedTab.isDisplayed();
-    }
-
-    public boolean isRejectedTabDisplayed() {
-
-        return rejectedTab.isDisplayed();
-    }
-
-    public boolean isDeletePendingTabDisplayed() {
-
-        return deletePendingTab.isDisplayed();
-    }
-
-    /*
+        /*
      * Scroll Recipes
      */
     public void scrollRecipes() {
 
         Dimension size =
-                DriverFactory.getDriver()
-                        .manage()
+                driver.manage()
                         .window()
                         .getSize();
 
@@ -776,10 +882,9 @@ public class MyRecipes {
                 finger.createPointerUp(
                         PointerInput.MouseButton.LEFT.asArg()));
 
-        DriverFactory.getDriver()
-                .perform(
-                        List.of(
-                                swipe));
+        driver.perform(
+                List.of(
+                        swipe));
 
         System.out.println(
                 "Recipes scrolled successfully.");
@@ -793,15 +898,26 @@ public class MyRecipes {
         List<String> recipeList =
                 new ArrayList<>();
 
-        String previousLastRecipe =
+        String previousFirstRecipe =
                 "";
 
         while (true) {
 
             List<WebElement> recipes =
                     driver.findElements(
-                            AppiumBy.xpath(
-                                    "//android.view.View[contains(@content-desc,'Min')]"));
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'\n')]"));
+
+            String currentFirstRecipe =
+                    "";
+
+            if (!recipes.isEmpty()) {
+
+                currentFirstRecipe =
+                        recipes.get(0)
+                                .getAttribute(
+                                        "content-desc");
+            }
 
             for (WebElement recipe : recipes) {
 
@@ -809,46 +925,51 @@ public class MyRecipes {
                         recipe.getAttribute(
                                 "content-desc");
 
-                if (content != null
-                        && !content.isBlank()
-                        && !recipeList.contains(
-                                content)) {
+                if (content == null
+                        || content.isBlank()) {
+
+                    continue;
+                }
+
+                content =
+                        content.trim();
+
+                if (!recipeList.contains(
+                        content)) {
 
                     recipeList.add(
                             content);
+
+                    System.out.println(
+                            "Recipe Found :");
+
+                    System.out.println(
+                            content);
+
+                    System.out.println(
+                            "------------------------------------------------");
                 }
             }
 
-            if (recipeList.isEmpty()) {
+            /*
+             * End Of List
+             */
+            if (currentFirstRecipe.equals(
+                    previousFirstRecipe)) {
+
+                System.out.println(
+                        "Reached end of recipe list.");
 
                 break;
             }
 
-            String currentLastRecipe =
-                    recipeList.get(
-                            recipeList.size() - 1);
-
-            if (currentLastRecipe.equals(
-                    previousLastRecipe)) {
-
-                break;
-            }
-
-            previousLastRecipe =
-                    currentLastRecipe;
+            previousFirstRecipe =
+                    currentFirstRecipe;
 
             scrollRecipes();
 
-            try {
-
-                Thread.sleep(
-                        1500);
-
-            } catch (InterruptedException e) {
-
-                Thread.currentThread()
-                        .interrupt();
-            }
+            waitUtil.sleep(
+                    1500);
         }
 
         System.out.println(
@@ -877,3 +998,6 @@ public class MyRecipes {
         }
     }
 }
+
+
+

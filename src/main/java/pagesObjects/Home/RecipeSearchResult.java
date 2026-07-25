@@ -4,29 +4,110 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import utils.WaitUtil;
+
 public class RecipeSearchResult {
 
-    private AndroidDriver driver;
+    private final AndroidDriver driver;
+    private final WaitUtil waitUtil;
 
-    public RecipeSearchResult(AndroidDriver driver) {
+    public RecipeSearchResult(
+            AndroidDriver driver) {
 
-        this.driver = driver;
+        this.driver =
+                driver;
+
+        this.waitUtil =
+                new WaitUtil(driver);
+    }
+
+        /*
+     * Dynamic Recipe Card
+     */
+    private WebElement recipeCard(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]"));
     }
 
     /*
+     * Dynamic Follow Button
+     */
+    private WebElement followButton(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.view.View[2]"));
+    }
+
+    /*
+     * Dynamic Share Button
+     */
+    private WebElement shareButton(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.widget.Button"));
+    }
+
+    /*
+     * Dynamic Comment Icon
+     */
+    private WebElement commentIcon(
+            String recipeName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]/android.widget.ImageView[2]"));
+    }
+
+    /*
+     * Dynamic Author Name
+     */
+    private WebElement authorName(
+            String recipeName,
+            String authorName) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + recipeName
+                                + "')]"
+                                + "/android.view.View[@content-desc='by "
+                                + authorName
+                                + "']"));
+    }
+
+        /*
      * Search Results Header
      */
     public boolean isSearchResultsHeaderVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.ScrollView/android.view.View[1]"))
+                        "//*[contains(@content-desc,'Search Results')]"))
                 .isEmpty();
     }
 
@@ -34,8 +115,9 @@ public class RecipeSearchResult {
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.ScrollView/android.view.View[1]"))
-                .getAttribute("contentDescription");
+                        "//*[contains(@content-desc,'Search Results')]"))
+                .getAttribute(
+                        "content-desc");
     }
 
     /*
@@ -45,7 +127,7 @@ public class RecipeSearchResult {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.ScrollView/android.view.View[2]"))
+                        "//*[contains(@content-desc,'Results for')]"))
                 .isEmpty();
     }
 
@@ -53,8 +135,9 @@ public class RecipeSearchResult {
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.ScrollView/android.view.View[2]"))
-                .getAttribute("contentDescription");
+                        "//*[contains(@content-desc,'Results for')]"))
+                .getAttribute(
+                        "content-desc");
     }
 
     /*
@@ -62,24 +145,18 @@ public class RecipeSearchResult {
      */
     public boolean isCommunityTabVisible() {
 
-        List<WebElement> tabs =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "//*[contains(@content-desc,'Community')]"));
-
-        System.out.println(
-                "Community Tab Count : "
-                        + tabs.size());
-
-        return !tabs.isEmpty();
+        return !driver.findElements(
+                AppiumBy.xpath(
+                        "//*[contains(@content-desc,'Community')]"))
+                .isEmpty();
     }
 
     public void clickCommunityTab() {
 
-        driver.findElement(
-                AppiumBy.xpath(
-                        "//*[contains(@content-desc,'Community')]"))
-                .click();
+        waitUtil.clickWithWait(
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//*[contains(@content-desc,'Community')]")));
 
         System.out.println(
                 "Community tab clicked.");
@@ -88,17 +165,7 @@ public class RecipeSearchResult {
     /*
      * AI Generated Tab
      */
-        public boolean isAIGeneratedTabVisible() {
-
-        if (!driver.findElements(
-                AppiumBy.xpath(
-                        "//*[contains(@content-desc,'AI Generated')]"))
-                .isEmpty()) {
-
-            return true;
-        }
-
-        scrollToTop();
+    public boolean isAIGeneratedTabVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
@@ -108,152 +175,643 @@ public class RecipeSearchResult {
 
     public void clickAIGeneratedTab() {
 
-        driver.findElement(
-                AppiumBy.xpath(
-                        "//*[contains(@content-desc,'AI Generated')]"))
-                .click();
+        waitUtil.clickWithWait(
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//*[contains(@content-desc,'AI Generated')]")));
 
         System.out.println(
                 "AI Generated tab clicked.");
     }
 
-        /*
- * Fetch all Community Recipe Cards
- */
-public Set<String> getAllCommunityResults() {
-
-    Set<String> recipes =
-            new LinkedHashSet<>();
-
-    int sameScrollCount = 0;
-    int previousSize = 0;
-
-    while (true) {
-
-        List<WebElement> cards =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "//android.widget.ScrollView//android.widget.ImageView"));
-
-        System.out.println(
-                "Visible Community Cards : "
-                        + cards.size());
-
-        for (WebElement card : cards) {
-
-            String contentDesc =
-                    card.getAttribute(
-                            "contentDescription");
-
-            if (contentDesc == null
-                    || contentDesc.trim().isEmpty()) {
-
-                continue;
-            }
-
-            String value =
-                    contentDesc.trim();
-
-            /*
-             * Skip tabs and non-recipe cards
-             */
-            if (value.contains("Tab")
-                    || !value.contains("by ")) {
-
-                continue;
-            }
-
-            /*
-             * Add only unique recipes
-             */
-            if (recipes.add(value)) {
-
-                System.out.println(
-                        "Visible Community Recipe Card :");
-
-                System.out.println(value);
-
-                System.out.println(
-                        "------------------------------------------------");
-            }
-        }
-
-        System.out.println(
-                "Total unique community recipes fetched : "
-                        + recipes.size());
-
-        /*
-         * Stop if no new recipes found
-         */
-        if (recipes.size() == previousSize) {
-
-            sameScrollCount++;
-        }
-        else {
-
-            sameScrollCount = 0;
-        }
-
-        if (sameScrollCount >= 2) {
-
-            System.out.println(
-                    "No new community recipes found.");
-
-            break;
-        }
-
-        previousSize = recipes.size();
-
-        boolean scrolled =
-                scrollCommunityResults();
-
-        if (!scrolled) {
-
-            System.out.println(
-                    "Reached end of community results.");
-
-            break;
-        }
+    /*
+     * Verify Recipe Card
+     */
+    public boolean isRecipeDisplayed(
+            String recipeName) {
 
         try {
 
-            Thread.sleep(2000);
-        }
-        catch (InterruptedException e) {
+            return recipeCard(
+                    recipeName)
+                    .isDisplayed();
 
-            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+
+            return false;
         }
     }
 
-    return recipes;
-}
+    /*
+     * Open Recipe
+     */
+    public void openRecipe(
+            String recipeName) {
 
-        /*
- * Scroll Community Results
- */
-private boolean scrollCommunityResults() {
-
-    try {
-
-        driver.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable("
-                                + "new UiSelector().scrollable(true))"
-                                + ".scrollForward()"));
+        waitUtil.clickWithWait(
+                recipeCard(
+                        recipeName));
 
         System.out.println(
-                "Community results scrolled.");
-
-        return true;
+                "Recipe opened : "
+                        + recipeName);
     }
-    catch (Exception e) {
 
-        return false;
+    /*
+     * Verify Follow Button
+     */
+    public boolean isFollowButtonDisplayed(
+            String recipeName) {
+
+        try {
+
+            return followButton(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
     }
-}
+
+    /*
+     * Click Follow Button
+     */
+    public void clickFollowButton(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                followButton(
+                        recipeName));
+
+        System.out.println(
+                "Follow button clicked.");
+    }
+
+    /*
+     * Verify Share Button
+     */
+    public boolean isShareButtonDisplayed(
+            String recipeName) {
+
+        try {
+
+            return shareButton(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Click Share Button
+     */
+    public void clickShareButton(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                shareButton(
+                        recipeName));
+
+        System.out.println(
+                "Share button clicked.");
+    }
+
+    /*
+     * Verify Comment Icon
+     */
+    public boolean isCommentIconDisplayed(
+            String recipeName) {
+
+        try {
+
+            return commentIcon(
+                    recipeName)
+                    .isDisplayed();
+
+        } catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    /*
+     * Click Comment Icon
+     */
+    public void clickCommentIcon(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                commentIcon(
+                        recipeName));
+
+        System.out.println(
+                "Comment icon clicked.");
+    }
+
+
         /*
-    * AI Generation Failure
-    */
+     * Click Recipe Card
+     */
+    public void clickRecipeCard(
+            String recipeName) {
+
+        String previousFirstRecipe =
+                "";
+
+        while (true) {
+
+            /*
+             * Check Whether Recipe Is Visible
+             */
+            List<WebElement> recipes =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.view.View[contains(@content-desc,'"
+                                            + recipeName
+                                            + "')]"));
+
+            if (!recipes.isEmpty()) {
+
+                waitUtil.clickWithWait(
+                        recipes.get(0));
+
+                System.out.println(
+                        "Recipe card clicked : "
+                                + recipeName);
+
+                return;
+            }
+
+            /*
+             * Capture First Visible Recipe
+             */
+            List<WebElement> visibleRecipes =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
+
+            String currentFirstRecipe =
+                    "";
+
+            if (!visibleRecipes.isEmpty()) {
+
+                currentFirstRecipe =
+                        visibleRecipes
+                                .get(0)
+                                .getAttribute(
+                                        "content-desc");
+            }
+
+            /*
+             * End Of List Reached
+             */
+            if (currentFirstRecipe.equals(
+                    previousFirstRecipe)) {
+
+                break;
+            }
+
+            previousFirstRecipe =
+                    currentFirstRecipe;
+
+            scrollCommunityRecipes();
+
+            waitUtil.sleep(
+                    1500);
+        }
+
+        throw new RuntimeException(
+                "Recipe not found : "
+                        + recipeName);
+    }
+
+    /*
+     * Scroll Community Recipes
+     */
+    public void scrollCommunityRecipes() {
+
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        540,
+                        1700));
+
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(
+                                700),
+                        PointerInput.Origin.viewport(),
+                        540,
+                        500));
+
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                Arrays.asList(
+                        swipe));
+
+        System.out.println(
+                "Community recipes scrolled.");
+    }
+
+        /*
+     * Fetch All Community Recipe Cards
+     */
+    public Set<String> getAllCommunityResults() {
+
+        Set<String> recipes =
+                new LinkedHashSet<>();
+
+        String previousFirstRecipe =
+                "";
+
+        while (true) {
+
+            List<WebElement> cards =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
+
+            System.out.println(
+                    "Visible Community Recipe Cards : "
+                            + cards.size());
+
+            String currentFirstRecipe =
+                    "";
+
+            if (!cards.isEmpty()) {
+
+                currentFirstRecipe =
+                        cards.get(0)
+                                .getAttribute(
+                                        "content-desc");
+            }
+
+            for (WebElement card : cards) {
+
+                String content =
+                        card.getAttribute(
+                                "content-desc");
+
+                if (content == null
+                        || content.isBlank()) {
+
+                    continue;
+                }
+
+                content =
+                        content.trim();
+
+                /*
+                 * Skip Static Contents
+                 */
+                if (content.equals(
+                        "Search Results")
+                        || content.startsWith(
+                                "Results for")
+                        || content.contains(
+                                "Community")
+                        || content.contains(
+                                "AI Generated")
+                        || content.contains(
+                                "Community-shared recipes")) {
+
+                    continue;
+                }
+
+                /*
+                 * Recipe Card
+                 */
+                if (recipes.add(
+                        content)) {
+
+                    System.out.println(
+                            "Community Recipe :");
+
+                    System.out.println(
+                            content);
+
+                    System.out.println(
+                            "------------------------------------------------");
+                }
+            }
+
+            /*
+             * End Of List
+             */
+            if (currentFirstRecipe.equals(
+                    previousFirstRecipe)) {
+
+                System.out.println(
+                        "Reached end of Community Results.");
+
+                break;
+            }
+
+            previousFirstRecipe =
+                    currentFirstRecipe;
+
+            scrollCommunityResults();
+
+            waitUtil.sleep(
+                    1500);
+        }
+
+        System.out.println(
+                "Total Community Recipes : "
+                        + recipes.size());
+
+        return recipes;
+    }
+
+    /*
+     * Scroll Community Results
+     */
+    private void scrollCommunityResults() {
+
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        540,
+                        1700));
+
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(
+                                700),
+                        PointerInput.Origin.viewport(),
+                        540,
+                        500));
+
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                Arrays.asList(
+                        swipe));
+
+        System.out.println(
+                "Community Results Scrolled.");
+    }
+
+        /*
+     * Fetch All AI Generated Recipe Cards
+     */
+    public Set<String> getAllAIGeneratedResults()
+            throws InterruptedException {
+
+        Set<String> recipes =
+                new LinkedHashSet<>();
+
+        /*
+         * Wait For AI Generation
+         */
+        for (int wait = 1;
+                wait <= 30;
+                wait++) {
+
+            if (isAIGenerationFailed()) {
+
+                System.out.println(
+                        "AI Generation Failed : "
+                                + getAIGenerationFailureMessage());
+
+                return recipes;
+            }
+
+            List<WebElement> cards =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
+
+            boolean aiRecipeFound =
+                    false;
+
+            for (WebElement card : cards) {
+
+                String content =
+                        card.getAttribute(
+                                "content-desc");
+
+                if (content == null
+                        || content.isBlank()) {
+
+                    continue;
+                }
+
+                content =
+                        content.trim();
+
+                /*
+                 * Skip Static Contents
+                 */
+                if (content.equals(
+                        "Search Results")
+                        || content.startsWith(
+                                "Results for")
+                        || content.contains(
+                                "Community")
+                        || content.contains(
+                                "AI Generated")
+                        || content.contains(
+                                "AI-generated recipe suggestions")
+                        || content.contains(
+                                "Failed to generate recipes")) {
+
+                    continue;
+                }
+
+                recipes.add(
+                        content);
+
+                aiRecipeFound =
+                        true;
+            }
+
+            if (aiRecipeFound) {
+
+                break;
+            }
+
+            System.out.println(
+                    "Waiting For AI Recipes... "
+                            + wait);
+
+            waitUtil.sleep(
+                    3000);
+        }
+
+        /*
+         * Scroll Through AI Recipes
+         */
+        String previousFirstRecipe =
+                "";
+
+        while (true) {
+
+            List<WebElement> cards =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    "//android.widget.ScrollView/android.view.View[@content-desc]"));
+
+            String currentFirstRecipe =
+                    "";
+
+            if (!cards.isEmpty()) {
+
+                currentFirstRecipe =
+                        cards.get(0)
+                                .getAttribute(
+                                        "content-desc");
+            }
+
+            for (WebElement card : cards) {
+
+                String content =
+                        card.getAttribute(
+                                "content-desc");
+
+                if (content == null
+                        || content.isBlank()) {
+
+                    continue;
+                }
+
+                content =
+                        content.trim();
+
+                if (content.equals(
+                        "Search Results")
+                        || content.startsWith(
+                                "Results for")
+                        || content.contains(
+                                "Community")
+                        || content.contains(
+                                "AI Generated")
+                        || content.contains(
+                                "AI-generated recipe suggestions")
+                        || content.contains(
+                                "Failed to generate recipes")) {
+
+                    continue;
+                }
+
+                recipes.add(
+                        content);
+            }
+
+            if (currentFirstRecipe.equals(
+                    previousFirstRecipe)) {
+
+                System.out.println(
+                        "Reached End Of AI Recipes.");
+
+                break;
+            }
+
+            previousFirstRecipe =
+                    currentFirstRecipe;
+
+            scrollAIResults();
+
+            waitUtil.sleep(
+                    1500);
+        }
+
+        System.out.println(
+                "Total AI Recipes : "
+                        + recipes.size());
+
+        return recipes;
+    }
+
+    /*
+     * Scroll AI Results
+     */
+    private void scrollAIResults() {
+
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        540,
+                        1700));
+
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(
+                                700),
+                        PointerInput.Origin.viewport(),
+                        540,
+                        500));
+
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                Arrays.asList(
+                        swipe));
+
+        System.out.println(
+                "AI Results Scrolled.");
+    }
+
+        /*
+     * AI Generation Failed
+     */
     public boolean isAIGenerationFailed() {
 
         return !driver.findElements(
@@ -262,361 +820,191 @@ private boolean scrollCommunityResults() {
                 .isEmpty();
     }
 
+    /*
+     * AI Failure Message
+     */
     public String getAIGenerationFailureMessage() {
 
         return driver.findElement(
                 AppiumBy.xpath(
                         "//*[contains(@content-desc,'Failed to generate recipes')]"))
                 .getAttribute(
-                        "contentDescription");
+                        "content-desc");
     }
-
-   /*
- * Fetch all AI Generated Recipe Cards
- */
-public Set<String> getAllAIGeneratedResults()
-        throws InterruptedException {
-
-    Set<String> recipes =
-            new LinkedHashSet<>();
 
     /*
-     * Wait for AI generation
+     * Scroll Back To Top
      */
-    for (int wait = 1; wait <= 30; wait++) {
+    public void scrollToTop() {
 
-        /*
-         * Failure scenario
-         */
-        if (isAIGenerationFailed()) {
-
-            System.out.println(
-                    "AI Generation Failed : "
-                            + getAIGenerationFailureMessage());
-
-            return recipes;
-        }
-
-                List<WebElement> cards =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "/hierarchy/android.widget.FrameLayout"
-                                + "/android.widget.LinearLayout"
-                                + "/android.widget.FrameLayout"
-                                + "/android.widget.FrameLayout"
-                                + "/android.view.View"
-                                + "/android.view.View"
-                                + "/android.view.View"
-                                + "/android.view.View"
-                                + "/android.view.View[1]"
-                                + "/android.view.View"
-                                + "/android.widget.ScrollView"
-                                + "/android.view.View[5]"
-                                + "/android.view.View"
-                                + "/android.view.View"));
-
-                        System.out.println(
-                        "Visible AI Recipe Cards : "
-                        + cards.size());
-
-                boolean aiRecipeFound = false;
-
-                for (WebElement card : cards) {
-
-        String value =
-                card.getAttribute(
-                        "contentDescription");
-
-        if (value == null
-                || value.trim().isEmpty()) {
-
-                continue;
-        }
-
-        value = value.trim();
-
-        /*
-        * Skip static texts
-        */
-        if (value.equals("Search Results")
-                || value.startsWith("Results for")
-                || value.contains("Tab")
-                || value.contains("Community-shared")
-                || value.contains("AI-generated recipe suggestions")
-                || value.contains("Failed to generate recipes")) {
-
-                continue;
-        }
-
-        /*
-        * Actual AI Recipe Card
-        */
-        recipes.add(value);
+        driver.executeScript(
+                "mobile: scrollGesture",
+                Map.of(
+                        "left", 0,
+                        "top", 250,
+                        "width", 1080,
+                        "height", 1800,
+                        "direction", "up",
+                        "percent", 3.0));
 
         System.out.println(
-                "Visible AI Recipe Card :");
-
-        System.out.println(value);
-
-        System.out.println(
-                "------------------------------------------------");
-
-        aiRecipeFound = true;
-        }
-
-        /*
-         * AI recipes found
-         */
-        if (aiRecipeFound) {
-
-            int sameScrollCount = 0;
-            int previousSize = recipes.size();
-
-            while (true) {
-
-                /*
-                 * Stop if no new recipes found
-                 */
-                if (recipes.size() == previousSize) {
-
-                    sameScrollCount++;
-                }
-                else {
-
-                    sameScrollCount = 0;
-                }
-
-                if (sameScrollCount >= 2) {
-
-                    System.out.println(
-                            "No new AI recipes found.");
-
-                    break;
-                }
-
-                previousSize = recipes.size();
-
-                boolean scrolled =
-                        scrollAIResults();
-
-                if (!scrolled) {
-
-                    System.out.println(
-                            "Reached end of AI recipes.");
-
-                    break;
-                }
-
-                Thread.sleep(2000);
-
-                cards =
-                        driver.findElements(
-                                AppiumBy.xpath(
-                                        "//android.widget.ScrollView//android.view.View"));
-
-                System.out.println(
-                        "Visible AI Cards : "
-                                + cards.size());
-
-                for (WebElement card : cards) {
-
-                    String contentDesc =
-                            card.getAttribute(
-                                    "contentDescription");
-
-                    if (contentDesc == null
-                            || contentDesc.trim().isEmpty()) {
-
-                        continue;
-                    }
-
-                    String value =
-                            contentDesc.trim();
-
-                    if (value.equals("Search Results")
-                            || value.startsWith("Results for")
-                            || value.contains("Tab")
-                            || value.contains("Community-shared")
-                            || value.contains("AI-generated recipe suggestions")
-                            || value.contains("Failed to generate recipes")) {
-
-                        continue;
-                    }
-
-                    if (value.length() > 30) {
-
-                        recipes.add(value);
-
-                        System.out.println(
-                                "Visible AI Recipe : ");
-
-                        System.out.println(value);
-
-                        System.out.println(
-                                "------------------------------------------------");
-                    }
-                }
-
-                System.out.println(
-                        "Total unique AI recipes fetched : "
-                                + recipes.size());
-            }
-
-            return recipes;
-        }
-
-        System.out.println(
-                "Waiting for AI recipes... "
-                        + wait);
-
-        Thread.sleep(3000);
+                "Scrolled back to top.");
     }
 
-    return recipes;
-}
-
-        /*
-        * Scroll AI Results
-        */
-        private boolean scrollAIResults() {
+    /*
+     * Verify Recipe Exists
+     */
+    public boolean isRecipePresent(
+            String recipeName) {
 
         try {
 
-                driver.findElement(
-                        AppiumBy.androidUIAutomator(
-                                "new UiScrollable("
-                                        + "new UiSelector().scrollable(true))"
-                                        + ".scrollForward()"));
+            return recipeCard(
+                    recipeName)
+                    .isDisplayed();
 
-                System.out.println(
-                        "AI results scrolled.");
-
-                return true;
         }
+
         catch (Exception e) {
 
-                return false;
+            return false;
         }
+    }
+
+    /*
+     * Open Community Recipe
+     */
+    public void openCommunityRecipe(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                recipeCard(
+                        recipeName));
+
+        System.out.println(
+                "Community Recipe opened : "
+                        + recipeName);
+    }
+
+    /*
+     * Share Recipe
+     */
+    public void shareRecipe(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                shareButton(
+                        recipeName));
+
+        System.out.println(
+                "Recipe shared successfully.");
+    }
+
+    /*
+     * Open Recipe Comments
+     */
+    public void openRecipeComments(
+            String recipeName) {
+
+        waitUtil.clickWithWait(
+                commentIcon(
+                        recipeName));
+
+        System.out.println(
+                "Recipe comments opened.");
+    }
+
+    /*
+     * Get Recipe Name
+     */
+    public String getRecipeName(
+            String recipeName) {
+
+        String content =
+                recipeCard(
+                        recipeName)
+                        .getAttribute(
+                                "content-desc");
+
+        if (content == null
+                || content.isBlank()) {
+
+            return "";
         }
 
-    // /*
-    //  * Fetch AI Generated Results
-    //  */
-    // public Set<String> getAllAIGeneratedResults() {
+        return content.split(
+                "\n")[0];
+    }
 
-    //     Set<String> recipes =
-    //             new LinkedHashSet<>();
+    /*
+     * Get Complete Recipe Card Content
+     */
+    public String getRecipeCardContent(
+            String recipeName) {
 
-    //     int sameScrollCount = 0;
-    //     int previousSize = 0;
+        return recipeCard(
+                recipeName)
+                .getAttribute(
+                        "content-desc");
+    }
 
-    //     while (sameScrollCount < 3) {
+    /*
+     * Get Follow Status
+     */
+    public String getFollowStatus(
+            String recipeName) {
 
-    //         List<WebElement> cards =
-    //                 driver.findElements(
-    //                         AppiumBy.xpath(
-    //                                 "//android.widget.ScrollView//android.view.View"));
+        return followButton(
+                recipeName)
+                .getAttribute(
+                        "content-desc");
+    }
 
-    //         for (WebElement card : cards) {
+    /*
+     * Follow / Unfollow Recipe
+     */
+    public void followRecipeIfRequired(
+            String recipeName)
+            throws InterruptedException {
 
-    //             String contentDesc =
-    //                     card.getAttribute(
-    //                             "contentDescription");
+        String status =
+                getFollowStatus(
+                        recipeName);
 
-    //             if (contentDesc != null
-    //                     && !contentDesc.trim().isEmpty()) {
+        System.out.println(
+                "Current Follow Status : "
+                        + status);
 
-    //                 String value =
-    //                         contentDesc.trim();
+        /*
+         * Already Following
+         */
+        if (status != null
+                && status.equalsIgnoreCase(
+                        "Following")) {
 
-    //                 /*
-    //                  * Skip static texts and headers
-    //                  */
-    //                 if (!value.equals("Search Results")
-    //                         && !value.startsWith("Results for")
-    //                         && !value.contains("Tab")
-    //                         && !value.contains("Community-shared")
-    //                         && !value.contains("AI-generated recipe suggestions")
-    //                         && value.length() > 30) {
+            clickFollowButton(
+                    recipeName);
 
-    //                     recipes.add(value);
-    //                 }
-    //             }
-    //         }
+            waitUtil.sleep(
+                    1500);
 
-    //         System.out.println(
-    //                 "AI Generated recipes fetched : "
-    //                         + recipes.size());
+            clickFollowButton(
+                    recipeName);
 
-    //         if (recipes.size() == previousSize) {
+            System.out.println(
+                    "Recipe unfollowed and followed again.");
+        }
 
-    //             sameScrollCount++;
-    //         }
-    //         else {
+        /*
+         * Not Following
+         */
+        else {
 
-    //             sameScrollCount = 0;
-    //         }
+            clickFollowButton(
+                    recipeName);
 
-    //         previousSize = recipes.size();
-
-    //         scrollResults();
-    //     }
-
-    //     return recipes;
-    // }
-    
-
-    // /*
-    //  * Debug Visible Content Descriptions
-    //  */
-    // public void printVisibleContentDescriptions() {
-
-    //     System.out.println(
-    //             "========== Visible Elements ==========");
-
-    //     List<WebElement> elements =
-    //             driver.findElements(
-    //                     AppiumBy.xpath("//*"));
-
-    //     for (WebElement element : elements) {
-
-    //         String desc =
-    //                 element.getAttribute(
-    //                         "contentDescription");
-
-    //         String clazz =
-    //                 element.getAttribute(
-    //                         "className");
-
-    //         System.out.println(
-    //                 "Class : " + clazz);
-
-    //         System.out.println(
-    //                 "Content Desc : " + desc);
-
-    //         System.out.println(
-    //                 "------------------------------------------------");
-    //     }
-
-    //     System.out.println(
-    //             "=======================================");
-    // }
-
-
-    public void scrollToTop() {
-
-    driver.executeScript(
-            "mobile: scrollGesture",
-            Map.of(
-                    "left", 0,
-                    "top", 259,
-                    "width", 1080,
-                    "height", 1769,
-                    "direction", "up",
-                    "percent", 3.0
-            ));
-
-    System.out.println(
-            "Scrolled back to top.");
-}
+            System.out.println(
+                    "Recipe followed successfully.");
+        }
+    }
 }

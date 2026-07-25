@@ -3,7 +3,9 @@ package pagesObjects.Home;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -441,5 +443,62 @@ public class Notification {
 
         return notificationList;
     }
+
+    /*
+ * Verify Follow Notification
+ */
+public boolean isFollowNotificationAvailable(
+        String userName) {
+
+    Set<String> visitedNotifications =
+            new HashSet<>();
+
+    int maxScrolls =
+            20;
+
+    for (int i = 0; i < maxScrolls; i++) {
+
+        String latestNotification =
+                getLatestNotification();
+
+        if (latestNotification.isBlank()) {
+
+            break;
+        }
+
+        /*
+         * Prevent infinite loop
+         */
+        if (!visitedNotifications.add(
+                latestNotification)) {
+
+            break;
+        }
+
+        /*
+         * Follow Notification Found
+         */
+        if (latestNotification.contains(
+                userName)
+                && latestNotification.contains(
+                        "is following you")) {
+
+            System.out.println(
+                    "Follow Notification Found :");
+
+            System.out.println(
+                    latestNotification);
+
+            return true;
+        }
+
+        /*
+         * Scroll to next notification
+         */
+        scrollNotifications();
+    }
+
+    return false;
+}
 
 }
