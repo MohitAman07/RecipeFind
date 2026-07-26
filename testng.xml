@@ -12,7 +12,7 @@
         <classes>
        
              <!-- <class name="tests.TC001_Authentication_Flow"/> -->
-            <!-- <class name="tests.TC002_All_Dish_Details_home"/>
+            <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
@@ -57,7 +57,7 @@
             <class name="tests.TC044_VerifyRecipeCommentOperations"/>
             <class name="tests.TC045_VerifyCommentNotification"/>
             <class name="tests.TC046_VerifyLikeNotification"/>
-            <class name="tests.TC047_VerifySuperAdminDeleteComment"/> -->
+            <class name="tests.TC047_VerifySuperAdminDeleteComment"/>
             <class name="tests.TC048_VerifyPersonalTab"/>
             
             
