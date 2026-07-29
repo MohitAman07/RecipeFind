@@ -1,43 +1,43 @@
 package tests;
 
-import base.BaseTest;
-import driver.DriverFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import base.BaseTest;
+import driver.DriverFactory;
+import pagesObjects.HamburgerMenu.Glossary;
 import pagesObjects.HamburgerMenu.Hamburger;
-import pagesObjects.HamburgerMenu.FAQs;
 
-public class TC007_FAQs extends BaseTest {
+public class TC013_VerifyGlossary extends BaseTest {
 
     @Test
-    public void verifyFAQsFunctionality()
+    public void verifyGlossaryFunctionality()
             throws InterruptedException {
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Executing Test Case : verifyFAQsFunctionality");
+                "Executing Test Case : verifyGlossaryFunctionality");
 
         System.out.println(
                 "==================================================");
 
         /*
-         * Wait For Home Dashboard To Stabilize
+         * Wait for Dashboard to Stabilize
          */
-        Thread.sleep(9000);
+        Thread.sleep(3000);
 
         Hamburger hamburger =
                 new Hamburger(
                         DriverFactory.getDriver());
 
-        FAQs faqs =
-                new FAQs(
+        Glossary glossary =
+                new Glossary(
                         DriverFactory.getDriver());
 
         /*
-         * Verify Hamburger Menu Visibility
+         * Verify Hamburger Menu
          */
         Assert.assertTrue(
                 hamburger.isHamburgerMenuVisible(),
@@ -51,71 +51,55 @@ public class TC007_FAQs extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-        Thread.sleep(2000);
-
         System.out.println(
                 "Hamburger menu clicked successfully.");
 
+        Thread.sleep(1000);
+
         /*
-         * Verify FAQs Option
+         * Verify Glossary Menu
          */
         Assert.assertTrue(
-                hamburger.isFAQsVisible(),
-                "FAQs option is not displayed.");
+                hamburger.isGlossaryVisible(),
+                "Glossary menu is not displayed.");
 
         System.out.println(
-                "FAQs option displayed successfully.");
+                "Glossary menu displayed successfully.");
 
         /*
-         * Click FAQs
+         * Open Glossary
          */
-        hamburger.clickFAQs();
-
-        Thread.sleep(9000);
+        hamburger.clickGlossary();
 
         System.out.println(
-                "FAQs option clicked successfully.");
-
-        /*
-         * Verify FAQ Screen
-         */
-        Assert.assertTrue(
-                faqs.isFAQScreenVisible(),
-                "FAQ screen is not displayed.");
-
-        System.out.println(
-                "FAQ screen displayed successfully.");
-
-        /*
-         * Bring FAQ Content Below Logo
-         */
-        faqs.bringFAQContentIntoView();
+                "Glossary menu clicked successfully.");
 
         Thread.sleep(2000);
 
+        /*
+         * Verify Glossary Screen
+         */
+        Assert.assertTrue(
+                glossary.isGlossaryScreenVisible(),
+                "Glossary screen is not displayed.");
+
         System.out.println(
-                "FAQ content positioned successfully.");
+                "Glossary screen displayed successfully.");
 
         /*
-         * Fetch All FAQ Questions And Answers
+         * Bring Glossary Content Below Header
          */
-        System.out.println(
-                "==================================================");
-
-        System.out.println(
-                "Fetching FAQ Questions And Answers");
-
-        System.out.println(
-                "==================================================");
-
-        faqs.getAllFAQQuestionsAndAnswers();
+        glossary.bringGlossaryContentIntoView();
 
         /*
-         * Scroll FAQ Back To Top
+         * Verify All Glossary Terms
          */
-        faqs.scrollFAQToTop();
+        glossary.getAllGlossaryTerms();
 
-        Thread.sleep(2000);
+        /*
+         * Scroll Back To Top
+         */
+        glossary.scrollGlossaryToTop();
 
         /*
          * Verify Back Button
@@ -124,23 +108,34 @@ public class TC007_FAQs extends BaseTest {
                 hamburger.isBackButtonVisible(),
                 "Back button is not displayed.");
 
+        System.out.println(
+                "Back button displayed successfully.");
+
         /*
-         * Navigate Back To Home
+         * Navigate Back
          */
         hamburger.clickBackButton();
 
-        Thread.sleep(2000);
-
-        hamburger.hideKeyboardIfVisible();
-
         System.out.println(
                 "Back button clicked successfully.");
+
+        Thread.sleep(2000);
+
+        /*
+         * Verify Home Screen
+         */
+        Assert.assertTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Home screen is not displayed after navigating back from Glossary.");
+
+        System.out.println(
+                "Successfully navigated back to Home Screen.");
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Completed Test Case : verifyFAQsFunctionality");
+                "Completed Test Case : verifyGlossaryFunctionality");
 
         System.out.println(
                 "==================================================");

@@ -1,15 +1,13 @@
 package tests;
 
-import base.BaseTest;
+import java.util.Set;
 
-import driver.DriverFactory;
-
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import base.BaseTest;
+import driver.DriverFactory;
 import pagesObjects.Home.HomeDashboard;
-
-import java.util.Set;
+import utils.ValidationUtil;
 
 public class TC002_All_Dish_Details_home extends BaseTest {
 
@@ -34,7 +32,8 @@ public class TC002_All_Dish_Details_home extends BaseTest {
          */
         for (String dish : dishes) {
 
-            System.out.println(dish);
+            System.out.println(
+                    dish);
 
             System.out.println(
                     "------------------------------------------------");
@@ -43,12 +42,18 @@ public class TC002_All_Dish_Details_home extends BaseTest {
         /*
          * Validation
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 dishes.size() > 0,
-                "No dishes were found on the Home Dashboard.");
+                "Recipes are displayed on Home Dashboard.");
 
         System.out.println(
-                "Total Dishes Found : "
+                "Total Recipes Found : "
                         + dishes.size());
+
+        System.out.println(
+                "Completed Test Case : AllDishDetailshome");
+
+        System.out.println(
+                "==================================================");
     }
 }

@@ -11,24 +11,57 @@
  
         <classes>
        
-            <!-- <class name="tests.TC001_Authentication_Flow"/>
+            <class name="tests.TC001_Authentication_Flow"/>
             <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
             <class name="tests.TC005_HamburgerMenu"/>
             <class name="tests.TC006_Tutorial"/>
             <class name="tests.TC007_FAQs"/>
-            <class name="tests.TC003_WelcomeScreen"/>
-            <class name="tests.TC005_HamburgerMenu"/> -->
-            <class name="tests.TC008_VerifyFeedbackScreenUI"/> 
+            <class name="tests.TC008_VerifyFeedbackScreenUI"/>
             <class name="tests.TC009_VerifyFeedbackValidationWithoutRating"/>
             <class name="tests.TC010_VerifyFeedbackEmojiSelection"/>
             <class name="tests.TC011_SubmitFeedbackSuccessfully"/>
             <class name="tests.TC012_VerifyFeedbackCancelButton"/>
-            <!-- <class name="tests.Control_Panel"/> -->
-        
-
-
+            <class name="tests.TC013_VerifyGlossary"/>
+            <class name="tests.TC014_verifyControlPanelUI"/>
+            <class name="tests.TC015_VerifyRecipeSearch"/>
+            <class name="tests.TC016_VerifySortOptions"/>
+            <class name="tests.TC017_VerifyGroupSearch"/>
+            <class name="tests.TC018_VerifySubmittedStatus"/>
+            <class name="tests.TC019_VerifyVerifiedStatus"/>
+            <class name="tests.TC020_VerifyRejectedStatus"/>
+            <class name="tests.TC021_VerifyDeletePendingStatus"/>
+            <class name="tests.TC022_VerifyCreateGroupDashboard"/>
+            <class name="tests.TC023_VerifyViewAllGroupsDashboard"/>
+            <class name="tests.TC024_VerifyValidGroupSearch"/>
+            <class name="tests.TC025_VerifyInvalidGroupSearch"/>
+            <class name="tests.TC026_VerifyInvalidAssignAdmin"/>
+            <class name="tests.TC027_VerifyMandatoryFieldValidation"/>
+            <class name="tests.TC028_VerifyInvalidGroupDomain"/>
+            <class name="tests.TC029_VerifyCancelGroupCreation"/>
+            <class name="tests.TC030_VerifyGroupVisibleToAssignedGroupAdmin"/>
+            <class name="tests.TC031_VerifyEditGroupName"/>
+            <class name="tests.TC032_VerifyEditGroupDescription"/>
+            <class name="tests.TC033_VerifyEditGroupDomain"/>
+            <class name="tests.TC034_VerifyEditAllGroupDetails"/>
+            <class name="tests.TC035_VerifyGroupAdminCanEditAssignedGroup"/>
+            <class name="tests.TC036_VerifyReviewerCanEditOnlyAssignedGroup"/>
+            <class name="tests.TC037_VerifyRemoveGroupMember"/>
+            <class name="tests.TC038_VerifyLastAdminValidation"/>
+            <class name="tests.TC039_VerifyRemoveOneAdmin"/>
+            <class name="tests.TC040_VerifyNotificationScreen"/>
+            <class name="tests.TC041_VerifyMyRecipesDashboard"/>
+            <class name="tests.TC042_VerifyNotificationAfterGroupAssignment"/>
+            <class name="tests.TC043_VerifyFollowNotification"/>
+            <class name="tests.TC044_VerifyRecipeCommentOperations"/>
+            <class name="tests.TC045_VerifyCommentNotification"/>
+            <class name="tests.TC046_VerifyLikeNotification"/>
+            <class name="tests.TC047_VerifySuperAdminDeleteComment"/>
+            <class name="tests.TC048_VerifyPersonalTab"/>
+            <class name="tests.TC049_VerifyPreferencesTab"/>
+           
+           
         </classes>
  
     </test>

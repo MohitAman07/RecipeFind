@@ -2,16 +2,18 @@ package pagesObjects.Home;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-
+import utils.WaitUtil;
 import org.openqa.selenium.WebElement;
 
 public class RecipeSearch {
 
     private AndroidDriver driver;
+    private final WaitUtil waitUtil;
 
     public RecipeSearch(AndroidDriver driver) {
 
         this.driver = driver;
+        this.waitUtil = new WaitUtil(driver);
     }
 
     /*
@@ -100,4 +102,52 @@ public class RecipeSearch {
                 "Recipe searched successfully : "
                         + recipeName);
     }
+
+    public void hideKeyboard() {
+
+    try {
+
+        driver.hideKeyboard();
+
+        System.out.println(
+                "Keyboard hidden successfully.");
+    }
+        catch (Exception e) {
+
+                System.out.println(
+                        "Keyboard is already hidden.");
+         }
+        }
+
+        /*
+        * Clear Search Field
+        */
+        public void clearSearchField() {
+
+        WebElement searchField =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText"));
+
+        waitUtil.clickWithWait(searchField);
+
+        searchField.clear();
+
+        System.out.println(
+                "Search field cleared successfully.");
+        }
+
+        /*
+        * Deselect Search Field
+        */
+        public void deselectSearchField() {
+
+        driver.findElement(
+                AppiumBy.xpath(
+                        "//*[starts-with(@content-desc,'Hi ')]"))
+                .click();
+
+        System.out.println(
+                "Search field deselected successfully.");
+        }
 }
