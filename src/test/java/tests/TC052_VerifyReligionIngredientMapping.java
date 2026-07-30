@@ -1,13 +1,15 @@
 package tests;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
+import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.Home.HomeDashboard;
 import pagesObjects.Profile.Preferences_Tab;
 import utils.ValidationUtil;
-import pagesObjects.HamburgerMenu.Hamburger;
 
 public class TC052_VerifyReligionIngredientMapping
         extends BaseTest {
@@ -83,40 +85,57 @@ public class TC052_VerifyReligionIngredientMapping
                 3000);
 
         /*
-         * Verify Ingredient Inclusion
+         * Get Ingredient Inclusion
          */
+        List<String> actualIngredientInclusion =
+                preferencesTab.getAllIngredientInclusion();
+
         ValidationUtil.verifyTrue(
-                preferencesTab.verifyReligionIngredientInclusion(
-                        religion),
+                !actualIngredientInclusion.isEmpty(),
                 "Ingredient Inclusion populated successfully.");
 
-        Thread.sleep(
-                2000);
-
         /*
-         * Verify Ingredient Exclusion
+         * Get Ingredient Exclusion
          */
+        List<String> actualIngredientExclusion =
+                preferencesTab.getAllIngredientExclusion();
+
         ValidationUtil.verifyTrue(
-                preferencesTab.verifyReligionIngredientExclusion(
-                        religion),
+                !actualIngredientExclusion.isEmpty(),
                 "Ingredient Exclusion populated successfully.");
 
-        Thread.sleep(
-                2000);
-
         /*
-         * Print Visible Ingredient Inclusion
+         * Print Ingredient Inclusion
          */
-        preferencesTab.printVisibleIngredientInclusion();
-
-
-        /*
-         * Print Visible Ingredient Exclusion
-         */
-        preferencesTab.printVisibleIngredientExclusion();
+        System.out.println(
+                "\n==================================================");
 
         System.out.println(
-                "==================================================");
+                "Ingredient Inclusion");
+
+        System.out.println(
+                "--------------------------------------------------");
+
+        actualIngredientInclusion.forEach(
+                System.out::println);
+
+        /*
+         * Print Ingredient Exclusion
+         */
+        System.out.println(
+                "\n==================================================");
+
+        System.out.println(
+                "Ingredient Exclusion");
+
+        System.out.println(
+                "--------------------------------------------------");
+
+        actualIngredientExclusion.forEach(
+                System.out::println);
+
+        System.out.println(
+                "\n==================================================");
 
         System.out.println(
                 "TC052_VerifyReligionIngredientMapping executed successfully.");

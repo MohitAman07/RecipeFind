@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections4.Get;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -1223,142 +1225,143 @@ public void selectAllergy(
 
 /*
  * ==========================================================
- * INGREDIENT INCLUSION / EXCLUSION LOCATORS
+ * INGREDIENT INCLUSION / EXCLUSION
+ * ==========================================================
+ */
+
+private static final String PREFERENCE_SECTION =
+        "//android.view.View[@content-desc=\"Dietary Preference\n"
+                + "Religion\n"
+                + "Allergies\n"
+                + "Ingredient Inclusion\n"
+                + "Ingredient Exclusion\n"
+                + "Custom Include\n"
+                + "Custom Exclude\"]";
+
+
+/*
+ * ==========================================================
+ * INGREDIENT INCLUSION
  * ==========================================================
  */
 
 /*
- * Ingredient Inclusion Section
+ * Ingredient Inclusion Horizontal Scroll
  */
-private WebElement ingredientInclusionSection() {
+private WebElement ingredientInclusionHorizontal() {
 
     return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[contains(@content-desc,'Ingredient Inclusion')]"));
+            AppiumBy.androidUIAutomator(
+                    "new UiSelector()"
+                            + ".className(\"android.widget.HorizontalScrollView\")"
+                            + ".instance(0)"));
 }
 
 /*
- * Ingredient Exclusion Section
+ * Verify Ingredient Inclusion Horizontal Scroll
  */
-private WebElement ingredientExclusionSection() {
+public boolean isIngredientInclusionHorizontalPresent() {
+
+    return !driver.findElements(
+            AppiumBy.androidUIAutomator(
+                    "new UiSelector()"
+                            + ".className(\"android.widget.HorizontalScrollView\")"
+                            + ".instance(0)"))
+            .isEmpty();
+}
+
+/*
+ * Ingredient Inclusion Horizontal Chips
+ */
+private List<WebElement> ingredientInclusionHorizontalChips() {
+
+    return ingredientInclusionHorizontal()
+            .findElements(
+                    AppiumBy.className(
+                            "android.view.View"));
+}
+
+/*
+ * Ingredient Inclusion (No Horizontal Scroll)
+ */
+private List<WebElement> ingredientInclusionNormalChips() {
+
+    WebElement container =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            PREFERENCE_SECTION
+                                    + "/android.view.View[2]"));
+
+    return container.findElements(
+            AppiumBy.className(
+                    "android.view.View"));
+}
+
+
+
+/*
+ * ==========================================================
+ * INGREDIENT EXCLUSION
+ * ==========================================================
+ */
+
+/*
+ * Ingredient Exclusion Horizontal Scroll
+ */
+private WebElement ingredientExclusionHorizontal() {
 
     return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[contains(@content-desc,'Ingredient Exclusion')]"));
+            AppiumBy.androidUIAutomator(
+                    "new UiSelector()"
+                            + ".className(\"android.widget.HorizontalScrollView\")"
+                            + ".instance(1)"));
 }
 
 /*
- * Ingredient Inclusion Chips
+ * Verify Ingredient Exclusion Horizontal Scroll
  */
-// private List<WebElement> ingredientInclusionChips() {
+public boolean isIngredientExclusionHorizontalPresent() {
 
-//     return driver.findElements(
-//             AppiumBy.xpath(
-//                     "//android.view.View[contains(@content-desc,'Ingredient Inclusion')]"
-//                             + "/following-sibling::android.view.View"));
-// }
-
-private WebElement ingredientInclusionChip(
-        String ingredient) {
-
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[@content-desc=\""
-                            + ingredient
-                            + "\"]"));
+    return !driver.findElements(
+            AppiumBy.androidUIAutomator(
+                    "new UiSelector()"
+                            + ".className(\"android.widget.HorizontalScrollView\")"
+                            + ".instance(1)"))
+            .isEmpty();
 }
 
 /*
- * Ingredient Exclusion Chips
+ * Ingredient Exclusion Horizontal Chips
  */
-// private List<WebElement> ingredientExclusionChips() {
+private List<WebElement> ingredientExclusionHorizontalChips() {
 
-//     return driver.findElements(
-//             AppiumBy.xpath(
-//                     "//android.view.View[contains(@content-desc,'Ingredient Exclusion')]"
-//                             + "/following-sibling::android.view.View"));
-// }
-
-private WebElement ingredientExclusionChip(
-        String ingredient) {
-
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[@content-desc=\""
-                            + ingredient
-                            + "\"]"));
+    return ingredientExclusionHorizontal()
+            .findElements(
+                    AppiumBy.className(
+                            "android.view.View"));
 }
 
 /*
- * Ingredient Inclusion Delete Button
+ * Ingredient Exclusion (No Horizontal Scroll)
  */
-// private WebElement ingredientInclusionDeleteButton(
-//         String ingredient) {
+private List<WebElement> ingredientExclusionNormalChips() {
 
-//     return driver.findElement(
-//             AppiumBy.xpath(
-//                     "//android.view.View[@content-desc=\""
-//                             + ingredient
-//                             + "\"]"
-//                             + "/android.widget.Button"));
-// }
+    WebElement container =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            PREFERENCE_SECTION
+                                    + "/android.view.View[3]"));
 
-private WebElement ingredientInclusionDeleteButton(
-        String ingredient) {
-
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[@content-desc=\""
-                            + ingredient
-                            + "\"]"
-                            + "/android.widget.Button[@content-desc=\"Delete\"]"));
+    return container.findElements(
+            AppiumBy.className(
+                    "android.view.View"));
 }
 
 /*
- * Ingredient Exclusion Delete Button
+ * ==========================================================
+ * INGREDIENT HORIZONTAL SCROLL
+ * ==========================================================
  */
-// private WebElement ingredientExclusionDeleteButton(
-//         String ingredient) {
-
-//     return driver.findElement(
-//             AppiumBy.xpath(
-//                     "//android.view.View[@content-desc=\""
-//                             + ingredient
-//                             + "\"]"
-//                             + "/android.widget.Button"));
-// }
-
-private WebElement ingredientExclusionDeleteButton(
-        String ingredient) {
-
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[@content-desc=\""
-                            + ingredient
-                            + "\"]"
-                            + "/android.widget.Button[@content-desc=\"Delete\"]"));
-}
-
-
-/*
- * Ingredient Inclusion Chips
- */
-private List<WebElement> ingredientInclusionChips() {
-
-    return driver.findElements(
-            AppiumBy.xpath(
-                    "//android.widget.HorizontalScrollView/android.view.View"));
-}
-
-/*
- * Ingredient Exclusion Chips
- */
-private List<WebElement> ingredientExclusionChips() {
-
-    return driver.findElements(
-            AppiumBy.xpath(
-                    "//android.widget.HorizontalScrollView/android.view.View"));
-}
 
 /*
  * Horizontal Scroll Ingredient Inclusion
@@ -1410,53 +1413,130 @@ public void scrollIngredientInclusion() {
 }
 
 /*
- * Horizontal Scroll Ingredient Exclusion
+ * Scroll Ingredient Exclusion
  */
 public void scrollIngredientExclusion() {
 
-    PointerInput finger =
-            new PointerInput(
-                    PointerInput.Kind.TOUCH,
-                    "finger");
+    try {
 
-    Sequence swipe =
-            new Sequence(
-                    finger,
-                    1);
+        WebElement exclusion =
+                ingredientExclusionHorizontal();
 
-    swipe.addAction(
-            finger.createPointerMove(
-                    Duration.ZERO,
-                    PointerInput.Origin.viewport(),
-                    900,
-                    1855));
+        Rectangle rect =
+                exclusion.getRect();
 
-    swipe.addAction(
-            finger.createPointerDown(
-                    PointerInput.MouseButton.LEFT.asArg()));
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
 
-    swipe.addAction(
-            finger.createPointerMove(
-                    Duration.ofMillis(
-                            400),
-                    PointerInput.Origin.viewport(),
-                    250,
-                    1855));
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
 
-    swipe.addAction(
-            finger.createPointerUp(
-                    PointerInput.MouseButton.LEFT.asArg()));
+        int startX =
+                rect.getX()
+                        + rect.getWidth()
+                        - 40;
 
-    driver.perform(
-            Arrays.asList(
-                    swipe));
+        int endX =
+                rect.getX()
+                        + 40;
 
-    waitUtil.sleep(
-            500);
+        int centerY =
+                rect.getY()
+                        + (rect.getHeight() / 2);
 
-    System.out.println(
-            "Ingredient Exclusion Scrolled.");
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        startX,
+                        centerY));
+
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(
+                                500),
+                        PointerInput.Origin.viewport(),
+                        endX,
+                        centerY));
+
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                List.of(
+                        swipe));
+
+        waitUtil.sleep(
+                500);
+
+        System.out.println(
+                "Ingredient Exclusion Scrolled.");
+    }
+
+    catch (Exception e) {
+
+        e.printStackTrace();
+    }
 }
+
+/*
+ * ==========================================================
+ * NORMAL / HORIZONTAL IDENTIFICATION
+ * ==========================================================
+ */
+
+/*
+ * Use Normal Inclusion Layout
+ */
+private boolean useNormalInclusion() {
+
+    try {
+
+        return !ingredientInclusionNormalChips()
+                .isEmpty();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Use Normal Exclusion Layout
+ */
+private boolean useNormalExclusion() {
+
+    try {
+
+        return !ingredientExclusionNormalChips()
+                .isEmpty();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+
+
+/*
+ * ==========================================================
+ * GET VISIBLE INGREDIENT INCLUSION
+ * ==========================================================
+ */
 
 /*
  * Get Visible Ingredient Inclusion
@@ -1466,16 +1546,55 @@ public Set<String> getVisibleIngredientInclusion() {
     Set<String> ingredients =
             new LinkedHashSet<>();
 
-    for (WebElement chip : ingredientInclusionChips()) {
+    List<WebElement> chips =
+            new ArrayList<>();
+
+    /*
+     * Try Horizontal Layout
+     */
+    try {
+
+        chips =
+                ingredientInclusionHorizontalChips();
+
+        if (chips.isEmpty()) {
+
+            throw new Exception();
+        }
+
+        System.out.println(
+                "Using Horizontal Inclusion Layout.");
+    }
+
+    /*
+     * Fallback To Normal Layout
+     */
+    catch (Exception e) {
+
+        chips =
+                ingredientInclusionNormalChips();
+
+        System.out.println(
+                "Using Normal Inclusion Layout.");
+    }
+
+    System.out.println(
+            "Visible Ingredient Inclusion Chips : "
+                    + chips.size());
+
+    for (WebElement chip : chips) {
 
         try {
 
             String ingredient =
                     chip.getAttribute(
-                            "content-desc")
-                            .trim();
+                            "content-desc");
 
-            if (!ingredient.isEmpty()) {
+            if (ingredient != null
+                    && !ingredient.trim().isEmpty()) {
+
+                ingredient =
+                        ingredient.trim();
 
                 ingredients.add(
                         ingredient);
@@ -1489,11 +1608,20 @@ public Set<String> getVisibleIngredientInclusion() {
 
         catch (Exception e) {
 
+            e.printStackTrace();
         }
     }
 
     return ingredients;
 }
+
+
+
+/*
+ * ==========================================================
+ * GET VISIBLE INGREDIENT EXCLUSION
+ * ==========================================================
+ */
 
 /*
  * Get Visible Ingredient Exclusion
@@ -1503,16 +1631,55 @@ public Set<String> getVisibleIngredientExclusion() {
     Set<String> ingredients =
             new LinkedHashSet<>();
 
-    for (WebElement chip : ingredientExclusionChips()) {
+    List<WebElement> chips =
+            new ArrayList<>();
+
+    /*
+     * Try Horizontal Layout
+     */
+    try {
+
+        chips =
+                ingredientExclusionHorizontalChips();
+
+        if (chips.isEmpty()) {
+
+            throw new Exception();
+        }
+
+        System.out.println(
+                "Using Horizontal Exclusion Layout.");
+    }
+
+    /*
+     * Fallback To Normal Layout
+     */
+    catch (Exception e) {
+
+        chips =
+                ingredientExclusionNormalChips();
+
+        System.out.println(
+                "Using Normal Exclusion Layout.");
+    }
+
+    System.out.println(
+            "Visible Ingredient Exclusion Chips : "
+                    + chips.size());
+
+    for (WebElement chip : chips) {
 
         try {
 
             String ingredient =
                     chip.getAttribute(
-                            "content-desc")
-                            .trim();
+                            "content-desc");
 
-            if (!ingredient.isEmpty()) {
+            if (ingredient != null
+                    && !ingredient.trim().isEmpty()) {
+
+                ingredient =
+                        ingredient.trim();
 
                 ingredients.add(
                         ingredient);
@@ -1526,6 +1693,7 @@ public Set<String> getVisibleIngredientExclusion() {
 
         catch (Exception e) {
 
+            e.printStackTrace();
         }
     }
 
@@ -1533,367 +1701,101 @@ public Set<String> getVisibleIngredientExclusion() {
 }
 
 /*
- * Verify Religion Ingredient Inclusion
+ * ==========================================================
+ * GET ALL INGREDIENT INCLUSION
+ * ==========================================================
  */
-// public boolean verifyReligionIngredientInclusion(
-//         String religion) {
 
-//     List<String> expectedIngredients =
-//             RELIGION_INCLUSION.get(
-//                     religion);
-
-//     if (expectedIngredients == null) {
-
-//         throw new RuntimeException(
-//                 "No Inclusion Mapping Found : "
-//                         + religion);
-//     }
-
-//     Set<String> actualIngredients =
-//             new LinkedHashSet<>();
-
-//     int previousSize =
-//             -1;
-
-//     while (previousSize != actualIngredients.size()) {
-
-//         previousSize =
-//                 actualIngredients.size();
-
-//         actualIngredients.addAll(
-//                 getVisibleIngredientInclusion());
-
-//         scrollIngredientInclusion();
-//     }
-
-//     System.out.println(
-//             "Expected Inclusion : "
-//                     + expectedIngredients);
-
-//     System.out.println(
-//             "Actual Inclusion : "
-//                     + actualIngredients);
-
-//     return actualIngredients.containsAll(
-//             expectedIngredients);
-// }
-
-public boolean verifyReligionIngredientInclusion(
-        String religion) {
-
-    List<String> expected =
-        RELIGION_EXCLUSION.getOrDefault(
-                religion,
-                new ArrayList<>());
-
-    Set<String> actual =
-            getAllIngredientInclusion();
-
-    System.out.println(
-            "Expected : "
-                    + expected);
-
-    System.out.println(
-            "Actual : "
-                    + actual);
-
-    return actual.containsAll(
-            expected);
-}
-
-/*
- * Verify Religion Ingredient Exclusion
- */
-// public boolean verifyReligionIngredientExclusion(
-//         String religion) {
-
-//     List<String> expectedIngredients =
-//             RELIGION_EXCLUSION.get(
-//                     religion);
-
-//     if (expectedIngredients == null) {
-
-//         throw new RuntimeException(
-//                 "No Exclusion Mapping Found : "
-//                         + religion);
-//     }
-
-//     Set<String> actualIngredients =
-//             new LinkedHashSet<>();
-
-//     int previousSize =
-//             -1;
-
-//     while (previousSize != actualIngredients.size()) {
-
-//         previousSize =
-//                 actualIngredients.size();
-
-//         actualIngredients.addAll(
-//                 getVisibleIngredientExclusion());
-
-//         scrollIngredientExclusion();
-//     }
-
-//     System.out.println(
-//             "Expected Exclusion : "
-//                     + expectedIngredients);
-
-//     System.out.println(
-//             "Actual Exclusion : "
-//                     + actualIngredients);
-
-//     return actualIngredients.containsAll(
-//             expectedIngredients);
-// }
-
-public boolean verifyReligionIngredientExclusion(
-        String religion) {
-
-    List<String> expected =
-        RELIGION_INCLUSION.getOrDefault(
-                religion,
-                new ArrayList<>());
-
-    Set<String> actual =
-            getAllIngredientExclusion();
-
-    System.out.println(
-            "Expected : "
-                    + expected);
-
-    System.out.println(
-            "Actual : "
-                    + actual);
-
-    return actual.containsAll(
-            expected);
-}
-
-/*
- * Delete Visible Ingredient Inclusion
- */
-public void deleteVisibleIngredientInclusion() {
-
-    List<WebElement> chips =
-            ingredientInclusionChips();
-
-    for (WebElement chip : chips) {
-
-        try {
-
-            String ingredient =
-                    chip.getAttribute(
-                            "content-desc");
-
-            WebElement deleteButton =
-                    chip.findElement(
-                            AppiumBy.className(
-                                    "android.widget.Button"));
-
-            waitUtil.clickWithWait(
-                    deleteButton);
-
-            waitUtil.sleep(
-                    500);
-
-            System.out.println(
-                    ingredient
-                            + " removed successfully.");
-
-        }
-
-        catch (Exception e) {
-
-        }
-    }
-}
-
-/*
- * Delete Visible Ingredient Exclusion
- */
-public void deleteVisibleIngredientExclusion() {
-
-    List<WebElement> chips =
-            ingredientExclusionChips();
-
-    for (WebElement chip : chips) {
-
-        try {
-
-            String ingredient =
-                    chip.getAttribute(
-                            "content-desc");
-
-            WebElement deleteButton =
-                    chip.findElement(
-                            AppiumBy.className(
-                                    "android.widget.Button"));
-
-            waitUtil.clickWithWait(
-                    deleteButton);
-
-            waitUtil.sleep(
-                    500);
-
-            System.out.println(
-                    ingredient
-                            + " removed successfully.");
-
-        }
-
-        catch (Exception e) {
-
-        }
-    }
-}
-
-/*
- * Delete All Ingredient Inclusion
- */
-public void deleteAllIngredientInclusion() {
-
-    int maxScrolls =
-            15;
-
-    while (maxScrolls-- > 0) {
-
-        deleteVisibleIngredientInclusion();
-
-        scrollIngredientInclusion();
-
-        if (ingredientInclusionChips().isEmpty()) {
-
-            break;
-        }
-    }
-
-    System.out.println(
-            "All Ingredient Inclusion removed successfully.");
-}
-
-/*
- * Delete All Ingredient Exclusion
- */
-public void deleteAllIngredientExclusion() {
-
-    int maxScrolls =
-            15;
-
-    while (maxScrolls-- > 0) {
-
-        deleteVisibleIngredientExclusion();
-
-        scrollIngredientExclusion();
-
-        if (ingredientExclusionChips().isEmpty()) {
-
-            break;
-        }
-    }
-
-    System.out.println(
-            "All Ingredient Exclusion removed successfully.");
-}
-
-/*
- * Verify Ingredient Inclusion Empty
- */
-public boolean isIngredientInclusionEmpty() {
-
-    try {
-
-        return ingredientInclusionChips()
-                .isEmpty();
-
-    }
-
-    catch (Exception e) {
-
-        return false;
-    }
-}
-
-/*
- * Verify Ingredient Exclusion Empty
- */
-public boolean isIngredientExclusionEmpty() {
-
-    try {
-
-        return ingredientExclusionChips()
-                .isEmpty();
-
-    }
-
-    catch (Exception e) {
-
-        return false;
-    }
-}
-
-/*
- * Print Visible Ingredient Inclusion
- */
-public void printVisibleIngredientInclusion() {
-
-    for (WebElement chip : ingredientInclusionChips()) {
-
-        System.out.println(
-                chip.getAttribute(
-                        "content-desc"));
-    }
-}
-
-/*
- * Print Visible Ingredient Exclusion
- */
-public void printVisibleIngredientExclusion() {
-
-    for (WebElement chip : ingredientExclusionChips()) {
-
-        System.out.println(
-                chip.getAttribute(
-                        "content-desc"));
-    }
-}
-
-/*
- * Read All Ingredient Inclusion
- */
-private Set<String> getAllIngredientInclusion() {
+public List<String> getAllIngredientInclusion() {
 
     Set<String> ingredients =
             new LinkedHashSet<>();
 
-    for (int i = 0; i < 10; i++) {
+    int maxScroll =
+            10;
+
+    while (maxScroll-- > 0) {
+
+        int previousSize =
+                ingredients.size();
 
         ingredients.addAll(
                 getVisibleIngredientInclusion());
 
-        scrollIngredientInclusion();
+        if (ingredients.size()
+                == previousSize) {
+
+            break;
+        }
+
+        try {
+
+            scrollIngredientInclusion();
+
+        }
+
+        catch (Exception e) {
+
+            break;
+        }
     }
 
-    return ingredients;
+    System.out.println(
+            "Ingredient Inclusion : "
+                    + ingredients);
+
+    return new ArrayList<>(
+            ingredients);
 }
 
+
+
 /*
- * Read All Ingredient Exclusion
+ * ==========================================================
+ * GET ALL INGREDIENT EXCLUSION
+ * ==========================================================
  */
-private Set<String> getAllIngredientExclusion() {
+
+public List<String> getAllIngredientExclusion() {
 
     Set<String> ingredients =
             new LinkedHashSet<>();
 
-    for (int i = 0; i < 10; i++) {
+    int maxScroll =
+            10;
+
+    while (maxScroll-- > 0) {
+
+        int previousSize =
+                ingredients.size();
 
         ingredients.addAll(
                 getVisibleIngredientExclusion());
 
-        scrollIngredientExclusion();
+        if (ingredients.size()
+                == previousSize) {
+
+            break;
+        }
+
+        try {
+
+            scrollIngredientExclusion();
+
+        }
+
+        catch (Exception e) {
+
+            break;
+        }
     }
 
-    return ingredients;
+    System.out.println(
+            "Ingredient Exclusion : "
+                    + ingredients);
+
+    return new ArrayList<>(
+            ingredients);
 }
 
 
