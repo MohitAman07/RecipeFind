@@ -1286,15 +1286,21 @@ private List<WebElement> ingredientInclusionHorizontalChips() {
  */
 private List<WebElement> ingredientInclusionNormalChips() {
 
-    WebElement container =
-            driver.findElement(
+    List<WebElement> containers =
+            driver.findElements(
                     AppiumBy.xpath(
                             PREFERENCE_SECTION
-                                    + "/android.view.View[2]"));
+                                    + "/android.view.View[1]"));
 
-    return container.findElements(
-            AppiumBy.className(
-                    "android.view.View"));
+    if (containers.isEmpty()) {
+
+        return new ArrayList<>();
+    }
+
+    return containers.get(0)
+            .findElements(
+                    AppiumBy.className(
+                            "android.view.View"));
 }
 
 
@@ -1346,15 +1352,25 @@ private List<WebElement> ingredientExclusionHorizontalChips() {
  */
 private List<WebElement> ingredientExclusionNormalChips() {
 
-    WebElement container =
-            driver.findElement(
+    List<WebElement> containers =
+            driver.findElements(
                     AppiumBy.xpath(
                             PREFERENCE_SECTION
-                                    + "/android.view.View[3]"));
+                                    + "/android.view.View[2]"));
 
-    return container.findElements(
-            AppiumBy.className(
-                    "android.view.View"));
+    /*
+     * No Exclusion Container Found
+     */
+    if (containers.isEmpty()) {
+
+        return new ArrayList<>();
+    }
+
+    return containers.get(
+            0)
+            .findElements(
+                    AppiumBy.className(
+                            "android.view.View"));
 }
 
 /*
@@ -1590,20 +1606,33 @@ public Set<String> getVisibleIngredientInclusion() {
                     chip.getAttribute(
                             "content-desc");
 
-            if (ingredient != null
-                    && !ingredient.trim().isEmpty()) {
+            /*
+             * Skip Null Content Description
+             */
+            if (ingredient == null) {
 
-                ingredient =
-                        ingredient.trim();
-
-                ingredients.add(
-                        ingredient);
-
-                System.out.println(
-                        "Ingredient Inclusion : "
-                                + ingredient);
+                continue;
             }
 
+            ingredient =
+                    ingredient.trim();
+
+            /*
+             * Skip Empty / Null Text
+             */
+            if (ingredient.isEmpty()
+                    || ingredient.equalsIgnoreCase(
+                            "null")) {
+
+                continue;
+            }
+
+            ingredients.add(
+                    ingredient);
+
+            System.out.println(
+                    "Ingredient Inclusion : "
+                            + ingredient);
         }
 
         catch (Exception e) {
@@ -1614,7 +1643,6 @@ public Set<String> getVisibleIngredientInclusion() {
 
     return ingredients;
 }
-
 
 
 /*
@@ -1675,20 +1703,33 @@ public Set<String> getVisibleIngredientExclusion() {
                     chip.getAttribute(
                             "content-desc");
 
-            if (ingredient != null
-                    && !ingredient.trim().isEmpty()) {
+            /*
+             * Skip Null Content Description
+             */
+            if (ingredient == null) {
 
-                ingredient =
-                        ingredient.trim();
-
-                ingredients.add(
-                        ingredient);
-
-                System.out.println(
-                        "Ingredient Exclusion : "
-                                + ingredient);
+                continue;
             }
 
+            ingredient =
+                    ingredient.trim();
+
+            /*
+             * Skip Empty / Null Text
+             */
+            if (ingredient.isEmpty()
+                    || ingredient.equalsIgnoreCase(
+                            "null")) {
+
+                continue;
+            }
+
+            ingredients.add(
+                    ingredient);
+
+            System.out.println(
+                    "Ingredient Exclusion : "
+                            + ingredient);
         }
 
         catch (Exception e) {
@@ -1796,6 +1837,316 @@ public List<String> getAllIngredientExclusion() {
 
     return new ArrayList<>(
             ingredients);
+}
+
+/*
+ * Delete Visible Ingredient Inclusion
+ */
+public void deleteVisibleIngredientInclusion() {
+
+    List<WebElement> chips =
+            new ArrayList<>();
+
+    boolean horizontal =
+            true;
+
+    /*
+     * Try Horizontal Layout
+     */
+    try {
+
+        chips =
+                ingredientInclusionHorizontalChips();
+
+        if (chips.isEmpty()) {
+
+            throw new Exception();
+        }
+
+        System.out.println(
+                "Using Horizontal Inclusion Layout.");
+    }
+
+    /*
+     * Fallback To Normal Layout
+     */
+    catch (Exception e) {
+
+        chips =
+                ingredientInclusionNormalChips();
+
+        horizontal =
+                false;
+
+        System.out.println(
+                "Using Normal Inclusion Layout.");
+    }
+
+    System.out.println(
+            "Visible Ingredient Inclusion Chips : "
+                    + chips.size());
+
+    for (WebElement chip : chips) {
+
+        try {
+
+            String ingredient =
+                    chip.getAttribute(
+                            "content-desc");
+
+            if (ingredient == null) {
+
+                continue;
+            }
+
+            ingredient =
+                    ingredient.trim();
+
+            if (ingredient.isEmpty()
+                    || ingredient.equalsIgnoreCase(
+                            "null")) {
+
+                continue;
+            }
+
+            chip.findElement(
+                    AppiumBy.className(
+                            "android.widget.Button"))
+                    .click();
+
+            waitUtil.sleep(
+                    500);
+
+            System.out.println(
+                    "Deleted Ingredient Inclusion : "
+                            + ingredient);
+
+            /*
+             * UI Refreshes After Delete
+             */
+            if (!horizontal) {
+
+                break;
+            }
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+}
+
+/*
+ * Delete All Ingredient Inclusion
+ */
+public void deleteAllIngredientInclusion() {
+
+    int maxIteration =
+            50;
+
+    while (maxIteration-- > 0) {
+
+        List<String> ingredients =
+                getAllIngredientInclusion();
+
+        /*
+         * No Ingredient Found
+         */
+        if (ingredients.isEmpty()) {
+
+            System.out.println(
+                    "All Ingredient Inclusion deleted.");
+
+            break;
+        }
+
+        System.out.println(
+                "Remaining Ingredient Inclusion : "
+                        + ingredients.size());
+
+        deleteVisibleIngredientInclusion();
+
+        waitUtil.sleep(
+                500);
+
+        /*
+         * Scroll To Remaining Chips
+         */
+        try {
+
+            scrollIngredientInclusion();
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Ignore Scroll Failure
+             */
+        }
+
+        waitUtil.sleep(
+                500);
+    }
+}
+
+/*
+ * Delete Visible Ingredient Exclusion
+ */
+public void deleteVisibleIngredientExclusion() {
+
+    List<WebElement> chips =
+            new ArrayList<>();
+
+    boolean horizontal =
+            true;
+
+    /*
+     * Try Horizontal Layout
+     */
+    try {
+
+        chips =
+                ingredientExclusionHorizontalChips();
+
+        if (chips.isEmpty()) {
+
+            throw new Exception();
+        }
+
+        System.out.println(
+                "Using Horizontal Exclusion Layout.");
+    }
+
+    /*
+     * Fallback To Normal Layout
+     */
+    catch (Exception e) {
+
+        chips =
+                ingredientExclusionNormalChips();
+
+        horizontal =
+                false;
+
+        System.out.println(
+                "Using Normal Exclusion Layout.");
+    }
+
+    System.out.println(
+            "Visible Ingredient Exclusion Chips : "
+                    + chips.size());
+
+    for (WebElement chip : chips) {
+
+        try {
+
+            String ingredient =
+                    chip.getAttribute(
+                            "content-desc");
+
+            /*
+             * Skip Null Content Description
+             */
+            if (ingredient == null) {
+
+                continue;
+            }
+
+            ingredient =
+                    ingredient.trim();
+
+            /*
+             * Skip Empty / Null Text
+             */
+            if (ingredient.isEmpty()
+                    || ingredient.equalsIgnoreCase(
+                            "null")) {
+
+                continue;
+            }
+
+            chip.findElement(
+                    AppiumBy.className(
+                            "android.widget.Button"))
+                    .click();
+
+            waitUtil.sleep(
+                    500);
+
+            System.out.println(
+                    "Deleted Ingredient Exclusion : "
+                            + ingredient);
+
+            /*
+             * UI Refreshes After Delete
+             */
+            if (!horizontal) {
+
+                break;
+            }
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+}
+
+/*
+ * Delete All Ingredient Exclusion
+ */
+public void deleteAllIngredientExclusion() {
+
+    int maxIteration =
+            50;
+
+    while (maxIteration-- > 0) {
+
+        List<String> ingredients =
+                getAllIngredientExclusion();
+
+        /*
+         * No Ingredient Found
+         */
+        if (ingredients.isEmpty()) {
+
+            System.out.println(
+                    "All Ingredient Exclusion deleted.");
+
+            break;
+        }
+
+        System.out.println(
+                "Remaining Ingredient Exclusion : "
+                        + ingredients.size());
+
+        deleteVisibleIngredientExclusion();
+
+        waitUtil.sleep(
+                500);
+
+        /*
+         * Scroll To Remaining Chips
+         */
+        try {
+
+            scrollIngredientExclusion();
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Ignore Scroll Failure
+             */
+        }
+
+        waitUtil.sleep(
+                500);
+    }
 }
 
 

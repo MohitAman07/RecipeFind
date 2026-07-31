@@ -11,7 +11,7 @@
  
         <classes>
        
-            <!-- <class name="tests.TC001_Authentication_Flow"/>
+            <class name="tests.TC001_Authentication_Flow"/>
             <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
@@ -61,8 +61,9 @@
             <class name="tests.TC048_VerifyPersonalTab"/>
             <class name="tests.TC049_VerifyDietaryPreference"/>
             <class name="tests.TC050_VerifyReligion"/>
-            <class name="tests.TC051_VerifyAllergies"/> -->
+            <class name="tests.TC051_VerifyAllergies"/>
             <class name="tests.TC052_VerifyReligionIngredientMapping"/>
+            <class name="tests.TC053_VerifyIngredientChipDeletion"/>
            
            
         </classes>

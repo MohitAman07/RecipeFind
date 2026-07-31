@@ -22,6 +22,10 @@ public class BaseTest {
         protected String loginPassword =
                 ConfigReader.getProperty(
                         "gmail.password");
+
+        protected String appPackage =
+        ConfigReader.getProperty(
+                "app.package");
  
         @BeforeMethod(alwaysRun = true)
         public void setUp(Method method) {
@@ -52,9 +56,9 @@ public class BaseTest {
                              .getCurrentPackage();
  
         Assert.assertEquals(
-                currentPackage,
-                "com.quickelf.recipeFind.debug",
-                "Recipe Find application is not launched.");
+        currentPackage,
+        appPackage,
+        "Recipe Find application is not launched.");
  
         System.out.println(
                 "Application launched successfully.");
@@ -316,15 +320,18 @@ public class BaseTest {
                         .getCurrentPackage();
 
         // Bring Recipe Find to foreground if another app is open
-        if (!"com.quickelf.recipeFind.debug".equals(currentPackage)) {
+        if (!appPackage.equals(
+        currentPackage)) {
 
-            DriverFactory.getDriver()
-                    .activateApp("com.quickelf.recipeFind.debug");
+        DriverFactory.getDriver()
+                .activateApp(
+                        appPackage);
 
-            Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
-            System.out.println(
-                    "Recipe Find application activated.");
+        System.out.println(
+                "Recipe Find application activated.");
         }
 
         // Click Home if the Home button is available
