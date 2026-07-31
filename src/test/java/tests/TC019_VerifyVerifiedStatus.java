@@ -43,6 +43,11 @@ public class TC019_VerifyVerifiedStatus extends BaseTest {
          */
         Thread.sleep(5000);
         controlPanel.clickAllTab();
+        
+        controlPanel.enterSearchText(recipeName);
+        controlPanel.hideKeyboard();
+
+        Thread.sleep(3000);
 
         /*
          * Open Change Status

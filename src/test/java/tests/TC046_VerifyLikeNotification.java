@@ -423,10 +423,10 @@ public class TC046_VerifyLikeNotification extends BaseTest {
              */
             hamburger.clickBackButton();
 
-            Thread.sleep(
-                    2000);
+        //     Thread.sleep(
+        //             2000);
 
-            hamburger.clickBackButton();
+        //     hamburger.clickBackButton();
 
             Thread.sleep(
                     2000);

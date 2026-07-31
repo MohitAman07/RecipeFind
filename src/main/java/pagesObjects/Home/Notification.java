@@ -72,15 +72,18 @@ public class Notification {
                                 + "')]"));
     }
 
-    /*
-     * Notification Badge
-     */
-    private WebElement notificationBadge() {
+/*
+ * Notification Badge
+ */
+private WebElement notificationBadge() {
+
+    try {
 
         List<WebElement> badges =
                 driver.findElements(
                         AppiumBy.xpath(
-                                "//android.view.View[@content-desc]"));
+                                "//android.widget.Button[@content-desc='Notifications']"
+                                        + "/preceding-sibling::android.view.View"));
 
         for (WebElement badge : badges) {
 
@@ -95,8 +98,15 @@ public class Notification {
             }
         }
 
-        return null;
     }
+
+    catch (Exception e) {
+
+        e.printStackTrace();
+    }
+
+    return null;
+}
 
     /*
      * Notification Bell
@@ -132,24 +142,36 @@ public class Notification {
         }
     }
 
-    /*
-     * Verify Notification Badge
-     */
-    public boolean isNotificationBadgeDisplayed() {
+   /*
+ * Verify Notification Badge
+ */
+public boolean isNotificationBadgeDisplayed() {
 
-        try {
+    try {
 
-            WebElement badge =
-                    notificationBadge();
+        WebElement badge =
+                notificationBadge();
 
-            return badge != null
-                    && badge.isDisplayed();
-
-        } catch (Exception e) {
+        if (badge == null) {
 
             return false;
         }
+
+        String value =
+                badge.getAttribute(
+                        "content-desc");
+
+        return badge.isDisplayed()
+                && value != null
+                && value.matches("\\d+");
+
     }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
 
         /*
      * Get Notification Badge Count

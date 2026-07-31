@@ -70,11 +70,15 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify All Tab
          */
+
+         Thread.sleep(3000);  
         controlPanel.clickAllTab();
 
         Assert.assertTrue(
                 controlPanel.isAllTabDisplayed(),
                 "All tab is not displayed.");
+
+         Thread.sleep(3000);  
 
         /*
          * Verify Submitted Tab
@@ -85,6 +89,8 @@ public class TC014_verifyControlPanelUI extends BaseTest {
                 controlPanel.isSubmittedTabDisplayed(),
                 "Submitted tab is not displayed.");
 
+         Thread.sleep(3000);  
+
         /*
          * Verify Verified Tab
          */
@@ -94,6 +100,8 @@ public class TC014_verifyControlPanelUI extends BaseTest {
                 controlPanel.isVerifiedTabDisplayed(),
                 "Verified tab is not displayed.");
 
+         Thread.sleep(3000);  
+
         /*
          * Verify Rejected Tab
          */
@@ -102,6 +110,8 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         Assert.assertTrue(
                 controlPanel.isRejectedTabDisplayed(),
                 "Rejected tab is not displayed.");
+        
+         Thread.sleep(3000);  
 
         /*
          * Verify Delete Pending Tab
@@ -111,6 +121,8 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         Assert.assertTrue(
                 controlPanel.isDeletePendingTabDisplayed(),
                 "Delete Pending tab is not displayed.");
+        
+         Thread.sleep(3000);  
 
         /*
          * Return To All Tab
@@ -120,7 +132,13 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Recipe Card
          */
+        Thread.sleep(5000);
+
+        controlPanel.enterSearchText(recipeName);
+        controlPanel.hideKeyboard();
+
         Thread.sleep(3000);
+        
         Assert.assertTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
                 "Recipe is not displayed.");
