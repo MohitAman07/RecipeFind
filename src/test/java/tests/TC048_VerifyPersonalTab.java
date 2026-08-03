@@ -34,11 +34,8 @@ public class TC048_VerifyPersonalTab extends BaseTest {
         String facebookLink =
                 "https://facebook.com/automation";
 
-        String updatedFacebookLink =
-                "https://facebook.com/automationupdated";
-
-        int facebookRow =
-                6;
+        // String updatedFacebookLink =
+        //         "https://facebook.com/automationupdated";
 
         /*
          * Verify Profile Button
@@ -90,7 +87,7 @@ public class TC048_VerifyPersonalTab extends BaseTest {
         System.out.println(
                 personalTab.getPersonalEmail());
 
-                /*
+        /*
          * Verify First Name / Last Name Card
          */
         ValidationUtil.verifyTrue(
@@ -168,7 +165,7 @@ public class TC048_VerifyPersonalTab extends BaseTest {
          */
         personalTab.printRecipeCounts();
 
-                /*
+        /*
          * Scroll To Membership Section
          */
         personalTab.scrollToMembershipSection();
@@ -206,6 +203,9 @@ public class TC048_VerifyPersonalTab extends BaseTest {
 
         System.out.println(
                 personalTab.getProfileId());
+
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Groups Section
@@ -252,50 +252,59 @@ public class TC048_VerifyPersonalTab extends BaseTest {
                 personalTab.isPersonalLinksSectionDisplayed(),
                 "Personal Links section displayed successfully.");
 
-        System.out.println(
-                personalTab.getPersonalLinksDetails());
+        /*
+         * Click Add Link Button
+         */
+        personalTab.clickAddLinkButton();
+
+        Thread.sleep(
+                2000);
 
         /*
-         * Verify Add Link Button
+         * Select Facebook Link Type
          */
-        ValidationUtil.verifyTrue(
-                personalTab.isAddLinkButtonDisplayed(),
-                "Add Link button displayed successfully.");
+        personalTab.selectLinkType(
+                "Facebook");
 
+        Thread.sleep(
+                2000);
 
-                        /*
-         * Add Facebook Personal Link
+        /*
+         * Click Personal Link Row
          */
-        personalTab.addPersonalLink(
-                facebookRow,
-                "Facebook",
+        personalTab.clickPersonalLinkRow();
+
+        Thread.sleep(
+                2000);
+
+        /*
+         * Enter Facebook Personal Link
+         */
+        personalTab.enterPersonalLink(
                 facebookLink);
 
         Thread.sleep(
-                3000);
+                2000);
 
         /*
-         * Update Facebook Personal Link
-         */
-        personalTab.updatePersonalLink(
-                facebookRow,
-                updatedFacebookLink);
+        * Save Personal Link
+        */
+        personalTab.clickSavePersonalLink();
 
         Thread.sleep(
                 3000);
 
         /*
-         * Remove Facebook Personal Link
-         */
-        personalTab.removePersonalLink(
-                facebookRow);
+        * Remove Personal Link
+        */
+        personalTab.removePersonalLink();
 
         Thread.sleep(
                 3000);
 
         /*
-         * Scroll To Top
-         */
+        * Scroll To Top
+        */
         personalTab.scrollToTop();
 
         Thread.sleep(
@@ -311,3 +320,4 @@ public class TC048_VerifyPersonalTab extends BaseTest {
                 "==================================================");
     }
 }
+

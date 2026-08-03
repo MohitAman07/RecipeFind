@@ -1,8 +1,10 @@
 package pagesObjects.Profile;
-
-import java.util.List;
+import java.time.Duration;
+import java.util.Collections;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 
 import io.appium.java_client.AppiumBy;
@@ -796,53 +798,118 @@ public class Personal_Tab {
                 "Profile ID not found.");
     }
 
-        /*
-     * Groups Section
-     */
-    private WebElement groupsSection() {
+/*
+ * Groups Section (Horizontal Scroll)
+ */
+private WebElement groupsSectionHorizontal() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.HorizontalScrollView"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.HorizontalScrollView"));
+}
 
-    /*
-     * Group Names
-     */
-    private WebElement groupNames() {
+/*
+ * Groups Section (No Horizontal Scroll)
+ */
+private WebElement groupsSectionNormal() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc, ',')]"));
+}
+
+/*
+ * Group Names
+ */
+private WebElement groupNames() {
+
+    try {
+
+        groupsSectionHorizontal()
+                .isDisplayed();
+
+        System.out.println(
+                "Using Horizontal Groups Layout.");
 
         return driver.findElement(
                 AppiumBy.xpath(
                         "//android.widget.HorizontalScrollView/android.view.View"));
     }
 
+    catch (Exception e) {
+
+        System.out.println(
+                "Using Normal Groups Layout.");
+
+        return groupsSectionNormal();
+    }
+}
+
+/*
+ * Verify Groups Section
+ */
+public boolean isGroupsSectionDisplayed() {
+
     /*
-     * Verify Groups Section
+     * Try Horizontal Layout
      */
-    public boolean isGroupsSectionDisplayed() {
+    try {
+
+        groupsSectionHorizontal()
+                .isDisplayed();
+
+        System.out.println(
+                "Using Horizontal Groups Layout.");
+
+        return true;
+    }
+
+    /*
+     * Fallback To Normal Layout
+     */
+    catch (Exception e) {
 
         try {
 
-            return groupsSection()
+            groupsSectionNormal()
                     .isDisplayed();
 
+            System.out.println(
+                    "Using Normal Groups Layout.");
+
+            return true;
         }
 
-        catch (Exception e) {
+        catch (Exception ex) {
 
             return false;
         }
     }
+}
 
-    /*
-     * Get All Group Names
-     */
-    public String getAllGroupNames() {
+/*
+ * Get All Group Names
+ */
+public String getAllGroupNames() {
 
-        String groups =
+    String groups =
+            "";
+
+    try {
+
+        groups =
                 groupNames()
                         .getAttribute(
                                 "content-desc");
+
+        if (groups == null) {
+
+            groups =
+                    "";
+        }
+
+        groups =
+                groups.trim();
 
         System.out.println(
                 "Groups :");
@@ -850,148 +917,167 @@ public class Personal_Tab {
         System.out.println(
                 groups);
 
-        return groups;
     }
 
-    /*
-     * Get Group Count
-     */
-    public int getGroupCount() {
-
-        String groups =
-                getAllGroupNames();
-
-        if (groups == null
-                || groups.isBlank()) {
-
-            return 0;
-        }
-
-        String[] groupList =
-                groups.split(",");
+    catch (Exception e) {
 
         System.out.println(
-                "Total Groups : "
-                        + groupList.length);
+                "Unable to retrieve groups.");
 
-        return groupList.length;
+        groups =
+                "";
     }
 
-    /*
-     * Verify Group Present
-     */
-    public boolean isGroupPresent(
-            String groupName) {
+    return groups;
+}
 
-        try {
+/*
+ * Scroll Groups Right
+ */
+public void scrollGroupsRight() {
 
-            return getAllGroupNames()
-                    .contains(
-                            groupName);
+    try {
 
-        }
+        /*
+         * Verify Horizontal Layout
+         */
+        groupsSectionHorizontal();
 
-        catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    /*
-     * Scroll Groups Right
-     */
-    public void scrollGroupsRight() {
-
-        try {
-
-            driver.findElement(
-                    AppiumBy.androidUIAutomator(
-                            "new UiScrollable(new UiSelector().className(\"android.widget.HorizontalScrollView\")).scrollForward()"));
-
-            System.out.println(
-                    "Groups scrolled right.");
-
-        }
-
-        catch (Exception e) {
-
-            System.out.println(
-                    "Reached end of groups.");
-        }
-
-        waitUtil.sleep(
-                1000);
-    }
-
-    /*
-     * Scroll Groups Left
-     */
-    public void scrollGroupsLeft() {
-
-        try {
-
-            driver.findElement(
-                    AppiumBy.androidUIAutomator(
-                            "new UiScrollable(new UiSelector().className(\"android.widget.HorizontalScrollView\")).scrollBackward()"));
-
-            System.out.println(
-                    "Groups scrolled left.");
-
-        }
-
-        catch (Exception e) {
-
-            System.out.println(
-                    "Reached beginning of groups.");
-        }
-
-        waitUtil.sleep(
-                1000);
-    }
-
-    /*
-     * Scroll To Group
-     */
-    public boolean scrollToGroup(
-            String groupName) {
-
-        int maxScrolls =
-                10;
-
-        for (int i = 0; i < maxScrolls; i++) {
-
-            if (isGroupPresent(
-                    groupName)) {
-
-                System.out.println(
-                        "Group Found : "
-                                + groupName);
-
-                return true;
-            }
-
-            scrollGroupsRight();
-        }
+        driver.findElement(
+                AppiumBy.androidUIAutomator(
+                        "new UiScrollable(new UiSelector().className(\"android.widget.HorizontalScrollView\")).scrollForward()"));
 
         System.out.println(
-                "Group Not Found : "
-                        + groupName);
+                "Groups scrolled right.");
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Normal Groups Layout. No horizontal scrolling required.");
+    }
+
+    waitUtil.sleep(
+            1000);
+}
+
+/*
+ * Scroll Groups Left
+ */
+public void scrollGroupsLeft() {
+
+    try {
+
+        /*
+         * Verify Horizontal Layout
+         */
+        groupsSectionHorizontal();
+
+        driver.findElement(
+                AppiumBy.androidUIAutomator(
+                        "new UiScrollable(new UiSelector().className(\"android.widget.HorizontalScrollView\")).scrollBackward()"));
+
+        System.out.println(
+                "Groups scrolled left.");
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Normal Groups Layout. No horizontal scrolling required.");
+    }
+
+    waitUtil.sleep(
+            1000);
+}
+
+/*
+ * Get Group Count
+ */
+public int getGroupCount() {
+
+    String groups =
+            getAllGroupNames();
+
+    if (groups == null
+            || groups.isBlank()) {
+
+        return 0;
+    }
+
+    String[] groupList =
+            groups.split(",");
+
+    System.out.println(
+            "Total Groups : "
+                    + groupList.length);
+
+    return groupList.length;
+}
+
+/*
+ * Verify Group Present
+ */
+public boolean isGroupPresent(
+        String groupName) {
+
+    try {
+
+        return getAllGroupNames()
+                .contains(
+                        groupName);
+
+    }
+
+    catch (Exception e) {
 
         return false;
     }
+}
 
-    /*
-     * Print Groups
-     */
-    public void printGroups() {
+/*
+ * Scroll To Group
+ */
+public boolean scrollToGroup(
+        String groupName) {
 
-        System.out.println(
-                getAllGroupNames());
+    int maxScrolls =
+            10;
 
-        System.out.println(
-                "Total Groups : "
-                        + getGroupCount());
+    for (int i = 0; i < maxScrolls; i++) {
+
+        if (isGroupPresent(
+                groupName)) {
+
+            System.out.println(
+                    "Group Found : "
+                            + groupName);
+
+            return true;
+        }
+
+        scrollGroupsRight();
     }
+
+    System.out.println(
+            "Group Not Found : "
+                    + groupName);
+
+    return false;
+}
+
+/*
+ * Print Groups
+ */
+public void printGroups() {
+
+    System.out.println(
+            getAllGroupNames());
+
+    System.out.println(
+            "Total Groups : "
+                    + getGroupCount());
+}
 
         /*
      * Followers Count
@@ -1003,26 +1089,7 @@ public class Personal_Tab {
                         "//android.view.View[contains(@content-desc,'Followers:')]"));
     }
 
-    /*
-     * Personal Links Section
-     */
-    private WebElement personalLinksSection() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"));
-    }
-
-    /*
-     * Add Link Button
-     */
-private WebElement addLinkButton() {
-
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"
-                            + "/android.widget.Button[1]"));
-}
 
     /*
      * Verify Followers Count
@@ -1096,507 +1163,231 @@ private WebElement addLinkButton() {
                 "Followers section not found.");
     }
 
-    /*
-     * Verify Personal Links Section
-     */
-    public boolean isPersonalLinksSectionDisplayed() {
-
-        try {
-
-            return personalLinksSection()
-                    .isDisplayed();
-
-        }
-
-        catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    /*
-     * Scroll To Personal Links Section
-     */
-    public void scrollToPersonalLinksSection() {
-
-        int maxScrolls =
-                12;
-
-        for (int i = 0; i < maxScrolls; i++) {
-
-            try {
-
-                if (personalLinksSection()
-                        .isDisplayed()) {
-
-                    System.out.println(
-                            "Personal Links section displayed.");
-
-                    return;
-                }
-
-            }
-
-            catch (Exception e) {
-
-            }
-
-            scrollDown();
-
-            waitUtil.sleep(
-                    800);
-        }
-
-        System.out.println(
-                "Personal Links section not found.");
-    }
-
-    /*
-     * Verify Add Link Button
-     */
-    public boolean isAddLinkButtonDisplayed() {
-
-        try {
-
-            return addLinkButton()
-                    .isDisplayed();
-
-        }
-
-        catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    /*
-     * Click Add Link Button
-     */
-    public void clickAddLinkButton() {
-
-        scrollToPersonalLinksSection();
-
-        waitUtil.clickWithWait(
-                addLinkButton());
-
-        waitUtil.sleep(
-                1000);
-
-        System.out.println(
-                "Add Link button clicked.");
-    }
-
-    /*
-     * Get Personal Links Details
-     */
-    public String getPersonalLinksDetails() {
-
-        String details =
-                personalLinksSection()
-                        .getAttribute(
-                                "content-desc");
-
-        System.out.println(
-                "Personal Links Details :");
-
-        System.out.println(
-                details);
-
-        return details;
-    }
-
-        /*
-     * Link Type
-     */
-    private WebElement linkType(
-            String linkType) {
-
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[@content-desc='"
-                                + linkType
-                                + "']"));
-    }
-
-    /*
-     * Verify Link Type
-     */
-    public boolean isLinkTypeDisplayed(
-            String linkType) {
-
-        try {
-
-            return linkType(
-                    linkType)
-                    .isDisplayed();
-
-        }
-
-        catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    /*
-     * Select Link Type
-     */
-    public void selectLinkType(
-            String linkType) {
-
-        waitUtil.clickWithWait(
-                linkType(
-                        linkType));
-
-        waitUtil.sleep(
-                1000);
-
-        System.out.println(
-                "Selected Link Type : "
-                        + linkType);
-    }
-
-    /*
-     * Select Facebook
-     */
-    public void selectFacebook() {
-
-        selectLinkType(
-                "Facebook");
-    }
-
-    /*
-     * Select Instagram
-     */
-    public void selectInstagram() {
-
-        selectLinkType(
-                "Instagram");
-    }
-
-    /*
-     * Select YouTube
-     */
-    public void selectYouTube() {
-
-        selectLinkType(
-                "YouTube");
-    }
-
-    /*
-     * Select Website
-     */
-    public void selectWebsite() {
-
-        selectLinkType(
-                "Website");
-    }
-
-    /*
-     * Select Book Link
-     */
-    public void selectBookLink() {
-
-        selectLinkType(
-                "Book Link");
-    }
-
-    /*
-     * Verify Facebook
-     */
-    public boolean isFacebookDisplayed() {
-
-        return isLinkTypeDisplayed(
-                "Facebook");
-    }
-
-    /*
-     * Verify Instagram
-     */
-    public boolean isInstagramDisplayed() {
-
-        return isLinkTypeDisplayed(
-                "Instagram");
-    }
-
-    /*
-     * Verify YouTube
-     */
-    public boolean isYouTubeDisplayed() {
-
-        return isLinkTypeDisplayed(
-                "YouTube");
-    }
-
-    /*
-     * Verify Website
-     */
-    public boolean isWebsiteDisplayed() {
-
-        return isLinkTypeDisplayed(
-                "Website");
-    }
-
-    /*
-     * Verify Book Link
-     */
-    public boolean isBookLinkDisplayed() {
-
-        return isLinkTypeDisplayed(
-                "Book Link");
-    }
-
-    /*
-     * Get Selected Link Type
-     */
-    public String getSelectedLinkType(
-            String linkType) {
-
-        String selectedLinkType =
-                linkType(
-                        linkType)
-                                .getAttribute(
-                                        "content-desc");
-
-        System.out.println(
-                "Selected Link Type : "
-                        + selectedLinkType);
-
-        return selectedLinkType;
-    }
-
-        /*
-     * Personal Link View Field
-     */
-private WebElement personalLinkViewField(
-        int rowNumber) {
+/*------------------------------------------------------------------------------- */
+/*
+ * Personal Links Section
+ */
+private WebElement personalLinksSection() {
 
     return driver.findElement(
             AppiumBy.xpath(
-                    "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"
-                            + "/android.view.View"
-                            + "/android.view.View["
-                            + rowNumber
-                            + "]"
-                            + "/android.view.View[2]"
-                            + "/android.widget.EditText"));
+                    "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"));
 }
 
-    /*
-     * Active Personal Link Edit Field
-     */
-    private WebElement personalLinkEditField() {
+/*
+ * Add Link Button
+ */
+private WebElement addLinkButton() {
 
-        List<WebElement> editFields =
-                driver.findElements(
-                        AppiumBy.className(
-                                "android.widget.EditText"));
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']/android.widget.Button"));
+}
 
-        return editFields.get(
-                editFields.size() - 1);
-    }
+/*
+ * Link Type
+ */
+private WebElement linkType(
+        String selectedLink) {
 
-    /*
-     * Save Personal Link Button
-     */
-    private WebElement savePersonalLinkButton(
-            int rowNumber) {
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + selectedLink
+                            + "']"));
+}
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"
-                                + "/android.widget.Button["
-                                + rowNumber
-                                + "]"));
-    }
+/*
+ * Personal Link Row
+ */
+private WebElement personalLinkRow() {
 
-    /*
-     * Delete Personal Link Button
-     */
-    private WebElement deletePersonalLinkButton(
-            int rowNumber) {
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.Button[@content-desc='Personal Links\nAdd links to your public profiles and content']/android.view.View/android.view.View"));
+}
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Personal Links\nAdd links to your public profiles and content']"
-                                + "/android.widget.Button["
-                                + (rowNumber + 1)
-                                + "]"));
-    }
+/*
+ * Personal Link Edit Field
+ */
+private WebElement personalLinkEditField() {
 
-    /*
-     * Verify Personal Link Field
-     */
-    public boolean isPersonalLinkFieldDisplayed(
-            int rowNumber) {
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.Button[@content-desc='Personal Links\nAdd links to your public profiles and content']/android.view.View/android.view.View"));
+}
 
-        try {
 
-            return personalLinkViewField(
-                    rowNumber)
-                    .isDisplayed();
+/*
+ * Save Personal Link Button
+ */
+private WebElement savePersonalLinkButton() {
 
-        }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.Button[@content-desc='Personal Links\nAdd links to your public profiles and content']/android.widget.Button[2]"));
+}
 
-        catch (Exception e) {
+/*
+ * Verify Personal Links Section
+ */
+public boolean isPersonalLinksSectionDisplayed() {
 
-            return false;
-        }
-    }
+    try {
 
-    /*
-     * Scroll Until Personal Link Field Visible
-     */
-    public void scrollUntilPersonalLinkFieldVisible(
-            int rowNumber) {
-
-        scrollToPersonalLinksSection();
-
-        int maxScrolls =
-                10;
-
-        for (int i = 0; i < maxScrolls; i++) {
-
-            try {
-
-                if (personalLinkViewField(
-                        rowNumber)
-                        .isDisplayed()) {
-
-                    System.out.println(
-                            "Personal Link field displayed.");
-
-                    return;
-                }
-
-            }
-
-            catch (Exception e) {
-
-            }
-
-            scrollDown();
-
-            waitUtil.sleep(
-                    800);
-        }
-
-        throw new RuntimeException(
-                "Unable to locate Personal Link field.");
-    }
-
-    /*
-     * Scroll Until Save Button Visible
-     */
-    public void scrollUntilSaveButtonVisible(
-            int rowNumber) {
-
-        int maxScrolls =
-                8;
-
-        for (int i = 0; i < maxScrolls; i++) {
-
-            try {
-
-                if (savePersonalLinkButton(
-                        rowNumber)
-                        .isDisplayed()) {
-
-                    System.out.println(
-                            "Save button displayed.");
-
-                    return;
-                }
-
-            }
-
-            catch (Exception e) {
-
-            }
-
-            scrollDown();
-
-            waitUtil.sleep(
-                    800);
-        }
-
-        throw new RuntimeException(
-                "Unable to locate Save button.");
-    }
-
-        /*
-     * Clear Personal Link
-     */
-    public void clearPersonalLink(
-            int rowNumber) {
-
-        scrollUntilPersonalLinkFieldVisible(
-                rowNumber);
-
-        waitUtil.clickWithWait(
-                personalLinkViewField(
-                        rowNumber));
-
-        waitUtil.sleep(
-                1000);
-
-        WebElement activeField =
-                personalLinkEditField();
-
-        waitUtil.clickWithWait(
-                activeField);
-
-        waitUtil.sleep(
-                500);
-
-        activeField.clear();
-
-        waitUtil.sleep(
-                500);
+        boolean displayed =
+                personalLinksSection()
+                        .isDisplayed();
 
         System.out.println(
-                "Personal Link cleared.");
+                "Personal Links Section : "
+                        + displayed);
+
+        return displayed;
+
     }
 
-    /*
- * Enter Personal Link
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+
+/*
+ * Click Add Link Button
  */
-public void enterPersonalLink(
-        int rowNumber,
-        String personalLink) {
+public void clickAddLinkButton() {
 
-    scrollUntilPersonalLinkFieldVisible(
-            rowNumber);
-
-    WebElement field =
-            personalLinkViewField(
-                    rowNumber);
-
-    /*
-     * Click EditText
-     */
-   field.click();
-
-waitUtil.sleep(1000);
-
-    waitUtil.sleep(
-            1000);
-
-    field.clear();
-
-    waitUtil.sleep(
-            500);
-
-    field.sendKeys(
-            personalLink);
+    waitUtil.clickWithWait(
+            addLinkButton());
 
     waitUtil.sleep(
             1000);
 
     System.out.println(
-            "Entered Value : "
-                    + field.getAttribute(
-                            "text"));
+            "Add Link button clicked.");
+}
+
+/*
+ * Select Link Type
+ */
+public void selectLinkType(
+        String selectedLink) {
+
+    waitUtil.clickWithWait(
+            linkType(
+                    selectedLink));
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            "Selected Link Type : "
+                    + selectedLink);
+}
+
+/*
+ * Click Personal Link Row
+ */
+public void clickPersonalLinkRow() {
+
+    waitUtil.clickWithWait(
+            personalLinkRow());
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            "Personal Link Row clicked.");
+}
+
+/*
+ * Click Save Personal Link
+ */
+public void clickSavePersonalLink() {
+
+    waitUtil.clickWithWait(
+            savePersonalLinkButton());
+
+    waitUtil.sleep(
+            2000);
+
+    System.out.println(
+            "Personal Link Saved.");
+}
+
+
+
+/*-------------------------------------------------------------------------------- */
+
+/*
+ * Add Personal Link
+ */
+public void addPersonalLink(
+        String selectedLink,
+        String personalLink) {
+
+    /*
+     * Scroll To Personal Links Section
+     */
+    scrollToPersonalLinksSection();
+
+    /*
+     * Click Add Link
+     */
+    clickAddLinkButton();
+
+    /*
+     * Select Link Type
+     */
+    selectLinkType(
+            selectedLink);
+
+    /*
+     * Enter Personal Link
+     */
+    enterPersonalLink(
+            personalLink);
+
+    /*
+     * Save Personal Link
+     */
+    clickSavePersonalLink();
+
+    System.out.println(
+            "Personal Link Added.");
+}
+
+
+/*
+ * Enter Personal Link
+ */
+public void enterPersonalLink(
+        String personalLink) {
+
+    /*
+     * Open Personal Link Field
+     */
+    clickPersonalLinkRow();
+
+    waitUtil.sleep(
+            1000);
+
+    /*
+     * Enter Personal Link
+     */
+    driver.switchTo()
+            .activeElement()
+            .sendKeys(
+                    personalLink);
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            "Personal Link Entered : "
+                    + personalLink);
 
     try {
 
@@ -1607,322 +1398,188 @@ waitUtil.sleep(1000);
     catch (Exception e) {
 
     }
-
-    System.out.println(
-            "Personal Link Entered : "
-                    + personalLink);
 }
 
-    /*
-     * Get Personal Link
-     */
-    public String getPersonalLink(
-            int rowNumber) {
+/*
+ * Scroll To Personal Links Section
+ */
+public void scrollToPersonalLinksSection() {
 
-        scrollUntilPersonalLinkFieldVisible(
-                rowNumber);
+    int maxScrolls =
+            12;
 
-        waitUtil.clickWithWait(
-                personalLinkViewField(
-                        rowNumber));
-
-        waitUtil.sleep(
-                1000);
-
-        String personalLink =
-                personalLinkEditField()
-                        .getAttribute(
-                                "text");
-
-        System.out.println(
-                "Personal Link : "
-                        + personalLink);
-
-        return personalLink;
-    }
-
-    /*
-     * Save Personal Link
-     */
-    public void clickSavePersonalLink(
-            int rowNumber) {
-
-        scrollUntilSaveButtonVisible(
-                rowNumber);
+    for (int i = 0; i < maxScrolls; i++) {
 
         try {
 
-            driver.hideKeyboard();
+            if (personalLinksSection()
+                    .isDisplayed()) {
+
+                System.out.println(
+                        "Personal Links section displayed.");
+
+                return;
+            }
 
         }
 
         catch (Exception e) {
 
         }
-
-        waitUtil.sleep(
-                1000);
-
-        waitUtil.clickWithWait(
-                savePersonalLinkButton(
-                        rowNumber));
-
-        waitUtil.sleep(
-                2000);
-
-        System.out.println(
-                "Personal Link saved.");
-    }
-
-    /*
-     * Delete Personal Link
-     */
-    public void clickDeletePersonalLink(
-            int rowNumber) {
-
-        scrollUntilPersonalLinkFieldVisible(
-                rowNumber);
-
-        waitUtil.clickWithWait(
-                deletePersonalLinkButton(
-                        rowNumber));
-
-        waitUtil.sleep(
-                2000);
-
-        System.out.println(
-                "Personal Link deleted.");
-    }
-
-        /*
-     * Add Personal Link
-     */
-    public void addPersonalLink(
-            int rowNumber,
-            String linkType,
-            String personalLink) {
-
-        scrollToPersonalLinksSection();
-
-        clickAddLinkButton();
 
         scrollDown();
 
         waitUtil.sleep(
-                1000);
+                800);
+    }
 
-        selectLinkType(
-                linkType);
+    System.out.println(
+            "Personal Links section not found.");
+}
 
-        waitUtil.sleep(
-                1000);
 
-        enterPersonalLink(
-                rowNumber,
-                personalLink);
 
-        clickSavePersonalLink(
-                rowNumber);
+/*
+ * Scroll Down
+ */
+public void scrollDown() {
 
-        waitUtil.sleep(
-                2000);
+    try {
+
+        driver.findElement(
+                AppiumBy.androidUIAutomator(
+                        "new UiScrollable(new UiSelector().scrollable(true)).scrollForward()"));
 
         System.out.println(
-                "Personal Link Added.");
+                "Scrolled down.");
+
     }
 
-    /*
-     * Update Personal Link
-     */
-    public void updatePersonalLink(
-            int rowNumber,
-            String personalLink) {
-
-        clearPersonalLink(
-                rowNumber);
-
-        waitUtil.sleep(
-                1000);
-
-        enterPersonalLink(
-                rowNumber,
-                personalLink);
-
-        clickSavePersonalLink(
-                rowNumber);
-
-        waitUtil.sleep(
-                2000);
+    catch (Exception e) {
 
         System.out.println(
-                "Personal Link Updated.");
+                "Reached bottom of page.");
     }
 
-    /*
-     * Remove Personal Link
-     */
-    public void removePersonalLink(
-            int rowNumber) {
+    waitUtil.sleep(
+            1000);
+}
 
-        clickDeletePersonalLink(
-                rowNumber);
-    }
+/*
+ * Scroll Up
+ */
+public void scrollUp() {
 
-    /*
-     * Delete Account Button
-     */
-    private WebElement deleteAccountButton() {
+    try {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.Button[@content-desc='Delete Account']"));
-    }
-
-    /*
-     * Verify Delete Account Button
-     */
-    public boolean isDeleteAccountButtonDisplayed() {
-
-        try {
-
-            return deleteAccountButton()
-                    .isDisplayed();
-
-        }
-
-        catch (Exception e) {
-
-            return false;
-        }
-    }
-
-    /*
-     * Scroll To Delete Account
-     */
-    public void scrollToDeleteAccount() {
-
-        int maxScrolls =
-                15;
-
-        for (int i = 0; i < maxScrolls; i++) {
-
-            try {
-
-                if (deleteAccountButton()
-                        .isDisplayed()) {
-
-                    System.out.println(
-                            "Delete Account button displayed.");
-
-                    return;
-                }
-
-            }
-
-            catch (Exception e) {
-
-            }
-
-            scrollDown();
-
-            waitUtil.sleep(
-                    800);
-        }
+        driver.findElement(
+                AppiumBy.androidUIAutomator(
+                        "new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()"));
 
         System.out.println(
-                "Delete Account button not found.");
+                "Scrolled up.");
+
     }
 
-    /*
-     * Click Delete Account
-     */
-    public void clickDeleteAccount() {
-
-        waitUtil.clickWithWait(
-                deleteAccountButton());
+    catch (Exception e) {
 
         System.out.println(
-                "Delete Account button clicked.");
+                "Reached top of page.");
     }
+
+    waitUtil.sleep(
+            1000);
+}
+
+/*
+ * Scroll To Top
+ */
+public void scrollToTop() {
+
+    for (int i = 0; i < 10; i++) {
+
+        scrollUp();
+    }
+
+    System.out.println(
+            "Scrolled to top.");
+}
+
+/*
+ * Scroll To Bottom
+ */
+public void scrollToBottom() {
+
+    for (int i = 0; i < 20; i++) {
+
+        scrollDown();
+    }
+
+    System.out.println(
+            "Scrolled to bottom.");
+}
+
+/*
+ * Tap Delete Button
+ */
+public void tapDeleteButton() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence tap =
+            new Sequence(
+                    finger,
+                    1);
+
+    tap.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    962,
+                    1268));
+
+    tap.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    tap.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Collections.singletonList(
+                    tap));
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            "Delete button clicked.");
+}
+
+/*
+ * Remove Personal Link
+ */
+public void removePersonalLink() {
 
     /*
-     * Scroll Down
+     * Click Existing Personal Link
      */
-    public void scrollDown() {
-
-        try {
-
-            driver.findElement(
-                    AppiumBy.androidUIAutomator(
-                            "new UiScrollable(new UiSelector().scrollable(true)).scrollForward()"));
-
-            System.out.println(
-                    "Scrolled down.");
-
-        }
-
-        catch (Exception e) {
-
-            System.out.println(
-                    "Reached bottom of page.");
-        }
-
-        waitUtil.sleep(
-                1000);
-    }
+    clickPersonalLinkRow();
 
     /*
-     * Scroll Up
+     * Tap Delete Button
      */
-    public void scrollUp() {
+    tapDeleteButton();
 
-        try {
+    waitUtil.sleep(
+            2000);
 
-            driver.findElement(
-                    AppiumBy.androidUIAutomator(
-                            "new UiScrollable(new UiSelector().scrollable(true)).scrollBackward()"));
-
-            System.out.println(
-                    "Scrolled up.");
-
-        }
-
-        catch (Exception e) {
-
-            System.out.println(
-                    "Reached top of page.");
-        }
-
-        waitUtil.sleep(
-                1000);
-    }
-
-    /*
-     * Scroll To Top
-     */
-    public void scrollToTop() {
-
-        for (int i = 0; i < 15; i++) {
-
-            scrollUp();
-        }
-
-        System.out.println(
-                "Scrolled to top.");
-    }
-
-    /*
-     * Scroll To Bottom
-     */
-    public void scrollToBottom() {
-
-        for (int i = 0; i < 20; i++) {
-
-            scrollDown();
-        }
-
-        System.out.println(
-                "Scrolled to bottom.");
-    }
+    System.out.println(
+            "Personal Link Removed.");
+}
 
 }
