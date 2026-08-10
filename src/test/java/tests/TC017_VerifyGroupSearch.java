@@ -13,7 +13,7 @@ public class TC017_VerifyGroupSearch extends BaseTest {
     @Test
     public void verifyGroupSearch() throws InterruptedException {
 
-        String groupName = "Testing 01";
+        String groupName = "Group Testing";
 
         Hamburger hamburger =
                 new Hamburger(DriverFactory.getDriver());

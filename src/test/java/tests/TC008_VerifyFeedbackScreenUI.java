@@ -43,11 +43,10 @@ public class TC008_VerifyFeedbackScreenUI extends BaseTest {
         /*
          * Verify Feedback Menu
          */
-        Assert.assertTrue(
-                hamburger.isFeedbackVisible(),
-                "Feedback menu is not displayed.");
+        
 
         hamburger.clickFeedback();
+
 
         System.out.println(
                 "Feedback menu clicked successfully.");

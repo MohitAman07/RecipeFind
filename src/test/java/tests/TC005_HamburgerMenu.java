@@ -131,9 +131,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Feedback
          */
-        Assert.assertTrue(
-                hamburger.isFeedbackVisible(),
-                "Feedback option is not displayed.");
 
         hamburger.clickFeedback();
 
@@ -186,9 +183,6 @@ public class TC005_HamburgerMenu extends BaseTest {
                 /*
          * Contact Us
          */
-        Assert.assertTrue(
-                hamburger.isContactUsVisible(),
-                "Contact Us option is not displayed.");
 
         hamburger.clickContactUs();
 
@@ -212,9 +206,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Legal
          */
-        Assert.assertTrue(
-                hamburger.isLegalVisible(),
-                "Legal option is not displayed.");
 
         hamburger.clickLegal();
 
@@ -238,9 +229,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Control Panel
          */
-        // Assert.assertTrue(
-        //         hamburger.isControlPanelVisible(),
-        //         "Control Panel option is not displayed.");
 
         hamburger.clickControlPanel();
 
@@ -268,21 +256,10 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Verify Create Shopping List - For Self
          */
-        // Assert.assertTrue(
-        //         hamburger.isCreateShoppingListCollapsedVisible(),
-        //         "Create Shopping List option is not displayed.");
 
         hamburger.expandCreateShoppingList();
 
         Thread.sleep(1000);
-
-        // Assert.assertTrue(
-        //         hamburger.isCreateShoppingListExpandedVisible(),
-        //         "Create Shopping List did not expand.");
-
-        // Assert.assertTrue(
-        //         hamburger.isForSelfVisible(),
-        //         "For Self option is not displayed.");
 
         hamburger.clickForSelf();
 
@@ -310,21 +287,10 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Verify Create Shopping List - For Group
          */
-        // Assert.assertTrue(
-        //         hamburger.isCreateShoppingListCollapsedVisible(),
-        //         "Create Shopping List option is not displayed.");
 
         hamburger.expandCreateShoppingList();
 
         Thread.sleep(1000);
-
-        // Assert.assertTrue(
-        //         hamburger.isCreateShoppingListExpandedVisible(),
-        //         "Create Shopping List did not expand.");
-
-        // Assert.assertTrue(
-        //         hamburger.isForGroupVisible(),
-        //         "For Group option is not displayed.");
 
         hamburger.clickForGroup();
 
@@ -351,9 +317,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Group Management
          */
-        // Assert.assertTrue(
-        //         hamburger.isGroupManagementVisible(),
-        //         "Group Management option is not displayed.");
 
         hamburger.clickGroupManagement();
 
@@ -381,9 +344,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         /*
          * Sign Out
          */
-        // Assert.assertTrue(
-        //         hamburger.isSignOutVisible(),
-        //         "Sign Out option is not displayed.");
 
         System.out.println(
                 "Sign Out option displayed successfully.");

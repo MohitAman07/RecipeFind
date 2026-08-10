@@ -26,16 +26,17 @@ public class Hamburger {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-public void swipeOnTutorial() {
+public void swipeOnGlossary() {
 
     try {
 
-        WebElement tutorial = new WebDriverWait(driver, Duration.ofSeconds(3))
+        WebElement glossary = new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(
-                        AppiumBy.accessibilityId("Tutorial")));
+                        AppiumBy.xpath(
+                                "//android.widget.Button[@content-desc=\"Glossary\"]")));
 
-        Point location = tutorial.getLocation();
-        Dimension size = tutorial.getSize();
+        Point location = glossary.getLocation();
+        Dimension size = glossary.getSize();
 
         int startX = location.getX() + (size.getWidth() / 2);
         int startY = location.getY() + (size.getHeight() / 2);
@@ -71,7 +72,7 @@ public void hideKeyboardIfVisible() {
 
     try {
 
-        swipeOnTutorial();
+        swipeOnGlossary();
 
     } catch (Exception e) {
 
@@ -235,6 +236,8 @@ public void clickTutorial() {
                         "Feedback"))
                 .isEmpty();
     }
+
+    
 
     public void clickFeedback() {
 

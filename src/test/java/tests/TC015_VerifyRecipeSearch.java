@@ -47,6 +47,8 @@ public class TC015_VerifyRecipeSearch extends BaseTest {
         controlPanel.enterSearchText(recipeName);
         controlPanel.hideKeyboard();
 
+        Thread.sleep(3000);
+
         /*
          * Verify Recipe Displayed
          */
