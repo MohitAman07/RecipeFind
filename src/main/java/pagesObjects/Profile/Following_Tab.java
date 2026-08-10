@@ -144,35 +144,34 @@ public void Click_Following_Tab() {
     }
 
 
-    /**
-     * Open profile using dynamic profile content description
-     *
-     * Example:
-     * Open_Profile("Quick E.", "Cranbury library", "101", "2");
-     */
-    public void Open_Profile(
-            String userName,
-            String profileName,
-            String recipeCount,
-            String followerCount) {
+//     /**
+//      * Open profile using dynamic profile content description
+//      *
+//      * Example:
+//      * Open_Profile("Quick E.", "Cranbury library", "101", "2");
+//      */
+//     public void Open_Profile(
+//             String userName,
+//             String profileName,
+//             String recipeCount,
+//             String followerCount) {
 
-        String contentDescription =
-                userName + "\r\n"
-                + profileName + "\r\n"
-                + recipeCount + "\r\n"
-                + "Recipes\r\n"
-                + followerCount + "\r\n"
-                + "Followers";
+//         String contentDescription =
+//                 userName + "\r\n"
+//                 + profileName + "\r\n"
+//                 + recipeCount + "\r\n"
+//                 + "Recipes\r\n"
+//                 + followerCount + "\r\n"
+//                 + "Followers";
 
-        String xpath =
-                "//android.widget.ImageView[@content-desc=\""
-                + contentDescription
-                + "\"]";
+//         String xpath =
+//                 "//android.widget.ImageView[@content-desc=\""
+//                 + contentDescription
+//                 + "\"]";
 
-        WebElement profile = driver.findElement(
-                By.xpath(xpath)
-        );
-    }
+//         WebElement profile = driver.findElement(
+//                 By.xpath(xpath)
+//         );
 }
 
 

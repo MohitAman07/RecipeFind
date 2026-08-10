@@ -6,8 +6,6 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.Profile.Following_Tab;
 
-import utils.Scroll;
-
 public class VerifyFollowingTab extends BaseTest {
 
     @Test
@@ -16,8 +14,7 @@ public class VerifyFollowingTab extends BaseTest {
          Following_Tab following =
                 new Following_Tab(
                         DriverFactory.getDriver());
-// 
-        Scroll scroll = new Scroll( DriverFactory.getDriver());
+
 
         following.Click_Profile_Tab();
 

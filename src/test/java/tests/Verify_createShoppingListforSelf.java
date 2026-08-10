@@ -1,15 +1,11 @@
 package tests;
 
-import java.lang.reflect.Method;
-
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ShoppingList;
 import pagesObjects.HamburgerMenu.Hamburger;
-import utils.ConfigReader;
 
 
 public class Verify_createShoppingListforSelf extends BaseTest{
