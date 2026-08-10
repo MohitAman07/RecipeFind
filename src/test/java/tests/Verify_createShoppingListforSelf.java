@@ -32,23 +32,13 @@ public class Verify_createShoppingListforSelf extends BaseTest{
         // Select Self
         shoppingList.selectForSelf();
 
-         // Expand AI Recipes
-        // shoppingList.clickAISuggestionsDropdown();
-        //  Thread.sleep(2000);
-
-        // Expand Community Recipes
-        // shoppingList.clickCommunityDropdown();
-        //  Thread.sleep(2000);
-
-        //  shoppingList.clickCommunityDropdown();
-        //  Thread.sleep(2000);
 
         // Select Recipe
         shoppingList.selectRecipe(
-                "Cashew katli (diamond, burfee)");
+                "Basmati Rice");
 
         shoppingList.selectRecipe(
-                "Choux pastry");
+                "Testing sugar content");
 
 
          Thread.sleep(2000);
@@ -87,32 +77,17 @@ public class Verify_createShoppingListforSelf extends BaseTest{
 
         shoppingList.selectRecipe(
                 "Basmati Rice");
-
-        Thread.sleep(2000);
-
-        shoppingList.selectRecipe(
-                "Caesar dressing");
         
-        Thread.sleep(2000);
-                
-                
-        shoppingList.selectRecipe(
-                "Creamy Chicken & Pasta Casserole with Crispy Potato Chip Topping");
-        
-        Thread.sleep(2000);
-
-        shoppingList.selectRecipe(
-                "Cashew katli (diamond, burfee)");
 
         Thread.sleep(2000);
 
         shoppingList.selectRecipe(
-                "Choux pastry");
+                "Grilled Chicken Salad");
 
         Thread.sleep(2000);
 
          shoppingList.selectRecipe(
-                "Almond Peda (Matcha)");
+                "Cabbage curry Demo");
 
         Thread.sleep(3000);
 
