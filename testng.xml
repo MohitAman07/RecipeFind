@@ -65,6 +65,7 @@
             <class name="tests.TC052_VerifyReligionIngredientMapping"/>
             <class name="tests.TC053_VerifyIngredientChipDeletion"/>
             <class name="tests.TC054_VerifyNutritionTab"/>
+<<<<<<< HEAD
             <class name="tests.TC054_Verify_createShoppingListforSelf"/>
             <class name="tests.VerifyCreateShoppingListFor_Group"/>
             <class name="tests.VerifyCreateNewRecipe"/>
@@ -72,6 +73,8 @@
 
 
 
+=======
+>>>>>>> origin/main
            
            
         </classes>

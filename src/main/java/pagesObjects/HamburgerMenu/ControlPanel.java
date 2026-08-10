@@ -159,18 +159,31 @@ public class ControlPanel {
                                 + "')]"));
     }
 
-    /*
-     * Dynamic Recipe Menu (3 Dots)
-     */
-    private WebElement recipeMenu(
-            String recipeName) {
+//     /*
+//      * Dynamic Recipe Menu (3 Dots)
+//      */
+//     private WebElement recipeMenu(
+//             String recipeName) {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[contains(@content-desc,'"
-                                + recipeName
-                                + "')]/android.widget.Button"));
-    }
+//         return driver.findElement(
+//                 AppiumBy.xpath(
+//                         "//android.view.View[contains(@content-desc,'"
+//                                 + recipeName
+//                                 + "')]/android.widget.Button"));
+//     }
+
+/*
+ * Dynamic Recipe Menu (3 Dots)
+ */
+private WebElement recipeMenu(
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + recipeName
+                            + "')]/android.widget.Button[last()]"));
+}
 
     /*
      * Dynamic Recipe Author

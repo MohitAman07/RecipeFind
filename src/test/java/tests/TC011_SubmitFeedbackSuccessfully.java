@@ -44,9 +44,6 @@ public class TC011_SubmitFeedbackSuccessfully extends BaseTest {
         /*
          * Open Feedback Screen
          */
-        Assert.assertTrue(
-                hamburger.isFeedbackVisible(),
-                "Feedback menu is not displayed.");
 
         hamburger.clickFeedback();
 

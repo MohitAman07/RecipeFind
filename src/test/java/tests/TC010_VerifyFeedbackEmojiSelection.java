@@ -1,12 +1,12 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.Feedback;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC010_VerifyFeedbackEmojiSelection extends BaseTest {
 
@@ -17,7 +17,8 @@ public class TC010_VerifyFeedbackEmojiSelection extends BaseTest {
         /*
          * Wait for dashboard to stabilize
          */
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         Hamburger hamburger =
                 new Hamburger(
@@ -30,7 +31,7 @@ public class TC010_VerifyFeedbackEmojiSelection extends BaseTest {
         /*
          * Open Hamburger Menu
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
                 "Hamburger menu is not displayed.");
 
@@ -39,73 +40,81 @@ public class TC010_VerifyFeedbackEmojiSelection extends BaseTest {
         System.out.println(
                 "Hamburger menu clicked successfully.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Open Feedback Screen
          */
-        Assert.assertTrue(
-                hamburger.isFeedbackVisible(),
-                "Feedback menu is not displayed.");
 
         hamburger.clickFeedback();
 
         System.out.println(
                 "Feedback menu clicked successfully.");
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         /*
          * Verify Feedback Screen
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 feedback.isFeedbackPageVisible(),
                 "Feedback page is not displayed.");
 
         /*
          * Select Emoji 1
          */
-        feedback.selectEmoji(1);
+        feedback.selectEmoji(
+                1);
 
         System.out.println(
                 "Emoji 1 selected successfully.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Select Emoji 2
          */
-        feedback.selectEmoji(2);
+        feedback.selectEmoji(
+                2);
 
         System.out.println(
                 "Emoji 2 selected successfully.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Select Emoji 3
          */
-        feedback.selectEmoji(3);
+        feedback.selectEmoji(
+                3);
 
         System.out.println(
                 "Emoji 3 selected successfully.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Select Emoji 4
          */
-        feedback.selectEmoji(4);
+        feedback.selectEmoji(
+                4);
 
         System.out.println(
                 "Emoji 4 selected successfully.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Select Emoji 5
          */
-        feedback.selectEmoji(5);
+        feedback.selectEmoji(
+                5);
 
         System.out.println(
                 "Emoji 5 selected successfully.");

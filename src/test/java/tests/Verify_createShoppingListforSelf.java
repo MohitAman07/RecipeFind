@@ -12,7 +12,7 @@ import pagesObjects.HamburgerMenu.Hamburger;
 import utils.ConfigReader;
 
 
-public class TC054_Verify_createShoppingListforSelf extends BaseTest{
+public class Verify_createShoppingListforSelf extends BaseTest{
 
      @Test
     public void verifyCreateShoppingListForSelf()

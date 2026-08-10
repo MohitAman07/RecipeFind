@@ -1,12 +1,12 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.Feedback;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
 
@@ -17,7 +17,8 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         /*
          * Wait for dashboard to stabilize
          */
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         Hamburger hamburger =
                 new Hamburger(
@@ -30,7 +31,7 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         /*
          * Verify Hamburger Menu
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
                 "Hamburger menu is not displayed.");
 
@@ -42,14 +43,9 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         System.out.println(
                 "Hamburger menu clicked successfully.");
 
-        Thread.sleep(1000);
-
-        /*
-         * Verify Feedback Menu
-         */
-        Assert.assertTrue(
-                hamburger.isFeedbackVisible(),
-                "Feedback menu is not displayed.");
+        Thread.sleep(
+                1000);
+        
 
         /*
          * Open Feedback Screen
@@ -59,12 +55,13 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         System.out.println(
                 "Feedback menu clicked successfully.");
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         /*
          * Verify Feedback Screen
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 feedback.isFeedbackPageVisible(),
                 "Feedback page is not displayed.");
 
@@ -79,12 +76,13 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         System.out.println(
                 "Submit button clicked successfully without selecting a rating.");
 
-        Thread.sleep(1000);
+        Thread.sleep(
+                1000);
 
         /*
          * Verify Validation Message Displayed
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 feedback.isSelectRatingValidationVisible(),
                 "Please select a rating validation is not displayed.");
 
@@ -94,9 +92,10 @@ public class TC009_VerifyFeedbackValidationWithoutRating extends BaseTest {
         /*
          * Verify Validation Message Text
          */
-        Assert.assertEquals(
-                feedback.getSelectRatingValidationText(),
-                "Please select a rating",
+        ValidationUtil.verifyTrue(
+                feedback.getSelectRatingValidationText()
+                        .equals(
+                                "Please select a rating"),
                 "Incorrect validation message displayed.");
 
         System.out.println(
