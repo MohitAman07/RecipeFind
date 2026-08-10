@@ -58,13 +58,23 @@
             <class name="tests.TC045_VerifyCommentNotification"/>
             <class name="tests.TC046_VerifyLikeNotification"/>
             <class name="tests.TC047_VerifySuperAdminDeleteComment"/>
-            <class name="tests.TC048_VerifyPersonalTab"/> 
+            <class name="tests.TC048_VerifyPersonalTab"/>
             <class name="tests.TC049_VerifyDietaryPreference"/>
             <class name="tests.TC050_VerifyReligion"/>
             <class name="tests.TC051_VerifyAllergies"/>
             <class name="tests.TC052_VerifyReligionIngredientMapping"/>
             <class name="tests.TC053_VerifyIngredientChipDeletion"/>
             <class name="tests.TC054_VerifyNutritionTab"/>
+<<<<<<< HEAD
+            <class name="tests.TC054_Verify_createShoppingListforSelf"/>
+            <class name="tests.VerifyCreateShoppingListFor_Group"/>
+            <class name="tests.VerifyCreateNewRecipe"/>
+            <class name="tests.VerifyFollowingTab"/>
+
+
+
+=======
+>>>>>>> origin/main
            
            
         </classes>
@@ -72,4 +82,3 @@
     </test>
  
 </suite>
- 
