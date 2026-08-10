@@ -698,7 +698,11 @@ private WebElement editGroupDomainField;
 @AndroidFindBy(xpath = "//android.view.View[@content-desc='Members']")
 private WebElement membersHeading;
 
-@AndroidFindBy(xpath = "(//android.widget.EditText)[4]")
+/*
+ * Member Search
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.EditText[@hint='Search Members by name or email or ID']")
 private WebElement memberSearchField;
 
 /*

@@ -192,6 +192,8 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
 
         groupManagement.hideKeyboard();
 
+        Thread.sleep(1000);
+
         groupManagement.clickTickButton();
 
         Thread.sleep(2000);
@@ -204,6 +206,8 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
         Thread.sleep(2000);
 
         groupManagement.hideKeyboard();
+
+        Thread.sleep(2000);
 
         groupManagement.clickCreateGroup();
 

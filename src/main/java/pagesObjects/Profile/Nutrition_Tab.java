@@ -254,24 +254,24 @@ public class Nutrition_Tab {
     }
 
     /*
-     * Fat Min % Input Field
-     */
-    private WebElement fatMinPercentageField() {
+ * Fat Min % Input Field
+ */
+private WebElement fatMinPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[1]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Fat']/following::android.widget.EditText[1]"));
+}
 
-    /*
-     * Fat Max % Input Field
-     */
-    private WebElement fatMaxPercentageField() {
+/*
+ * Fat Max % Input Field
+ */
+private WebElement fatMaxPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[2]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Fat']/following::android.widget.EditText[2]"));
+}
 
     /*
      * Verify Fat Section
@@ -471,24 +471,24 @@ public void enterFatMaxPercentage(
     }
 
     /*
-     * Carbohydrates Min % Input Field
-     */
-    private WebElement carbohydratesMinPercentageField() {
+ * Carbohydrates Min % Input Field
+ */
+private WebElement carbohydratesMinPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[3]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Carbohydrates']/following::android.widget.EditText[1]"));
+}
 
-    /*
-     * Carbohydrates Max % Input Field
-     */
-    private WebElement carbohydratesMaxPercentageField() {
+/*
+ * Carbohydrates Max % Input Field
+ */
+private WebElement carbohydratesMaxPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[4]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Carbohydrates']/following::android.widget.EditText[2]"));
+}
 
     /*
      * Verify Carbohydrates Section
@@ -688,24 +688,24 @@ public void enterCarbohydratesMaxPercentage(
     }
 
     /*
-     * Protein Min % Input Field
-     */
-    private WebElement proteinMinPercentageField() {
+ * Protein Min % Input Field
+ */
+private WebElement proteinMinPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[5]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Protein']/following::android.widget.EditText[1]"));
+}
 
-    /*
-     * Protein Max % Input Field
-     */
-    private WebElement proteinMaxPercentageField() {
+/*
+ * Protein Max % Input Field
+ */
+private WebElement proteinMaxPercentageField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[6]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Protein']/following::android.widget.EditText[2]"));
+}
 
     /*
      * Verify Protein Section
@@ -907,24 +907,24 @@ public void enterProteinMaxPercentage(
     }
 
     /*
-     * Daily Calorie Intake Min Input Field
-     */
-    private WebElement dailyCalorieMinField() {
+ * Daily Calorie Intake Min Input Field
+ */
+private WebElement dailyCalorieMinField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[7]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Daily Calorie Intake']/following::android.widget.EditText[1]"));
+}
 
-    /*
-     * Daily Calorie Intake Max Input Field
-     */
-    private WebElement dailyCalorieMaxField() {
+/*
+ * Daily Calorie Intake Max Input Field
+ */
+private WebElement dailyCalorieMaxField() {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.ScrollView/android.widget.EditText[8]"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Daily Calorie Intake']/following::android.widget.EditText[2]"));
+}
 
     /*
      * Verify Daily Calorie Intake Section

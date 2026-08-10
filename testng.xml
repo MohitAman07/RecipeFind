@@ -68,11 +68,7 @@
             <class name="tests.Verify_createShoppingListforSelf"/>
             <class name="tests.VerifyCreateShoppingListFor_Group"/>
             <class name="tests.VerifyCreateNewRecipe"/>
-            <class name="tests.VerifyFollowingTab"/>
-
-
-
-           
+            <class name="tests.VerifyFollowingTab"/>           
            
         </classes>
  
