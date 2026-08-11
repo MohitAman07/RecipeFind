@@ -1,6 +1,5 @@
 package pagesObjects.HamburgerMenu;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -27,133 +26,120 @@ public class ShoppingList {
     }
 
     /*
-     * Create Shopping List
-     */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Create Shopping List, Collapsed']")
-    private WebElement createShoppingList;
-
-    /*
      * For Self
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='For Self']")
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc='For Self']")
     private WebElement createListForSelf;
 
     /*
      * For Group
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='For Group']")
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc='For Group']")
     private WebElement createListForGroup;
 
     /*
      * AI Suggestions
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='AI Suggestions']")
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc='AI Suggestions']")
     private WebElement aiSuggestionsDropdown;
 
     /*
      * Community
      */
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc='Community']")
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc='Community']")
     private WebElement communityDropdown;
 
     /*
      * Next Button
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Next']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Next']")
     private WebElement nextButton;
 
     /*
      * Unit Dropdown
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Metric']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Metric']")
     private WebElement unitDropdown;
 
-    /*
-     * Order For Field
-     */
-    @AndroidFindBy(className = "android.widget.EditText")
-    private WebElement orderForField;
+
+/*
+ * Dynamic Order For Field
+ */
+private WebElement orderForField(
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[contains(@content-desc,'"
+                            + recipeName
+                            + "')]/following::android.widget.EditText[1]"));
+}
 
     /*
      * Export Button
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc='Export']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Export']")
     private WebElement exportButton;
 
     /*
      * Drive
      */
-    @AndroidFindBy(xpath = "//android.widget.LinearLayout[@resource-id='com.android.intentresolver:id/suggested_apps_container']/android.widget.LinearLayout[2]")
+    @AndroidFindBy(
+            xpath = "//android.widget.LinearLayout[@resource-id='com.android.intentresolver:id/suggested_apps_container']/android.widget.LinearLayout[2]")
     private WebElement selectDrive;
 
     /*
      * Upload File
      */
-    @AndroidFindBy(xpath = "//android.widget.Button[@resource-id='com.google.android.apps.docs:id/save_button']")
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@resource-id='com.google.android.apps.docs:id/save_button']")
     private WebElement uploadFile;
 
-    @AndroidFindBy(xpath = "//android.widget.Button[@content-desc=\"Back\"]")
-    private WebElement BackButton;
+    /*
+     * Back Button
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc='Back']")
+    private WebElement backButton;
 
-   @AndroidFindBy(xpath = "//android.view.View[@content-desc='For Group']")
-    private WebElement forGroup;
+        /*
+     * Dynamic Group
+     */
+    private WebElement group(
+            String groupName) {
 
-     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Mohit recipes insights 2\"]")
-    private WebElement SelectGroup;
-
-    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Mohit Aman, Collapsed\"]")
-    private WebElement Contributor_01;
-
-     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Normaluser2 noadmin privilage, Collapsed\"]")
-    private WebElement Contributor_02;
-
-     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"sona Naroliya, Collapsed\"]")
-    private WebElement Contributor_03;
-
-
-
-
-    public void clickForGroup() {
-        forGroup.click();
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + groupName
+                                + "')]"));
     }
 
-    /**
-     * Select Group Name
-     * Example:
-     * selectGroupName("Mohit recipes insights 2");
+    /*
+     * Dynamic Contributor
      */
-//    public void selectGroupName(String groupName) {
+    private WebElement contributor(
+            String contributorName) {
 
-//     String xpath =
-//             "//android.view.View[contains(@content-desc,'"
-//                     + groupName
-//                     + "')]";
-
-//     driver.findElement(By.xpath(xpath)).click();
-// }
-
-    /**
-     * Expand Contributor if required
-     */
-    public void expandContributor(String contributorName) {
-
-        String xpath =
-                "//android.view.View[contains(@content-desc,'"
-                        + contributorName
-                        + "']";
-
-        driver.findElement(By.xpath(xpath)).click();
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[contains(@content-desc,'"
+                                + contributorName
+                                + "')]"));
     }
 
-    /**
-     * Select Recipe Under Contributor
-     * Example:
-     * selectRecipe("Paneer Butter Masala");
-     * 
-     /*
+    /*
      * Dynamic Recipe
      */
-    private WebElement recipe(String recipeName) {
+    private WebElement recipe(
+            String recipeName) {
 
         return driver.findElement(
                 AppiumBy.xpath(
@@ -162,47 +148,34 @@ public class ShoppingList {
                                 + "']"));
     }
 
-    /*
-     * Dynamic Unit
-     */
-    private WebElement unit(String unitName) {
+/*
+ * Dynamic Unit
+ */
+private WebElement unit(
+        String unitName) {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.Button[@content-desc='"
-                                + unitName
-                                + "']"));
-    }
-
-    /*
-     * Dynamic Export Type
-     */
-    private WebElement exportType(String fileType) {
-
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.widget.Button[@content-desc='"
-                                + fileType
-                                + "']"));
-    }
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.widget.Button[@content-desc='"
+                            + unitName
+                            + "']"));
+}
 
     /*
-     * Create Shopping List
-     */
-    public void clickCreateShoppingList() {
+ * Dynamic Export Type
+ */
+private WebElement exportType(
+        String fileType) {
 
-        Assert.assertTrue(
-                createShoppingList.isDisplayed(),
-                "Create Shopping List is not displayed.");
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Export Shopping List']"
+                            + "/following::android.widget.Button[@content-desc='"
+                            + fileType
+                            + "'][1]"));
+}
 
-        waitUtil.clickWithWait(
-                createShoppingList);
-
-        System.out.println(
-                "Create Shopping List clicked.");
-    }
-
-    /*
+        /*
      * Select For Self
      */
     public void selectForSelf() {
@@ -266,6 +239,53 @@ public class ShoppingList {
                 "Community expanded.");
     }
 
+
+        /*
+     * Select Group
+     */
+    public void selectGroup(
+            String groupName) {
+
+        WebElement groupElement =
+                group(
+                        groupName);
+
+        Assert.assertTrue(
+                groupElement.isDisplayed(),
+                groupName
+                        + " group is not displayed.");
+
+        waitUtil.clickWithWait(
+                groupElement);
+
+        System.out.println(
+                "Group selected : "
+                        + groupName);
+    }
+
+    /*
+     * Expand Contributor
+     */
+    public void expandContributor(
+            String contributorName) {
+
+        WebElement contributorElement =
+                contributor(
+                        contributorName);
+
+        Assert.assertTrue(
+                contributorElement.isDisplayed(),
+                contributorName
+                        + " contributor is not displayed.");
+
+        waitUtil.clickWithWait(
+                contributorElement);
+
+        System.out.println(
+                "Contributor selected : "
+                        + contributorName);
+    }
+
     /*
      * Select Recipe
      */
@@ -273,11 +293,13 @@ public class ShoppingList {
             String recipeName) {
 
         WebElement recipeElement =
-                recipe(recipeName);
+                recipe(
+                        recipeName);
 
         Assert.assertTrue(
                 recipeElement.isDisplayed(),
-                recipeName + " recipe is not displayed.");
+                recipeName
+                        + " recipe is not displayed.");
 
         waitUtil.clickWithWait(
                 recipeElement);
@@ -287,7 +309,8 @@ public class ShoppingList {
                         + recipeName);
     }
 
-    /*
+
+        /*
      * Click Next
      */
     public void clickNextButton() {
@@ -303,58 +326,83 @@ public class ShoppingList {
                 "Next button clicked.");
     }
 
+ /*
+ * Select Unit
+ */
+public void selectUnit(
+        String unitName) {
+
+    waitUtil.clickWithWait(
+            unitDropdown);
+
+    waitUtil.sleep(
+            1000);
+
+    WebElement unitElement =
+            unit(
+                    unitName);
+
+    waitUtil.clickWithWait(
+            unitElement);
+
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            "Unit selected : "
+                    + unitName);
+}
+
     /*
-     * Select Unit
-     */
-    public void selectUnit(
-            String unitName) {
+ * Enter Order Quantity
+ */
+public void enterOrderFor(
+        String recipeName,
+        String quantity) {
 
-        Assert.assertTrue(
-                unitDropdown.isDisplayed(),
-                "Unit dropdown is not displayed.");
+    WebElement orderField =
+            orderForField(
+                    recipeName);
 
-        waitUtil.clickWithWait(
-                unitDropdown);
+    Assert.assertTrue(
+            orderField.isDisplayed(),
+            "Order For field is not displayed.");
 
-        WebElement unitElement =
-                unit(unitName);
+    waitUtil.clickWithWait(
+            orderField);
 
-        Assert.assertTrue(
-                unitElement.isDisplayed(),
-                unitName + " unit is not displayed.");
+    waitUtil.sleep(
+            1000);
 
-        waitUtil.clickWithWait(
-                unitElement);
+    orderField.clear();
 
-        System.out.println(
-                "Unit selected : "
-                        + unitName);
+    waitUtil.sleep(
+            500);
+
+    orderField.sendKeys(
+            quantity);
+
+    waitUtil.sleep(
+            1000);
+
+    try {
+
+        driver.hideKeyboard();
+
     }
 
-    /*
-     * Enter Order Quantity
-     */
-    public void enterOrderFor(
-            String quantity) {
+    catch (Exception e) {
 
-        Assert.assertTrue(
-                orderForField.isDisplayed(),
-                "Order For field is not displayed.");
-
-        waitUtil.clickWithWait(
-                orderForField);
-
-        orderForField.clear();
-
-        orderForField.sendKeys(
-                quantity);
-
-        System.out.println(
-                "Order quantity entered : "
-                        + quantity);
     }
 
-    /*
+    System.out.println(
+            "Order quantity entered : "
+                    + quantity);
+}
+
+
+        /*
      * Click Export
      */
     public void clickExportButton() {
@@ -368,26 +416,6 @@ public class ShoppingList {
 
         System.out.println(
                 "Export button clicked.");
-    }
-
-    /*
-     * Select Export Type
-     */
-    public void selectExportType(
-            String fileType) {
-
-        WebElement exportOption =
-                exportType(fileType);
-
-        Assert.assertTrue(
-                exportOption.isDisplayed(),
-                fileType + " option is not displayed.");
-
-        waitUtil.clickWithWait(
-                exportOption);
-
-        System.out.println(
-                fileType + " selected.");
     }
 
     /*
@@ -421,72 +449,24 @@ public class ShoppingList {
         System.out.println(
                 "File uploaded successfully.");
     }
-     public void clickBackButton() {
+
+    /*
+     * Click Back Button
+     */
+    public void clickBackButton() {
 
         Assert.assertTrue(
-                BackButton.isDisplayed(),
+                backButton.isDisplayed(),
                 "Back button is not displayed.");
 
         waitUtil.clickWithWait(
-                BackButton);
+                backButton);
 
         System.out.println(
                 "Back button clicked.");
     }
 
-    public void SelectGroup() {
-
-        Assert.assertTrue(
-                SelectGroup.isDisplayed(),
-                "Create Shopping List is not displayed.");
-
-        waitUtil.clickWithWait(
-                SelectGroup);
-
-        System.out.println(
-                "Group name clicked.");
-    }
-    
-    public void Selectcontributor_01() {
-
-        Assert.assertTrue(
-                Contributor_01.isDisplayed(),
-                "Create Shopping List is not displayed.");
-
-        waitUtil.clickWithWait(
-                Contributor_01);
-
-        System.out.println(
-                "Contributor_01 clicked.");
-    }
-    
-    public void Selectcontributor_02() {
-
-        Assert.assertTrue(
-                Contributor_02.isDisplayed(),
-                "Create Shopping List is not displayed.");
-
-        waitUtil.clickWithWait(
-                Contributor_02);
-
-        System.out.println(
-                "Contributor_02 clicked.");
-    }
-    
-    public void SelectContributor_03() {
-
-        Assert.assertTrue(
-                Contributor_03.isDisplayed(),
-                "Create Shopping List is not displayed.");
-
-        waitUtil.clickWithWait(
-                Contributor_03);
-
-        System.out.println(
-                "Contributor_03 clicked.");
-    }
-
-    /*
+        /*
      * Complete Shopping List Flow
      */
     public void createShoppingListAndExport(
@@ -495,24 +475,90 @@ public class ShoppingList {
             String quantity,
             String exportType) {
 
-        clickCreateShoppingList();
-
         selectForSelf();
 
-        selectRecipe(recipeName);
+        selectRecipe(
+                recipeName);
 
         clickNextButton();
 
-        selectUnit(unitName);
+        selectUnit(
+                unitName);
 
-        enterOrderFor(quantity);
+        enterOrderFor(recipeName,
+                quantity);
 
         clickExportButton();
 
-        selectExportType(exportType);
+        selectExportType(
+                exportType);
 
         selectDrive();
 
         uploadFileToDrive();
     }
+
+
+    /*
+ * Export Recipes Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc='Export Recipes']")
+private WebElement exportRecipesButton;
+
+/*
+ * Export Shopping List Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc='Export Shopping List']")
+private WebElement exportShoppingListButton;
+
+/*
+ * Click Export Recipes
+ */
+public void clickExportRecipesButton() {
+
+    waitUtil.clickWithWait(
+            exportRecipesButton);
+
+    System.out.println(
+            "Export Recipes button clicked.");
+}
+
+/*
+ * Click Export Shopping List
+ */
+public void clickExportShoppingListButton() {
+
+    waitUtil.clickWithWait(
+            exportShoppingListButton);
+
+    System.out.println(
+            "Export Shopping List button clicked.");
+}
+
+/*
+ * Select Export Type
+ */
+public void selectExportType(
+        String fileType) {
+
+    waitUtil.sleep(
+            1000);
+
+    WebElement exportOption =
+            exportType(
+                    fileType);
+
+    waitUtil.clickWithWait(
+            exportOption);
+
+    waitUtil.sleep(
+            1000);
+
+    System.out.println(
+            fileType
+                    + " selected.");
+}
+
 }

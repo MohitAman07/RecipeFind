@@ -10,7 +10,7 @@ import org.testng.Assert;
 
 
 
-public class VerifyCreateNewRecipe extends BaseTest{
+public class TC057_VerifyCreateNewRecipe extends BaseTest{
 @Test
 public void verifyAddRecipe() throws InterruptedException {
 
