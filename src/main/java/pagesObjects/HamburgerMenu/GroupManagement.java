@@ -201,7 +201,7 @@ public void scrollGroupsList() {
 
         groupsScrollView.findElement(
                 AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(10)"));
+                        "new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(11)"));
 
         System.out.println(
                 "Groups list scrolled successfully.");

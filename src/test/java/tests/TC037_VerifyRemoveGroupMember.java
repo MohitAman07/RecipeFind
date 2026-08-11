@@ -98,6 +98,8 @@ public class TC037_VerifyRemoveGroupMember extends BaseTest {
 
         groupManagement.hideKeyboard();
 
+        Thread.sleep(2000);
+
         groupManagement.clickTickButton();
 
         Thread.sleep(2000);

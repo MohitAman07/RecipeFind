@@ -65,11 +65,10 @@
             <class name="tests.TC052_VerifyReligionIngredientMapping"/>
             <class name="tests.TC053_VerifyIngredientChipDeletion"/>
             <class name="tests.TC054_VerifyNutritionTab"/>
-            <!-- <class name="tests.Verify_createShoppingListforSelf"/>
+            <class name="tests.Verify_createShoppingListforSelf"/>
             <class name="tests.VerifyCreateShoppingListFor_Group"/>
             <class name="tests.VerifyCreateNewRecipe"/>
-            <class name="tests.VerifyFollowingTab"/>            -->
-           
+            <class name="tests.VerifyFollowingTab"/>
         </classes>
  
     </test>

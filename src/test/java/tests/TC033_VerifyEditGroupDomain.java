@@ -219,6 +219,8 @@ public class TC033_VerifyEditGroupDomain extends BaseTest {
                         updatedGroupDomain),
                 "Group Domain updated successfully.");
 
+        hamburger.clickBackButton();
+
         System.out.println(
                 "TC033_VerifyEditGroupDomain executed successfully.");
     }
