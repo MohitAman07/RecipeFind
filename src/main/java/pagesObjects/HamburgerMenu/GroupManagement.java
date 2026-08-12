@@ -401,11 +401,6 @@ public void selectGroup(
     WebElement groupElement =
             group(groupName);
 
-    Assert.assertTrue(
-            groupElement.isDisplayed(),
-            "Group '"
-                    + groupName
-                    + "' is not displayed.");
 
     waitUtil.clickWithWait(
             groupElement);

@@ -6,7 +6,6 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.HamburgerMenu.ShoppingList;
-import utils.ConfigReader;
 import utils.ValidationUtil;
 
 public class TC055_Verify_createShoppingListforSelf extends BaseTest {
@@ -134,45 +133,14 @@ public class TC055_Verify_createShoppingListforSelf extends BaseTest {
         shoppingList.selectExportType(
                 "PDF");
 
-        // Thread.sleep(
-        //         2000);
-
-        // /*
-        //  * Select Drive
-        //  */
-        // shoppingList.selectDrive();
-
-        // Thread.sleep(
-        //         2000);
-
-        // /*
-        //  * Upload File
-        //  */
-        // shoppingList.uploadFileToDrive();
-
-        // Thread.sleep(
-        //         3000);
+        Thread.sleep(
+        3000);
 
         /*
-        * Terminate RecipeFind App
+        * Click Outside Share Window
         */
-        DriverFactory.getDriver()
-                .terminateApp(
-                        ConfigReader.getProperty(
-                                "app.package"));
+        shoppingList.clickOutsideShareWindow();
 
-        Thread.sleep(
-        2000);
-
-        /*
-        * Launch RecipeFind App
-        */
-        DriverFactory.getDriver()
-                .activateApp(
-                        appPackage);
-
-        Thread.sleep(
-                3000);
 
         System.out.println(
                 "==================================================");

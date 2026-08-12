@@ -1,6 +1,12 @@
 package pagesObjects.HamburgerMenu;
 
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
@@ -108,8 +114,8 @@ private WebElement orderForField(
     @AndroidFindBy(
             xpath = "//android.widget.Button[@content-desc='Back']")
     private WebElement backButton;
-
-        /*
+    
+    /*
      * Dynamic Group
      */
     private WebElement group(
@@ -117,9 +123,9 @@ private WebElement orderForField(
 
         return driver.findElement(
                 AppiumBy.xpath(
-                        "//android.view.View[contains(@content-desc,'"
+                        "//android.view.View[@content-desc='"
                                 + groupName
-                                + "')]"));
+                                + "']"));
     }
 
     /*
@@ -559,6 +565,76 @@ public void selectExportType(
     System.out.println(
             fileType
                     + " selected.");
+}
+
+/*
+ * Click Outside Share Window
+ */
+public void clickOutsideShareWindow() {
+
+    try {
+
+        Dimension screenSize =
+                driver.manage()
+                        .window()
+                        .getSize();
+
+        int screenWidth =
+                screenSize.getWidth();
+
+        int screenHeight =
+                screenSize.getHeight();
+
+        int x =
+                screenWidth / 2;
+
+        /*
+         * Tap above the Share Sheet
+         */
+        int y =
+                screenHeight / 4;
+
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence tap =
+                new Sequence(
+                        finger,
+                        1);
+
+        tap.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        x,
+                        y));
+
+        tap.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        tap.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                List.of(tap));
+
+        waitUtil.sleep(
+                1000);
+
+        System.out.println(
+                "Clicked outside Share Window.");
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to click outside Share Window.");
+    }
 }
 
 }

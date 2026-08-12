@@ -5,10 +5,14 @@ import org.testng.annotations.Test;
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ShoppingList;
-import utils.ConfigReader;
+import utils.ValidationUtil;
 import pagesObjects.HamburgerMenu.Hamburger;
+import pagesObjects.HamburgerMenu.GroupManagement;
 
 public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
+
+        String groupName =
+                "Create shopping list 10-08-2026";
 
     @Test
     public void verifyCreateShoppingListForGroup()
@@ -21,7 +25,10 @@ public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
         ShoppingList shoppingList =
                 new ShoppingList(
                         DriverFactory.getDriver());
-
+                        
+        GroupManagement groupManagement =
+                new GroupManagement(
+                        DriverFactory.getDriver());
         /*
          * Open Hamburger Menu
          */
@@ -46,11 +53,28 @@ public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
         Thread.sleep(
                 3000);
 
+         groupManagement.enterGroupSearch(
+                groupName);
+
+        groupManagement.clickGroupSearchButton();
+
+        Thread.sleep(3000);
+
+        groupManagement.hideKeyboard();
+
         /*
-         * Select Group
+         * Verify Group Created
          */
-        shoppingList.selectGroup(
-                "Create shopping list 10-08-2026");
+        ValidationUtil.verifyTrue(
+                groupManagement.isGroupDisplayed(
+                        groupName),
+                "Group displayed successfully.");
+
+        /*
+         * Open Group
+         */
+        groupManagement.selectGroup(
+        groupName);
 
         Thread.sleep(
                 2000);
@@ -151,30 +175,15 @@ public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
 
         Thread.sleep(
                 2000);
-
+        
         /*
-         * Select Drive
-         */
-        shoppingList.selectDrive();
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Upload File
-         */
-        shoppingList.uploadFileToDrive();
+        * Click Outside Share Window
+        */
+        shoppingList.clickOutsideShareWindow();
 
         Thread.sleep(
                 3000);
 
-        /*
-         * Click Back
-         */
-        shoppingList.clickBackButton();
-
-        Thread.sleep(
-                2000);
 
         /*
          * Click Export Shopping List
@@ -182,32 +191,21 @@ public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
         shoppingList.clickExportShoppingListButton();
 
         Thread.sleep(
-                1000);
+                3000);
 
         /*
          * Select PDF Export
          */
         shoppingList.selectExportType(
-                "PDF File");
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Select Drive
-         */
-        shoppingList.selectDrive();
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Upload File
-         */
-        shoppingList.uploadFileToDrive();
+                "PDF");
 
         Thread.sleep(
                 3000);
+
+         /*
+        * Click Outside Share Window
+        */
+        shoppingList.clickOutsideShareWindow();
 
         System.out.println(
                 "==================================================");

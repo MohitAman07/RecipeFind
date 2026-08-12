@@ -68,4 +68,32 @@ public class WaitUtil {
             Thread.currentThread().interrupt();
         }
     }
+
+    /*
+ * Wait For Element Visible
+ */
+public void waitForElementVisible(
+        WebElement element) {
+
+    new WebDriverWait(
+            driver,
+            Duration.ofSeconds(10))
+            .until(
+                    ExpectedConditions.visibilityOf(
+                            element));
+}
+
+/*
+ * Wait For Element Invisible
+ */
+public void waitForElementInvisible(
+        WebElement element) {
+
+    new WebDriverWait(
+            driver,
+            Duration.ofSeconds(10))
+            .until(
+                    ExpectedConditions.invisibilityOf(
+                            element));
+}
 }
