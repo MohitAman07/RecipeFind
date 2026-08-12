@@ -8,7 +8,7 @@ import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.HamburgerMenu.ShoppingList;
 import utils.ValidationUtil;
 
-public class TC055_Verify_createShoppingListforSelf extends BaseTest {
+public class TC056_Verify_createShoppingListforSelf extends BaseTest {
 
     @Test
     public void verifyCreateShoppingListForSelf()

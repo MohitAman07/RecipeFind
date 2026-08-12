@@ -9,7 +9,7 @@ import utils.ValidationUtil;
 import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.HamburgerMenu.GroupManagement;
 
-public class TC056_VerifyCreateShoppingListFor_Group extends BaseTest {
+public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
 
         String groupName =
                 "Create shopping list 10-08-2026";

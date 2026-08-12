@@ -9,10 +9,10 @@ import pagesObjects.Profile.Nutrition_Tab;
 import pagesObjects.Profile.Personal_Tab;
 import utils.ValidationUtil;
 
-public class TC054_VerifyNutritionTab extends BaseTest {
+public class TC055_VerifyNutritionMinGreaterThanMax extends BaseTest {
 
-        @Test
-    public void verifyNutritionTab()
+    @Test
+    public void verifyNutritionMinGreaterThanMax()
             throws Exception {
 
         HomeDashboard home =
@@ -26,31 +26,30 @@ public class TC054_VerifyNutritionTab extends BaseTest {
         Nutrition_Tab nutritionTab =
                 new Nutrition_Tab(
                         DriverFactory.getDriver());
-                
 
         String fatMin =
-                "20";
+                "35";
 
         String fatMax =
-                "35";
-
-        String carbohydratesMin =
-                "40";
-
-        String carbohydratesMax =
-                "55";
-
-        String proteinMin =
                 "20";
 
-        String proteinMax =
+        String carbohydratesMin =
+                "55";
+
+        String carbohydratesMax =
+                "40";
+
+        String proteinMin =
                 "35";
 
+        String proteinMax =
+                "20";
+
         String calorieMin =
-                "1800";
+                "2200";
 
         String calorieMax =
-                "2200";
+                "1800";
 
         /*
          * Verify Profile Button
@@ -120,7 +119,7 @@ public class TC054_VerifyNutritionTab extends BaseTest {
                 "Save Button Enabled : "
                         + nutritionTab.isSaveButtonEnabled());
 
-                /*
+        /*
          * Verify Fat Section
          */
         ValidationUtil.verifyTrue(
@@ -148,6 +147,16 @@ public class TC054_VerifyNutritionTab extends BaseTest {
                 fatMin,
                 fatMax);
 
+        Thread.sleep(
+                2000);
+
+        /*
+         * Verify Fat Validation
+         */
+        ValidationUtil.verifyTrue(
+                nutritionTab.isFatMinMaxValidationDisplayed(),
+                "Fat: min must be lower than max validation is not displayed.");
+        
         Thread.sleep(
                 2000);
 
@@ -183,6 +192,16 @@ public class TC054_VerifyNutritionTab extends BaseTest {
                 2000);
 
         /*
+         * Verify Carbohydrates Validation
+         */
+        ValidationUtil.verifyTrue(
+                nutritionTab.isCarbohydratesMinMaxValidationDisplayed(),
+                "Carbohydrates: min must be lower than max validation is not displayed.");
+
+        Thread.sleep(
+                2000);
+
+        /*
          * Verify Protein Section
          */
         ValidationUtil.verifyTrue(
@@ -213,7 +232,17 @@ public class TC054_VerifyNutritionTab extends BaseTest {
         Thread.sleep(
                 2000);
 
-                /*
+        /*
+         * Verify Protein Validation
+         */
+        ValidationUtil.verifyTrue(
+                nutritionTab.isProteinMinMaxValidationDisplayed(),
+                "Protein: min must be lower than max validation is not displayed.");
+        
+        Thread.sleep(
+                2000);
+
+        /*
          * Verify Daily Calorie Intake Section
          */
         ValidationUtil.verifyTrue(
@@ -245,61 +274,19 @@ public class TC054_VerifyNutritionTab extends BaseTest {
                 2000);
 
         /*
-         * Scroll To Vitamin & Mineral Section
-         */
-        nutritionTab.scrollToVitaminMineralSection();
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Verify Vitamin & Mineral Present Section
+         * Verify Daily Calorie Validation
          */
         ValidationUtil.verifyTrue(
-                nutritionTab.isVitaminMineralPresentDisplayed(),
-                "Vitamin & Mineral Present section displayed successfully.");
-
-        System.out.println(
-                nutritionTab.getVitaminMineralPresentHeading());
-
-        /*
-         * Verify Vitamin & Mineral Add Button
-         */
-        ValidationUtil.verifyTrue(
-                nutritionTab.isVitaminMineralAddButtonDisplayed(),
-                "Vitamin & Mineral Add button displayed successfully.");
-
-        /*
-         * Scroll To Export CSV Button
-         */
-        nutritionTab.scrollToExportCsvButton();
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Verify Export CSV Button
-         */
-        ValidationUtil.verifyTrue(
-                nutritionTab.isExportCsvButtonDisplayed(),
-                "Export CSV button displayed successfully.");
-
-        /*
-         * Scroll To Top
-         */
-        nutritionTab.scrollToTop();
-
-        Thread.sleep(
-                2000);
+                nutritionTab.isDailyCalorieMinMaxValidationDisplayed(),
+                "Calories: min must be lower than max validation is not displayed.");
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "TC054_VerifyNutritionTab executed successfully.");
+                "TC055_VerifyNutritionMinGreaterThanMax executed successfully.");
 
         System.out.println(
                 "==================================================");
     }
 }
-

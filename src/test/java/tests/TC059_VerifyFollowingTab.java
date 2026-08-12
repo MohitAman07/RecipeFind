@@ -6,7 +6,7 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.Profile.Following_Tab;
 
-public class TC058_VerifyFollowingTab extends BaseTest {
+public class TC059_VerifyFollowingTab extends BaseTest {
 
     @Test
     public void verifyFollowingTabDetails()  throws Exception {

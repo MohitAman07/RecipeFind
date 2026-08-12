@@ -65,10 +65,11 @@
             <class name="tests.TC052_VerifyReligionIngredientMapping"/>
             <class name="tests.TC053_VerifyIngredientChipDeletion"/>
             <class name="tests.TC054_VerifyNutritionTab"/>
-            <class name="tests.TC055_Verify_createShoppingListforSelf"/>
-            <class name="tests.TC056_VerifyCreateShoppingListFor_Group"/>
-            <class name="tests.TC057_VerifyCreateNewRecipe"/>
-            <class name="tests.TC058_VerifyFollowingTab"/>
+            <class name="tests.TC055_VerifyNutritionMinGreaterThanMax"/>
+            <class name="tests.TC056_Verify_createShoppingListforSelf"/>
+            <class name="tests.TC057_VerifyCreateShoppingListFor_Group"/>
+            <class name="tests.TC058_VerifyCreateNewRecipe"/>
+            <class name="tests.TC059_VerifyFollowingTab"/>
         </classes>
  
     </test>

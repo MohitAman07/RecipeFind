@@ -1475,6 +1475,116 @@ public void enterDailyCalorieMaxValue(
         }
     }
 
+/*
+ * Fat Min Max Validation
+ */
+private WebElement fatMinMaxValidation() {
 
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Fat: min must be lower than max']"));
+}
+
+/*
+ * Verify Fat Min Max Validation
+ */
+public boolean isFatMinMaxValidationDisplayed() {
+
+    try {
+
+        return fatMinMaxValidation()
+                .isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Carbohydrates Min Max Validation
+ */
+private WebElement carbohydratesMinMaxValidation() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Carbohydrates: min must be lower than max']"));
+}
+
+/*
+ * Verify Carbohydrates Min Max Validation
+ */
+public boolean isCarbohydratesMinMaxValidationDisplayed() {
+
+    try {
+
+        return carbohydratesMinMaxValidation()
+                .isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Protein Min Max Validation
+ */
+private WebElement proteinMinMaxValidation() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Protein: min must be lower than max']"));
+}
+
+/*
+ * Verify Protein Min Max Validation
+ */
+public boolean isProteinMinMaxValidationDisplayed() {
+
+    try {
+
+        return proteinMinMaxValidation()
+                .isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Daily Calorie Min Max Validation
+ */
+private WebElement dailyCalorieMinMaxValidation() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Calories: min must be lower than max']"));
+}
+
+/*
+ * Verify Daily Calorie Min Max Validation
+ */
+public boolean isDailyCalorieMinMaxValidationDisplayed() {
+
+    try {
+
+        return dailyCalorieMinMaxValidation()
+                .isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
 
 }
