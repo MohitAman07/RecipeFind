@@ -91,10 +91,10 @@ public class TC056_Verify_createShoppingListforSelf extends BaseTest {
                 5000);
 
         /*
-         * Select Metric Unit
+         * Select US Customary Unit
          */
         shoppingList.selectUnit(
-        "US Customary");
+                "US Customary");
 
         Thread.sleep(
                 2000);
@@ -120,33 +120,47 @@ public class TC056_Verify_createShoppingListforSelf extends BaseTest {
                 2000);
 
         /*
-         * Click Export Shopping List
+         * Open Export Dropdown
          */
-        shoppingList.clickExportShoppingListButton();
+        shoppingList.clickExportButton();
 
         Thread.sleep(
                 1000);
 
         /*
-         * Select PDF Export
+         * Select Shopping List
          */
-        shoppingList.selectExportType(
-                "PDF");
-
-        Thread.sleep(
-        3000);
+        shoppingList.selectExportOption(
+                "Shopping List");
 
         /*
-        * Click Outside Share Window
-        */
-        shoppingList.clickOutsideShareWindow();
+         * Click Outside Export Dropdown
+         */
+        shoppingList.clickOutsideExportDropdown();
 
+        Thread.sleep(
+                1000);
+
+        /*
+         * Click Download
+         */
+        shoppingList.clickDownloadButton();
+
+        Thread.sleep(
+                2000);
+
+        /*
+         * Verify Shopping List Saved Message
+         */
+        ValidationUtil.verifyTrue(
+                shoppingList.isShoppingListSavedMessageDisplayed(),
+                "Shopping List PDF + CSV saved message is not displayed.");
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Shopping List For Self exported successfully as PDF.");
+                "Shopping List For Self exported successfully as PDF and CSV.");
 
         System.out.println(
                 "==================================================");

@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import io.appium.java_client.AppiumBy;
@@ -408,22 +410,6 @@ public void enterOrderFor(
 }
 
 
-        /*
-     * Click Export
-     */
-    public void clickExportButton() {
-
-        Assert.assertTrue(
-                exportButton.isDisplayed(),
-                "Export button is not displayed.");
-
-        waitUtil.clickWithWait(
-                exportButton);
-
-        System.out.println(
-                "Export button clicked.");
-    }
-
     /*
      * Select Drive
      */
@@ -472,100 +458,55 @@ public void enterOrderFor(
                 "Back button clicked.");
     }
 
-        /*
-     * Complete Shopping List Flow
-     */
-    public void createShoppingListAndExport(
-            String recipeName,
-            String unitName,
-            String quantity,
-            String exportType) {
+    /*
+ * Complete Shopping List Flow
+ */
+public void createShoppingListAndExport(
+        String recipeName,
+        String unitName,
+        String quantity,
+        String exportType) {
 
-        selectForSelf();
+    selectForSelf();
 
-        selectRecipe(
-                recipeName);
+    selectRecipe(
+            recipeName);
 
-        clickNextButton();
+    clickNextButton();
 
-        selectUnit(
-                unitName);
+    selectUnit(
+            unitName);
 
-        enterOrderFor(recipeName,
-                quantity);
-
-        clickExportButton();
-
-        selectExportType(
-                exportType);
-
-        selectDrive();
-
-        uploadFileToDrive();
-    }
-
+    enterOrderFor(
+            recipeName,
+            quantity);
 
     /*
- * Export Recipes Button
- */
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc='Export Recipes']")
-private WebElement exportRecipesButton;
+     * Open Export Dropdown
+     */
+    clickExportButton();
 
-/*
- * Export Shopping List Button
- */
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc='Export Shopping List']")
-private WebElement exportShoppingListButton;
+    /*
+     * Select Export Option
+     */
+    selectExportOption(
+            exportType);
 
-/*
- * Click Export Recipes
- */
-public void clickExportRecipesButton() {
+    /*
+     * Close Export Dropdown
+     */
+    clickOutsideExportDropdown();
 
-    waitUtil.clickWithWait(
-            exportRecipesButton);
-
-    System.out.println(
-            "Export Recipes button clicked.");
-}
-
-/*
- * Click Export Shopping List
- */
-public void clickExportShoppingListButton() {
-
-    waitUtil.clickWithWait(
-            exportShoppingListButton);
+    /*
+     * Download
+     */
+    clickDownloadButton();
 
     System.out.println(
-            "Export Shopping List button clicked.");
+            exportType
+                    + " exported successfully.");
 }
 
-/*
- * Select Export Type
- */
-public void selectExportType(
-        String fileType) {
-
-    waitUtil.sleep(
-            1000);
-
-    WebElement exportOption =
-            exportType(
-                    fileType);
-
-    waitUtil.clickWithWait(
-            exportOption);
-
-    waitUtil.sleep(
-            1000);
-
-    System.out.println(
-            fileType
-                    + " selected.");
-}
 
 /*
  * Click Outside Share Window
@@ -636,5 +577,271 @@ public void clickOutsideShareWindow() {
                 "Unable to click outside Share Window.");
     }
 }
+
+/*--------New implementation for the export for version V4.1.6----------- */
+
+/*
+ * Export Dropdown
+ */
+@AndroidFindBy(
+        xpath = "(//android.view.View[@content-desc='Recipes'])[2]")
+private WebElement exportDropdown;
+
+/*
+ * Recipes Export Option
+ */
+@AndroidFindBy(
+        xpath = "(//android.view.View[@content-desc='Recipes'])[3]")
+private WebElement recipesExportOption;
+
+/*
+ * Shopping List Export Option
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc='Shopping List']")
+private WebElement shoppingListExportOption;
+
+/*
+ * Download Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.Button[2]")
+private WebElement downloadButton;
+
+/*
+ * Share Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.Button[3]")
+private WebElement shareButton;
+
+/*
+ * Verify Recipes PDF Saved Message
+ */
+public boolean isRecipesPdfSavedMessageDisplayed() {
+
+    try {
+
+        WebElement message =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .presenceOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//*[@content-desc='Recipes PDF saved in Downloads > RecipeFind folder'"
+                                                        + " or @text='Recipes PDF saved in Downloads > RecipeFind folder']")));
+
+        return message.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Recipes PDF saved message not displayed.");
+
+        return false;
+    }
+}
+
+/*
+ * Verify Shopping List Saved Message
+ */
+public boolean isShoppingListSavedMessageDisplayed() {
+
+    try {
+
+        WebElement message =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .presenceOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//*[@content-desc='Shopping List PDF + CSV saved in Downloads > RecipeFind folder'"
+                                                        + " or @text='Shopping List PDF + CSV saved in Downloads > RecipeFind folder']")));
+
+        return message.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Shopping List PDF + CSV saved message not displayed.");
+
+        return false;
+    }
+}
+
+/*
+ * Verify Recipes And Shopping List Saved Message
+ */
+public boolean isRecipesAndShoppingListSavedMessageDisplayed() {
+
+    try {
+
+        WebElement message =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .presenceOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//*[@content-desc='Recipes PDF + Shopping List PDF + CSV saved in Downloads > RecipeFind folder'"
+                                                        + " or @text='Recipes PDF + Shopping List PDF + CSV saved in Downloads > RecipeFind folder']")));
+
+        return message.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Recipes PDF + Shopping List PDF + CSV saved message not displayed.");
+
+        return false;
+    }
+}
+
+/*
+ * Click Export Dropdown
+ */
+public void clickExportButton() {
+
+    waitUtil.clickWithWait(
+            exportDropdown);
+
+    System.out.println(
+            "Export dropdown opened.");
+}
+
+/*
+ * Select Export Option
+ */
+public void selectExportOption(
+        String optionName) {
+
+    WebElement exportOption;
+
+    if (optionName.equalsIgnoreCase(
+            "Recipes")) {
+
+        exportOption =
+                recipesExportOption;
+
+    } else if (optionName.equalsIgnoreCase(
+            "Shopping List")) {
+
+        exportOption =
+                shoppingListExportOption;
+
+    } else {
+
+        throw new IllegalArgumentException(
+                "Invalid export option : "
+                        + optionName);
+    }
+
+    waitUtil.clickWithWait(
+            exportOption);
+
+    System.out.println(
+            optionName
+                    + " export option selected.");
+}
+
+/*
+ * Click Outside Export Dropdown
+ */
+public void clickOutsideExportDropdown() {
+
+    try {
+
+        Dimension screenSize =
+                driver.manage()
+                        .window()
+                        .getSize();
+
+        int screenWidth =
+                screenSize.getWidth();
+
+        int screenHeight =
+                screenSize.getHeight();
+
+        int x =
+                screenWidth / 2;
+
+        int y =
+                screenHeight / 2;
+
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
+
+        Sequence tap =
+                new Sequence(
+                        finger,
+                        1);
+
+        tap.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        x,
+                        y));
+
+        tap.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        tap.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(
+                List.of(tap));
+
+        System.out.println(
+                "Clicked outside Export dropdown.");
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to close Export dropdown.");
+    }
+}
+
+/*
+ * Click Download
+ */
+public void clickDownloadButton() {
+
+    waitUtil.clickWithWait(
+            downloadButton);
+
+    System.out.println(
+            "Download button clicked.");
+}
+
+/*
+ * Click Share
+ */
+public void clickShareButton() {
+
+    waitUtil.clickWithWait(
+            shareButton);
+
+    System.out.println(
+            "Share button clicked.");
+}
+
 
 }

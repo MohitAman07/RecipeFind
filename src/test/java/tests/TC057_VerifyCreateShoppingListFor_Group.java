@@ -11,8 +11,8 @@ import pagesObjects.HamburgerMenu.GroupManagement;
 
 public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
 
-        String groupName =
-                "Create shopping list 10-08-2026";
+    String groupName =
+            "Create shopping list 10-08-2026";
 
     @Test
     public void verifyCreateShoppingListForGroup()
@@ -25,10 +25,11 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
         ShoppingList shoppingList =
                 new ShoppingList(
                         DriverFactory.getDriver());
-                        
+
         GroupManagement groupManagement =
                 new GroupManagement(
                         DriverFactory.getDriver());
+
         /*
          * Open Hamburger Menu
          */
@@ -53,12 +54,16 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
         Thread.sleep(
                 3000);
 
-         groupManagement.enterGroupSearch(
+        /*
+         * Search Group
+         */
+        groupManagement.enterGroupSearch(
                 groupName);
 
         groupManagement.clickGroupSearchButton();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         groupManagement.hideKeyboard();
 
@@ -74,7 +79,7 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
          * Open Group
          */
         groupManagement.selectGroup(
-        groupName);
+                groupName);
 
         Thread.sleep(
                 2000);
@@ -83,7 +88,7 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
          * Expand Contributor
          */
         shoppingList.expandContributor(
-                "Aman Mohi");
+                "Aman Mohit");
 
         Thread.sleep(
                 2000);
@@ -91,8 +96,6 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
         /*
          * Select Recipe
          */
-        shoppingList.selectRecipe(
-                "Classic Pancakes with Berries and Banana");
 
         shoppingList.selectRecipe(
                 "Classic Sugar Cookies with Glaze and Sprinkles");
@@ -101,10 +104,10 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
                 "Grilled Chicken Salad");
 
         shoppingList.selectRecipe(
-                "Teing sugar 09-08-2026");
+                "Testing 09-08-2026");
 
         shoppingList.selectRecipe(
-                "Testing 09-08-2026");
+                "Testing sugar 09-08-2026");
 
         shoppingList.selectRecipe(
                 "White Bread");
@@ -121,7 +124,7 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
                 3000);
 
         /*
-         * Select Metric Unit
+         * Select US Customary Unit
          */
         shoppingList.selectUnit(
                 "US Customary");
@@ -132,9 +135,6 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
         /*
          * Enter Order Quantity
          */
-        shoppingList.enterOrderFor(
-                "Classic Pancakes with Berries and Banana",
-                "8");
 
         shoppingList.enterOrderFor(
                 "Classic Sugar Cookies with Glaze and Sprinkles",
@@ -145,11 +145,11 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
                 "8");
 
         shoppingList.enterOrderFor(
-                "Teing sugar 09-08-2026",
+                "Testing 09-08-2026",
                 "8");
 
         shoppingList.enterOrderFor(
-                "Testing 09-08-2026",
+                "Testing sugar 09-08-2026",
                 "8");
 
         shoppingList.enterOrderFor(
@@ -160,58 +160,47 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
                 3000);
 
         /*
-         * Click Export Shopping List
+         * Open Export Dropdown
          */
-        shoppingList.clickExportShoppingListButton();
+        shoppingList.clickExportButton();
 
         Thread.sleep(
                 1000);
 
         /*
-         * Select CSV Export
+         * Select Shopping List
          */
-        shoppingList.selectExportType(
-                "CSV File");
+        shoppingList.selectExportOption(
+                "Shopping List");
+
+        /*
+         * Click Outside Export Dropdown
+         */
+        shoppingList.clickOutsideExportDropdown();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * Click Download
+         */
+        shoppingList.clickDownloadButton();
 
         Thread.sleep(
                 2000);
-        
-        /*
-        * Click Outside Share Window
-        */
-        shoppingList.clickOutsideShareWindow();
-
-        Thread.sleep(
-                3000);
-
 
         /*
-         * Click Export Shopping List
+         * Verify Shopping List Saved Message
          */
-        shoppingList.clickExportShoppingListButton();
-
-        Thread.sleep(
-                3000);
-
-        /*
-         * Select PDF Export
-         */
-        shoppingList.selectExportType(
-                "PDF");
-
-        Thread.sleep(
-                3000);
-
-         /*
-        * Click Outside Share Window
-        */
-        shoppingList.clickOutsideShareWindow();
+        ValidationUtil.verifyTrue(
+                shoppingList.isShoppingListSavedMessageDisplayed(),
+                "Shopping List PDF + CSV saved message is not displayed.");
 
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Shopping List For Group exported successfully.");
+                "Shopping List For Group exported successfully as PDF and CSV.");
 
         System.out.println(
                 "==================================================");
