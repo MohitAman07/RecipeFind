@@ -1,14 +1,19 @@
 package pagesObjects.HamburgerMenu;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import driver.DriverFactory;
@@ -17,17 +22,21 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import utils.WaitUtil;
+import utils.Scroll;
 
 public class GroupManagement {
 
     private AndroidDriver driver;
     private WaitUtil waitUtil;
+    private Scroll scroll;
 
     public GroupManagement(AndroidDriver driver) {
 
         this.driver = driver;
         this.waitUtil =
                 new WaitUtil(driver);
+        this.scroll =
+                new Scroll(driver);
 
         PageFactory.initElements(
                 new AppiumFieldDecorator(driver),
@@ -1122,7 +1131,505 @@ public void scrollMembersSection() {
             "Members section scrolled successfully.");
 }
 
+/*---New implementation v4.1.6-- */
 
+/*
+ * Members Tab
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc='Members']")
+private WebElement membersTab;
+
+/*
+ * Recipes Tab
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc='Recipes']")
+private WebElement recipesTab;
+
+/*
+ * Click Members Tab
+ */
+public void clickMembersTab() {
+
+    waitUtil.waitForElementVisible(
+            membersTab);
+
+    waitUtil.clickWithWait(
+            membersTab);
+
+    System.out.println(
+            "Members tab clicked.");
+}
+
+/*
+ * Click Recipes Tab
+ */
+public void clickRecipesTab() {
+
+    waitUtil.waitForElementVisible(
+            recipesTab);
+
+    waitUtil.clickWithWait(
+            recipesTab);
+
+    System.out.println(
+            "Recipes tab clicked.");
+}
+
+/*
+ * Dynamic Member
+ */
+private WebElement member(
+        String memberName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + memberName
+                            + ", Collapsed']"));
+}
+
+/*
+ * Dynamic Expanded Member
+ */
+private WebElement expandedMember(
+        String memberName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + memberName
+                            + ", Expanded']"));
+}
+
+/*
+ * Scroll Member Into View
+ */
+public void scrollToMember(
+        String memberName) {
+
+    try {
+
+        WebElement expandedMember =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + memberName
+                                        + ", Expanded']"));
+
+        if (expandedMember.isDisplayed()) {
+
+            driver.findElement(
+                    AppiumBy.androidUIAutomator(
+                            "new UiScrollable("
+                                    + "new UiSelector().className(\"android.widget.ScrollView\")"
+                                    + ").scrollIntoView("
+                                    + "new UiSelector().description(\""
+                                    + memberName
+                                    + ", Expanded\"))"));
+
+            System.out.println(
+                    "Expanded member scrolled into view : "
+                            + memberName);
+        }
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Member is not expanded. Scroll not required : "
+                        + memberName);
+    }
+}
+
+/*
+ * Expand Member
+ */
+public void expandMember(
+        String memberName) {
+
+    try {
+
+        WebElement expandedMember =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + memberName
+                                        + ", Expanded']"));
+
+        if (expandedMember.isDisplayed()) {
+
+            System.out.println(
+                    "Member already expanded : "
+                            + memberName);
+
+            return;
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Member is collapsed.
+         * Continue with expansion.
+         */
+    }
+
+    WebElement collapsedMember =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.view.View[@content-desc='"
+                                                            + memberName
+                                                            + ", Collapsed']")));
+
+    waitUtil.clickWithWait(
+            collapsedMember);
+
+    System.out.println(
+            "Member expanded : "
+                    + memberName);
+}
+
+/*
+/*
+ * Collapse Member
+ */
+public void collapseMember(
+        String memberName) {
+
+    try {
+
+        WebElement expandedMember =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .presenceOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//android.view.View[@content-desc='"
+                                                                + memberName
+                                                                + ", Expanded']")));
+
+        /*
+         * Scroll Only If Required
+         */
+        if (!expandedMember.isDisplayed()) {
+
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) expandedMember).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "up");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            Thread.sleep(
+                    1000);
+        }
+
+        /*
+         * Collapse Member
+         */
+        waitUtil.clickWithWait(
+                expandedMember);
+
+        System.out.println(
+                "Member collapsed : "
+                        + memberName);
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to collapse member : "
+                        + memberName);
+
+        throw new RuntimeException(
+                "Member could not be collapsed : "
+                        + memberName,
+                e);
+    }
+}
+
+/*
+ * Verify Member Expanded
+ */
+public boolean isMemberExpanded(
+        String memberName) {
+
+    try {
+
+        WebElement expandedElement =
+                expandedMember(
+                        memberName);
+
+        return expandedElement.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+/*
+ * Dynamic Member Recipe
+ */
+private WebElement memberRecipe(
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + recipeName
+                            + "']"));
+}
+
+/*
+ * Scroll Recipe Into View
+ */
+public void scrollToMemberRecipe(
+        String recipeName) {
+
+    try {
+
+        /*
+         * Check If Recipe Is Already Visible
+         */
+        try {
+
+            WebElement recipeElement =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    "//android.view.View[@content-desc='"
+                                            + recipeName
+                                            + "']"));
+
+            if (recipeElement.isDisplayed()) {
+
+                System.out.println(
+                        "Recipe already visible : "
+                                + recipeName);
+
+                return;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Recipe is not visible.
+             * Continue scrolling.
+             */
+        }
+
+        /*
+         * Find Scroll View
+         */
+        WebElement scrollView =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView"));
+
+        /*
+         * Scroll Down Slowly
+         */
+        for (int i = 0; i < 8; i++) {
+
+            /*
+             * Check Recipe Before Scrolling
+             */
+            try {
+
+                WebElement recipeElement =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc='"
+                                                + recipeName
+                                                + "']"));
+
+                if (recipeElement.isDisplayed()) {
+
+                    System.out.println(
+                            "Recipe found : "
+                                    + recipeName);
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Recipe not visible yet.
+                 */
+            }
+
+            /*
+             * Scroll ScrollView
+             */
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) scrollView).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "down");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            System.out.println(
+                    "Scrolling recipe list : "
+                            + recipeName
+                            + " | Attempt : "
+                            + (i + 1));
+
+            /*
+             * Allow Batch Loading
+             */
+            Thread.sleep(
+                    1200);
+        }
+
+        /*
+         * Final Recipe Check
+         */
+        WebElement recipeElement =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(5))
+                        .until(
+                                ExpectedConditions
+                                        .visibilityOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//android.view.View[@content-desc='"
+                                                                + recipeName
+                                                                + "']")));
+
+        System.out.println(
+                "Recipe found after scrolling : "
+                        + recipeName);
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to scroll recipe into view : "
+                        + recipeName);
+
+        throw new RuntimeException(
+                "Recipe could not be found after scrolling : "
+                        + recipeName,
+                e);
+    }
+}
+
+/*
+ * Select Member Recipe
+ */
+public void selectMemberRecipe(
+        String memberName,
+        String recipeName) {
+
+    /*
+     * Expand Member If Required
+     */
+    expandMember(
+            memberName);
+
+    /*
+     * Scroll Recipe Into View
+     */
+    scrollToMemberRecipe(
+            recipeName);
+
+    /*
+     * Select Recipe
+     */
+    WebElement recipeElement =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.view.View[@content-desc='"
+                                                            + recipeName
+                                                            + "']")));
+
+    waitUtil.clickWithWait(
+            recipeElement);
+
+    System.out.println(
+            "Recipe selected : "
+                    + recipeName
+                    + " for "
+                    + memberName);
+}
+
+/*
+ * Group Management Back Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc='Back']")
+private WebElement groupManagementBackButton;
+
+/*
+ * Click Group Management Back Button
+ */
+public void clickGroupManagementBackButton() {
+
+    waitUtil.waitForElementVisible(
+            groupManagementBackButton);
+
+    waitUtil.clickWithWait(
+            groupManagementBackButton);
+
+    System.out.println(
+            "Group Management Back button clicked.");
+}
 
 }
 

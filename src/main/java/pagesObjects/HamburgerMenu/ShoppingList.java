@@ -156,6 +156,40 @@ private WebElement orderForField(
                                 + "']"));
     }
 
+    /*
+ * Verify Recipe Displayed
+ */
+public boolean isRecipeDisplayed(
+        String recipeName) {
+
+    try {
+
+        WebElement recipeElement =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .visibilityOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//android.view.View[@content-desc='"
+                                                                + recipeName
+                                                                + "']")));
+
+        return recipeElement.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Recipe not displayed : "
+                        + recipeName);
+
+        return false;
+    }
+}
+
 /*
  * Dynamic Unit
  */
