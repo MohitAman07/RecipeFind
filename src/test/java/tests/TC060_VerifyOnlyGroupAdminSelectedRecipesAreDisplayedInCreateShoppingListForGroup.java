@@ -13,7 +13,7 @@ import pagesObjects.HamburgerMenu.ShoppingList;
 import utils.ConfigReader;
 import utils.ValidationUtil;
 
-public class TC060_VerifyGroupRecipeSelectionInShoppingList
+public class TC060_VerifyOnlyGroupAdminSelectedRecipesAreDisplayedInCreateShoppingListForGroup
         extends BaseTest {
 
     /*
@@ -56,7 +56,7 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
     }
 
     @Test
-    public void verifyGroupRecipeSelectionInShoppingList()
+    public void verifyOnlyGroupAdminSelectedRecipesAreDisplayedInCreateShoppingListForGroup()
             throws Exception {
 
         Hamburger hamburger =
@@ -89,6 +89,7 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
         ValidationUtil.verifyTrue(
                 hamburger.isGroupManagementVisible(),
                 "Group Management option displayed successfully.");
+
 
         hamburger.clickGroupManagement();
 
@@ -389,7 +390,7 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
         hamburger.expandCreateShoppingList();
 
         Thread.sleep(
-                1000);
+                2000);
 
         /*
          * Select For Group
@@ -397,11 +398,36 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
         hamburger.clickForGroup();
 
         Thread.sleep(
+                2000);
+
+         /*
+         * Search Created Group
+         */
+        groupManagement.enterGroupSearch(
+                groupName);
+
+        groupManagement.clickGroupSearchButton();
+
+        groupManagement.hideKeyboard();
+
+        Thread.sleep(
                 3000);
 
         /*
-         * Select Created Group
+         * Verify Group
          */
+        ValidationUtil.verifyTrue(
+                groupManagement.isGroupDisplayed(
+                        groupName),
+                "Created group is not displayed.");
+
+        Thread.sleep(
+                2000);
+
+
+        /*
+        * Select Created Group
+        */
         shoppingList.selectGroup(
                 groupName);
 
@@ -409,83 +435,61 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
                 3000);
 
         /*
-         * Expand Aman Mohit
-         */
-        shoppingList.expandContributor(
+        * Select Aloo Samosa From Aman Mohit
+        */
+        shoppingList.selectContributorRecipe(
+                "Aman Mohit",
+                "aloo samosa");
+
+        Thread.sleep(
+                2000);
+
+        /*
+        * Select Apricot Bread From Aman Mohit
+        */
+        shoppingList.selectContributorRecipe(
+                "Aman Mohit",
+                "Apricot Bread");
+
+        Thread.sleep(
+                2000);
+
+        /*
+        * Collapse Aman Mohit
+        */
+        shoppingList.collapseContributor(
                 "Aman Mohit");
 
         Thread.sleep(
                 2000);
 
         /*
-         * Verify Aloo Samosa
-         */
-        ValidationUtil.verifyTrue(
-                shoppingList.isRecipeDisplayed(
-                        "Aloo Samosa"),
-                "Aloo Samosa is not displayed in Shopping List.");
-
-        /*
-         * Verify Apricot Bread
-         */
-        ValidationUtil.verifyTrue(
-                shoppingList.isRecipeDisplayed(
-                        "Apricot Bread"),
-                "Apricot Bread is not displayed in Shopping List.");
-
-        /*
-         * Expand Normaluser2
-         */
-        shoppingList.expandContributor(
-                "Normaluser2 noadmin privilege");
+        * Select Basmati Rice From Normaluser2
+        */
+        shoppingList.selectContributorRecipe(
+                "Normaluser2 noadmin privilage",
+                "Basmati Rice");
 
         Thread.sleep(
                 2000);
 
         /*
-         * Verify Basmati Rice
-         */
-        ValidationUtil.verifyTrue(
-                shoppingList.isRecipeDisplayed(
-                        "Basmati Rice"),
-                "Basmati Rice is not displayed in Shopping List.");
-
-        /*
-         * Verify Unselected Recipe
-         */
-        ValidationUtil.verifyFalse(
-                shoppingList.isRecipeDisplayed(
-                        "Grilled Chicken Salad"),
-                "Unselected recipe Grilled Chicken Salad is displayed.");
-
-        /*
-         * Select Aloo Samosa
-         */
-        shoppingList.selectRecipe(
-                "Aloo Samosa");
-
-        /*
-         * Select Apricot Bread
-         */
-        shoppingList.selectRecipe(
-                "Apricot Bread");
-
-        /*
-         * Select Basmati Rice
-         */
-        shoppingList.selectRecipe(
-                "Basmati Rice");
+        * Collapse Normaluser2
+        */
+        shoppingList.collapseContributor(
+                "Normaluser2 noadmin privilage");
 
         Thread.sleep(
-                3000);
+                2000);
 
         /*
-         * Click Next
-         */
+        * Click Next
+        */
         shoppingList.clickNextButton();
 
         Thread.sleep(
                 3000);
+
 
         /*
          * Select Unit
@@ -500,7 +504,7 @@ public class TC060_VerifyGroupRecipeSelectionInShoppingList
          * Enter Order Quantity
          */
         shoppingList.enterOrderFor(
-                "Aloo Samosa",
+                "aloo samosa",
                 "4");
 
         shoppingList.enterOrderFor(

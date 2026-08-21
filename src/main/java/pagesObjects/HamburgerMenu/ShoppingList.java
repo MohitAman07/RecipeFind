@@ -1,12 +1,15 @@
 package pagesObjects.HamburgerMenu;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -130,18 +133,18 @@ private WebElement orderForField(
                                 + "']"));
     }
 
-    /*
-     * Dynamic Contributor
-     */
-    private WebElement contributor(
-            String contributorName) {
+//     /*
+//      * Dynamic Contributor
+//      */
+//     private WebElement contributor(
+//             String contributorName) {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[contains(@content-desc,'"
-                                + contributorName
-                                + "')]"));
-    }
+//         return driver.findElement(
+//                 AppiumBy.xpath(
+//                         "//android.view.View[contains(@content-desc,'"
+//                                 + contributorName
+//                                 + "')]"));
+//     }
 
     /*
      * Dynamic Recipe
@@ -305,28 +308,28 @@ private WebElement exportType(
                         + groupName);
     }
 
-    /*
-     * Expand Contributor
-     */
-    public void expandContributor(
-            String contributorName) {
+//     /*
+//      * Expand Contributor
+//      */
+//     public void expandContributor(
+//             String contributorName) {
 
-        WebElement contributorElement =
-                contributor(
-                        contributorName);
+//         WebElement contributorElement =
+//                 contributor(
+//                         contributorName);
 
-        Assert.assertTrue(
-                contributorElement.isDisplayed(),
-                contributorName
-                        + " contributor is not displayed.");
+//         Assert.assertTrue(
+//                 contributorElement.isDisplayed(),
+//                 contributorName
+//                         + " contributor is not displayed.");
 
-        waitUtil.clickWithWait(
-                contributorElement);
+//         waitUtil.clickWithWait(
+//                 contributorElement);
 
-        System.out.println(
-                "Contributor selected : "
-                        + contributorName);
-    }
+//         System.out.println(
+//                 "Contributor selected : "
+//                         + contributorName);
+//     }
 
     /*
      * Select Recipe
@@ -877,5 +880,810 @@ public void clickShareButton() {
             "Share button clicked.");
 }
 
+/*--Group will be visible only when contributor recipe is selected in group */
 
+/*
+ * Dynamic Contributor
+ */
+private WebElement contributor(
+        String contributorName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + contributorName
+                            + ", Collapsed']"));
+}
+
+/*
+ * Dynamic Expanded Contributor
+ */
+private WebElement expandedContributor(
+        String contributorName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + contributorName
+                            + ", Expanded']"));
+}
+
+/*
+ * Expand Contributor
+ */
+public void expandContributor(
+        String contributorName) {
+
+    try {
+
+        WebElement expandedContributor =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + contributorName
+                                        + ", Expanded']"));
+
+        if (expandedContributor.isDisplayed()) {
+
+            System.out.println(
+                    "Contributor already expanded : "
+                            + contributorName);
+
+            return;
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Contributor is collapsed.
+         * Continue with expansion.
+         */
+    }
+
+    WebElement collapsedContributor =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.view.View[@content-desc='"
+                                                            + contributorName
+                                                            + ", Collapsed']")));
+
+    waitUtil.clickWithWait(
+            collapsedContributor);
+
+    System.out.println(
+            "Contributor expanded : "
+                    + contributorName);
+}
+
+/*
+ * Dynamic Contributor Recipe
+ */
+private WebElement contributorRecipe(
+        String recipeName) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='"
+                            + recipeName
+                            + "']"));
+}
+
+
+
+/*
+ * Scroll Contributor Recipe Into View
+ */
+public void scrollToContributorRecipe(
+        String recipeName) {
+
+    try {
+
+        /*
+         * Check If Recipe Is Already Visible
+         */
+        try {
+
+            WebElement recipeElement =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    "//android.view.View[@content-desc='"
+                                            + recipeName
+                                            + "']"));
+
+            if (recipeElement.isDisplayed()) {
+
+                System.out.println(
+                        "Recipe already visible : "
+                                + recipeName);
+
+                return;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Recipe is not visible.
+             * Continue scrolling.
+             */
+        }
+
+        /*
+         * Find Scroll View
+         */
+        WebElement scrollView =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView"));
+
+        /*
+         * Scroll Down Slowly
+         */
+        for (int i = 0; i < 8; i++) {
+
+            /*
+             * Check Recipe Before Scrolling
+             */
+            try {
+
+                WebElement recipeElement =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc='"
+                                                + recipeName
+                                                + "']"));
+
+                if (recipeElement.isDisplayed()) {
+
+                    System.out.println(
+                            "Recipe found : "
+                                    + recipeName);
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Recipe not visible yet.
+                 */
+            }
+
+            /*
+             * Scroll ScrollView
+             */
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) scrollView).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "down");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            System.out.println(
+                    "Scrolling recipe list : "
+                            + recipeName
+                            + " | Attempt : "
+                            + (i + 1));
+
+            /*
+             * Allow Batch Loading
+             */
+            Thread.sleep(
+                    1200);
+        }
+
+        System.out.println(
+                "Recipe found after scrolling : "
+                        + recipeName);
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to scroll recipe into view : "
+                        + recipeName);
+
+        throw new RuntimeException(
+                "Recipe could not be found after scrolling : "
+                        + recipeName,
+                e);
+    }
+}
+
+// /*
+//  * Select Contributor Recipe
+//  */
+// public void selectContributorRecipe(
+//         String contributorName,
+//         String recipeName) {
+
+//     /*
+//      * Expand Contributor If Required
+//      */
+//     expandContributor(
+//             contributorName);
+
+//     /*
+//      * Scroll Recipe Into View
+//      */
+//     scrollToContributorRecipe(
+//             recipeName);
+
+//     /*
+//      * Select Recipe
+//      */
+//     WebElement recipeElement =
+//             new WebDriverWait(
+//                     driver,
+//                     Duration.ofSeconds(10))
+//                     .until(
+//                             ExpectedConditions
+//                                     .visibilityOfElementLocated(
+//                                             AppiumBy.xpath(
+//                                                     "//android.view.View[@content-desc='"
+//                                                             + recipeName
+//                                                             + "']")));
+
+//     waitUtil.clickWithWait(
+//             recipeElement);
+
+//     System.out.println(
+//             "Contributor recipe selected : "
+//                     + recipeName
+//                     + " for "
+//                     + contributorName);
+// }
+
+/*
+ * Collapse Contributor
+ */
+public void collapseContributor(
+        String contributorName) {
+
+    try {
+
+        WebElement expandedContributor =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .presenceOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        "//android.view.View[@content-desc='"
+                                                                + contributorName
+                                                                + ", Expanded']")));
+
+        /*
+         * Scroll Only If Required
+         */
+        if (!expandedContributor.isDisplayed()) {
+
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) expandedContributor).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "up");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            Thread.sleep(
+                    1000);
+        }
+
+        /*
+         * Collapse Contributor
+         */
+        waitUtil.clickWithWait(
+                expandedContributor);
+
+        System.out.println(
+                "Contributor collapsed : "
+                        + contributorName);
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to collapse contributor : "
+                        + contributorName);
+
+        throw new RuntimeException(
+                "Contributor could not be collapsed : "
+                        + contributorName,
+                e);
+    }
+}
+
+/*
+ * Expand Member
+ */
+public void expandMember(
+        String memberName) {
+
+    try {
+
+        WebElement expandedMember =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + memberName
+                                        + ", Expanded']"));
+
+        if (expandedMember.isDisplayed()) {
+
+            System.out.println(
+                    "Member already expanded : "
+                            + memberName);
+
+            return;
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Member is collapsed.
+         * Continue with expansion.
+         */
+    }
+
+    WebElement collapsedMember =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.view.View[@content-desc='"
+                                                            + memberName
+                                                            + ", Collapsed']")));
+
+    waitUtil.clickWithWait(
+            collapsedMember);
+
+    System.out.println(
+            "Member expanded : "
+                    + memberName);
+}
+
+/*
+ * Scroll Recipe Into View
+ */
+public void scrollToMemberRecipe(
+        String recipeName) {
+
+    try {
+
+        /*
+         * Check If Recipe Is Already Visible
+         */
+        try {
+
+            WebElement recipeElement =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    "//android.view.View[@content-desc='"
+                                            + recipeName
+                                            + "']"));
+
+            if (recipeElement.isDisplayed()) {
+
+                System.out.println(
+                        "Recipe already visible : "
+                                + recipeName);
+
+                return;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Recipe is not visible.
+             * Continue scrolling.
+             */
+        }
+
+        /*
+         * Find Scroll View
+         */
+        WebElement scrollView =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView"));
+
+        /*
+         * Scroll Down Slowly
+         */
+        for (int i = 0; i < 8; i++) {
+
+            /*
+             * Check Recipe Before Scrolling
+             */
+            try {
+
+                WebElement recipeElement =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc='"
+                                                + recipeName
+                                                + "']"));
+
+                if (recipeElement.isDisplayed()) {
+
+                    System.out.println(
+                            "Recipe found : "
+                                    + recipeName);
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Recipe not visible yet.
+                 */
+            }
+
+            /*
+             * Scroll ScrollView
+             */
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) scrollView).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "down");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            System.out.println(
+                    "Scrolling recipe list : "
+                            + recipeName
+                            + " | Attempt : "
+                            + (i + 1));
+
+            /*
+             * Allow Batch Loading
+             */
+            Thread.sleep(
+                    1200);
+        }
+
+        
+        System.out.println(
+                "Recipe found after scrolling : "
+                        + recipeName);
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to scroll recipe into view : "
+                        + recipeName);
+
+        throw new RuntimeException(
+                "Recipe could not be found after scrolling : "
+                        + recipeName,
+                e);
+    }
+}
+
+/*
+ * Select Contributor Recipe
+ */
+public void selectContributorRecipe(
+        String contributorName,
+        String recipeName) {
+
+    /*
+     * Scroll Contributor Into View
+     */
+    scrollToContributor(
+            contributorName);
+
+    /*
+     * Expand Contributor If Required
+     */
+    expandContributor(
+            contributorName);
+
+    /*
+     * Scroll Contributor Into View
+     */
+    scrollToContributor(
+            contributorName);
+
+    /*
+     * Scroll Recipe Into View
+     */
+    scrollToContributorRecipe(
+            recipeName);
+
+    /*
+     * Select Recipe
+     */
+    WebElement recipeElement =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.view.View[@content-desc='"
+                                                            + recipeName
+                                                            + "']")));
+
+    waitUtil.clickWithWait(
+            recipeElement);
+
+    System.out.println(
+            "Contributor recipe selected : "
+                    + recipeName
+                    + " for "
+                    + contributorName);
+}
+
+/*
+ * Scroll Contributor Into View
+ */
+public void scrollToContributor(
+        String contributorName) {
+
+    /*
+     * Check Collapsed Contributor
+     */
+    try {
+
+        WebElement collapsedContributor =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + contributorName
+                                        + ", Collapsed']"));
+
+        if (collapsedContributor.isDisplayed()) {
+
+            System.out.println(
+                    "Contributor already visible : "
+                            + contributorName);
+
+            return;
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Contributor is not currently visible.
+         * Continue checking expanded state.
+         */
+    }
+
+    /*
+     * Check Expanded Contributor
+     */
+    try {
+
+        WebElement expandedContributor =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc='"
+                                        + contributorName
+                                        + ", Expanded']"));
+
+        if (expandedContributor.isDisplayed()) {
+
+            System.out.println(
+                    "Expanded contributor already visible : "
+                            + contributorName);
+
+            return;
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Contributor is not currently visible.
+         * Continue scrolling.
+         */
+    }
+
+    /*
+     * Scroll Only If Contributor Is Not Visible
+     */
+    try {
+
+        WebElement scrollView =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.widget.ScrollView"));
+
+        /*
+         * Scroll Down Slowly
+         */
+        for (int i = 0; i < 8; i++) {
+
+            /*
+             * Check Collapsed Contributor
+             */
+            try {
+
+                WebElement collapsedContributor =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc='"
+                                                + contributorName
+                                                + ", Collapsed']"));
+
+                if (collapsedContributor.isDisplayed()) {
+
+                    System.out.println(
+                            "Contributor found after scrolling : "
+                                    + contributorName);
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Contributor not visible yet.
+                 */
+            }
+
+            /*
+             * Check Expanded Contributor
+             */
+            try {
+
+                WebElement expandedContributor =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc='"
+                                                + contributorName
+                                                + ", Expanded']"));
+
+                if (expandedContributor.isDisplayed()) {
+
+                    System.out.println(
+                            "Expanded contributor found after scrolling : "
+                                    + contributorName);
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Contributor not visible yet.
+                 */
+            }
+
+            /*
+             * Scroll ScrollView
+             */
+            Map<String, Object> scrollObject =
+                    new HashMap<>();
+
+            scrollObject.put(
+                    "elementId",
+                    ((RemoteWebElement) scrollView).getId());
+
+            scrollObject.put(
+                    "direction",
+                    "down");
+
+            scrollObject.put(
+                    "percent",
+                    0.30);
+
+            scrollObject.put(
+                    "speed",
+                    300);
+
+            driver.executeScript(
+                    "mobile: scrollGesture",
+                    scrollObject);
+
+            System.out.println(
+                    "Scrolling contributor list : "
+                            + contributorName
+                            + " | Attempt : "
+                            + (i + 1));
+
+            /*
+             * Allow Batch Loading
+             */
+            Thread.sleep(
+                    1200);
+        }
+
+        throw new RuntimeException(
+                "Contributor could not be found after scrolling : "
+                        + contributorName);
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to scroll contributor into view : "
+                        + contributorName);
+
+        throw new RuntimeException(
+                "Contributor could not be found after scrolling : "
+                        + contributorName,
+                e);
+    }
+}
 }

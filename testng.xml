@@ -10,7 +10,7 @@
     <test name="Launch Recipe Find">
  
         <classes>
-            <!-- <class name="tests.TC001_Authentication_Flow"/>
+            <class name="tests.TC001_Authentication_Flow"/>
             <class name="tests.TC002_All_Dish_Details_home"/>
             <class name="tests.TC003_WelcomeScreen"/>
             <class name="tests.TC004_Searchfield"/>
@@ -68,8 +68,8 @@
             <class name="tests.TC056_Verify_createShoppingListforSelf"/>
             <class name="tests.TC057_VerifyCreateShoppingListFor_Group"/>
             <class name="tests.TC058_VerifyCreateNewRecipe"/>
-            <class name="tests.TC059_VerifyFollowingTab"/> -->
-            <class name="tests.TC060_VerifyGroupRecipeSelectionInShoppingList"/>
+            <class name="tests.TC059_VerifyFollowingTab"/>
+            <class name="tests.TC060_VerifyOnlyGroupAdminSelectedRecipesAreDisplayedInCreateShoppingListForGroup"/>
         </classes>
  
     </test>

@@ -1531,21 +1531,6 @@ public void scrollToMemberRecipe(
                     1200);
         }
 
-        /*
-         * Final Recipe Check
-         */
-        WebElement recipeElement =
-                new WebDriverWait(
-                        driver,
-                        Duration.ofSeconds(5))
-                        .until(
-                                ExpectedConditions
-                                        .visibilityOfElementLocated(
-                                                AppiumBy.xpath(
-                                                        "//android.view.View[@content-desc='"
-                                                                + recipeName
-                                                                + "']")));
-
         System.out.println(
                 "Recipe found after scrolling : "
                         + recipeName);

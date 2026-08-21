@@ -13,7 +13,6 @@ import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.Sequence;
 
 public class Hamburger {
@@ -26,58 +25,79 @@ public class Hamburger {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-public void swipeOnGlossary() {
+
+/*
+ * Swipe On Hamburger Menu
+ */
+public void swipeOnHamburgerMenu() {
 
     try {
 
-        WebElement glossary = new WebDriverWait(driver, Duration.ofSeconds(3))
-                .until(ExpectedConditions.visibilityOfElementLocated(
-                        AppiumBy.xpath(
-                                "//android.widget.Button[@content-desc=\"Glossary\"]")));
+        int startX =
+                150;
 
-        Point location = glossary.getLocation();
-        Dimension size = glossary.getSize();
+        int startY =
+                500;
 
-        int startX = location.getX() + (size.getWidth() / 2);
-        int startY = location.getY() + (size.getHeight() / 2);
+        int endX =
+                150;
 
-        int endX = startX;
-        int endY = startY - 150; // Small upward swipe
+        int endY =
+                350;
 
-        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        PointerInput finger =
+                new PointerInput(
+                        PointerInput.Kind.TOUCH,
+                        "finger");
 
-        Sequence swipe = new Sequence(finger, 1);
+        Sequence swipe =
+                new Sequence(
+                        finger,
+                        1);
 
-        swipe.addAction(finger.createPointerMove(Duration.ZERO,
-                PointerInput.Origin.viewport(), startX, startY));
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ZERO,
+                        PointerInput.Origin.viewport(),
+                        startX,
+                        startY));
 
-        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        swipe.addAction(
+                finger.createPointerDown(
+                        PointerInput.MouseButton.LEFT.asArg()));
 
-        swipe.addAction(finger.createPointerMove(Duration.ofMillis(300),
-                PointerInput.Origin.viewport(), endX, endY));
+        swipe.addAction(
+                finger.createPointerMove(
+                        Duration.ofMillis(500),
+                        PointerInput.Origin.viewport(),
+                        endX,
+                        endY));
 
-        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        swipe.addAction(
+                finger.createPointerUp(
+                        PointerInput.MouseButton.LEFT.asArg()));
 
-        driver.perform(List.of(swipe));
+        driver.perform(
+                List.of(swipe));
 
-        System.out.println("Keyboard hidden using swipe.");
+        System.out.println(
+                "Hamburger menu coordinate swipe completed.");
 
-    } catch (Exception e) {
+    }
 
-        System.out.println("Keyboard already hidden.");
+    catch (Exception e) {
+
+        System.out.println(
+                "Unable to perform Hamburger menu swipe.");
     }
 }
 
+/*
+ * Hide Keyboard If Visible
+ */
 public void hideKeyboardIfVisible() {
 
-    try {
-
-        swipeOnGlossary();
-
-    } catch (Exception e) {
-
-        System.out.println("Unable to hide keyboard.");
-    }
+    swipeOnHamburgerMenu();
 }
 
         /*
@@ -134,6 +154,7 @@ public void hideKeyboardIfVisible() {
 
 public void clickHamburgerMenu() {
 
+
     new WebDriverWait(driver, Duration.ofSeconds(10))
             .until(ExpectedConditions.visibilityOfElementLocated(
                     AppiumBy.accessibilityId("Open navigation menu")));
@@ -142,7 +163,9 @@ public void clickHamburgerMenu() {
             AppiumBy.accessibilityId("Open navigation menu"))
             .click();
 
+
     System.out.println("Hamburger menu clicked.");
+
 }
     /*
      * Tutorial
@@ -676,6 +699,33 @@ public void closeHamburgerMenu() {
     driver.perform(Collections.singletonList(tap));
 
     System.out.println("Hamburger menu closed.");
+}
+
+/*
+ * Cooking Facts
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.ImageView[@content-desc='Cooking Facts']")
+private WebElement cookingFacts;
+
+/*
+ * Click Cooking Facts
+ */
+public void clickCookingFacts() {
+
+    hideKeyboardIfVisible();
+
+    new WebDriverWait(
+            driver,
+            Duration.ofSeconds(10))
+            .until(
+                    ExpectedConditions.visibilityOf(
+                            cookingFacts));
+
+    cookingFacts.click();
+
+    System.out.println(
+            "Cooking Facts clicked.");
 }
 
 }
