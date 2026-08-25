@@ -1,7 +1,10 @@
 package pagesObjects.HamburgerMenu;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import io.appium.java_client.AppiumBy;
@@ -288,19 +291,92 @@ private WebElement recipeMenu(
         waitUtil.clickWithWait(searchField);
     }
 
-    public void enterSearchText(
-            String recipeName) {
+//     public void enterSearchText(
+//             String recipeName) {
 
-        Assert.assertTrue(
-                searchField.isDisplayed(),
-                "Search field is not displayed.");
+//         waitUtil.clickWithWait(searchField);
 
-        waitUtil.clickWithWait(searchField);
+//         searchField.clear();
 
-        searchField.clear();
+//         searchField.sendKeys(recipeName);
+//     }
 
-        searchField.sendKeys(recipeName);
+       /*
+ * Enter Search Text
+ */
+public void enterSearchText(
+        String searchText) {
+
+    waitUtil.waitForElementVisible(
+            searchField);
+
+    searchField.click();
+
+    searchField.clear();
+
+    /*
+     * Wait Until Search Field Is Cleared
+     */
+    new WebDriverWait(
+            driver,
+            Duration.ofSeconds(5))
+            .until(
+                    driver -> {
+
+                        String currentText =
+                                searchField.getAttribute(
+                                        "text");
+
+                        return currentText == null
+                                || currentText.isEmpty();
+                    });
+
+    /*
+     * Enter One Character At A Time
+     */
+    String enteredText =
+            "";
+
+    for (char character :
+            searchText.toCharArray()) {
+
+        enteredText =
+                enteredText
+                        + character;
+
+        final String expectedText =
+                enteredText;
+
+        /*
+         * Enter Single Character
+         */
+        searchField.sendKeys(
+                String.valueOf(
+                        character));
+
+        /*
+         * Wait Until Character Is Entered
+         */
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(5))
+                .until(
+                        driver -> {
+
+                            String currentText =
+                                    searchField.getAttribute(
+                                            "text");
+
+                            return currentText != null
+                                    && currentText.equals(
+                                            expectedText);
+                        });
     }
+
+    System.out.println(
+            "Search text entered : "
+                    + searchText);
+}
 
     public void clearSearchField() {
 
@@ -867,4 +943,49 @@ private WebElement recipeMenu(
                     "Keyboard is already hidden.");
         }
     }
+
+    /*
+ * Wait For Recipe To Be Displayed
+ */
+public boolean waitForRecipeDisplayed(
+        String recipeName) {
+
+    try {
+
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(20))
+                .until(
+                        driver -> {
+
+                            try {
+
+                                return isRecipeDisplayed(
+                                        recipeName);
+
+                            }
+
+                            catch (Exception e) {
+
+                                return false;
+                            }
+                        });
+
+        System.out.println(
+                "Recipe loaded successfully : "
+                        + recipeName);
+
+        return true;
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Recipe not loaded within wait time : "
+                        + recipeName);
+
+        return false;
+    }
+}
 }

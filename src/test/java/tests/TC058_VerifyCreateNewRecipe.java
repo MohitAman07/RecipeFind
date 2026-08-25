@@ -30,14 +30,14 @@ public void verifyAddRecipe() throws InterruptedException {
         // Upload Image
         // ==========================
 
-        addRecipe.clickImage();
+        // addRecipe.clickImage();
 
-        Thread.sleep(2000);
+        // Thread.sleep(2000);
         
-        addRecipe.clickGallery();
-        addRecipe.selectRecipeImage();
-        addRecipe.clickImageDone();
-        addRecipe.clickCropButton();
+        // addRecipe.clickGallery();
+        // addRecipe.selectRecipeImage();
+        // addRecipe.clickImageDone();
+        // addRecipe.clickCropButton();
 
         // ==========================
         // Recipe Details

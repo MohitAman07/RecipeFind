@@ -70,6 +70,10 @@
             <class name="tests.TC058_VerifyCreateNewRecipe"/>
             <class name="tests.TC059_VerifyFollowingTab"/>
             <class name="tests.TC060_VerifyOnlyGroupAdminSelectedRecipesAreDisplayedInCreateShoppingListForGroup"/>
+            <class name="tests.TC061_VerifyRecipeStatusChangeToVerifiedNotification"/>
+            <class name="tests.TC062_VerifyRecipeStatusChangeToRejectedNotification"/>
+            <class name="tests.TC063_VerifyRecipeStatusChangeToDeletePendingNotification"/>
+            <class name="tests.TC064_VerifyRecipeStatusChangeToSubmittedNotification"/>
         </classes>
  
     </test>
