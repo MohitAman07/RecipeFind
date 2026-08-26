@@ -74,6 +74,7 @@
             <class name="tests.TC062_VerifyRecipeStatusChangeToRejectedNotification"/>
             <class name="tests.TC063_VerifyRecipeStatusChangeToDeletePendingNotification"/>
             <class name="tests.TC064_VerifyRecipeStatusChangeToSubmittedNotification"/>
+            <class name="tests.TC065_VerifyFollowNotification"/>
         </classes>
  
     </test>

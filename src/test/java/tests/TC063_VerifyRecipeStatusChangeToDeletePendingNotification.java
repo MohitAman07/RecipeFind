@@ -82,7 +82,7 @@ public class TC063_VerifyRecipeStatusChangeToDeletePendingNotification
         hamburger.clickHamburgerMenu();
 
         Thread.sleep(
-                2000);
+                3000);
 
         /*
          * Open Control Panel

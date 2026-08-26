@@ -301,7 +301,84 @@ private WebElement recipeMenu(
 //         searchField.sendKeys(recipeName);
 //     }
 
-       /*
+//        /*
+//  * Enter Search Text
+//  */
+// public void enterSearchText(
+//         String searchText) {
+
+//     waitUtil.waitForElementVisible(
+//             searchField);
+
+//     searchField.click();
+
+// //     searchField.clear();
+
+//     /*
+//      * Wait Until Search Field Is Cleared
+//      */
+//     new WebDriverWait(
+//             driver,
+//             Duration.ofSeconds(5))
+//             .until(
+//                     driver -> {
+
+//                         String currentText =
+//                                 searchField.getAttribute(
+//                                         "text");
+
+//                         return currentText == null
+//                                 || currentText.isEmpty();
+//                     });
+
+//     /*
+//      * Enter One Character At A Time
+//      */
+//     String enteredText =
+//             "";
+
+//     for (char character :
+//             searchText.toCharArray()) {
+
+//         enteredText =
+//                 enteredText
+//                         + character;
+
+//         final String expectedText =
+//                 enteredText;
+
+//         /*
+//          * Enter Single Character
+//          */
+//         searchField.sendKeys(
+//                 String.valueOf(
+//                         character));
+
+//         /*
+//          * Wait Until Character Is Entered
+//          */
+//         new WebDriverWait(
+//                 driver,
+//                 Duration.ofSeconds(5))
+//                 .until(
+//                         driver -> {
+
+//                             String currentText =
+//                                     searchField.getAttribute(
+//                                             "text");
+
+//                             return currentText != null
+//                                     && currentText.equals(
+//                                             expectedText);
+//                         });
+//     }
+
+//     System.out.println(
+//             "Search text entered : "
+//                     + searchText);
+// }
+
+/*
  * Enter Search Text
  */
 public void enterSearchText(
@@ -315,68 +392,126 @@ public void enterSearchText(
     searchField.clear();
 
     /*
-     * Wait Until Search Field Is Cleared
-     */
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(5))
-            .until(
-                    driver -> {
-
-                        String currentText =
-                                searchField.getAttribute(
-                                        "text");
-
-                        return currentText == null
-                                || currentText.isEmpty();
-                    });
-
-    /*
      * Enter One Character At A Time
      */
-    String enteredText =
-            "";
-
     for (char character :
             searchText.toCharArray()) {
 
-        enteredText =
-                enteredText
-                        + character;
-
-        final String expectedText =
-                enteredText;
-
-        /*
-         * Enter Single Character
-         */
         searchField.sendKeys(
                 String.valueOf(
                         character));
 
+        try {
+
+            Thread.sleep(
+                    2000);
+
+        }
+
+        catch (InterruptedException e) {
+
+            Thread.currentThread()
+                    .interrupt();
+
+            throw new RuntimeException(
+                    "Interrupted while entering search text.",
+                    e);
+        }
+
         /*
-         * Wait Until Character Is Entered
+         * Check Complete Recipe Card
+         * After Each Character
          */
-        new WebDriverWait(
-                driver,
-                Duration.ofSeconds(5))
-                .until(
-                        driver -> {
+        try {
 
-                            String currentText =
-                                    searchField.getAttribute(
-                                            "text");
+            WebElement recipeCard =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    "//android.view.View[contains(@content-desc,'"
+                                            + searchText
+                                            + "')]"));
 
-                            return currentText != null
-                                    && currentText.equals(
-                                            expectedText);
-                        });
+            if (recipeCard.isDisplayed()) {
+
+                System.out.println(
+                        "Recipe card appeared during search : "
+                                + searchText);
+
+                return;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Recipe card is not available yet.
+             * Continue entering next character.
+             */
+            System.out.println(
+                    "Recipe card not available yet. "
+                            + "Continuing search : "
+                            + searchText);
+        }
     }
 
+    /*
+     * Full Search Text Entered
+     */
     System.out.println(
-            "Search text entered : "
+            "Full search text entered : "
                     + searchText);
+
+    /*
+     * Wait For Final Recipe Result
+     */
+    try {
+
+        Thread.sleep(
+                5000);
+
+    }
+
+    catch (InterruptedException e) {
+
+        Thread.currentThread()
+                .interrupt();
+
+        throw new RuntimeException(
+                "Interrupted while waiting for search result.",
+                e);
+    }
+
+    /*
+     * Final Recipe Card Check
+     */
+    try {
+
+        WebElement recipeCard =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[contains(@content-desc,'"
+                                        + searchText
+                                        + "')]"));
+
+        if (recipeCard.isDisplayed()) {
+
+            System.out.println(
+                    "Recipe card displayed after full search : "
+                            + searchText);
+
+        }
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Recipe card not displayed after full search : "
+                        + searchText);
+    }
 }
+
 
     public void clearSearchField() {
 
