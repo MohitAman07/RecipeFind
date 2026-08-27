@@ -728,4 +728,28 @@ public void clickCookingFacts() {
             "Cooking Facts clicked.");
 }
 
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc=\"Quick Statistics\"]")
+private WebElement quickStatistics;
+
+/*
+ * Click Quick Statistics
+ */
+public void clickQuickStatistics() {
+
+    hideKeyboardIfVisible();
+
+    new WebDriverWait(
+            driver,
+            Duration.ofSeconds(10))
+            .until(
+                    ExpectedConditions.visibilityOf(
+                            quickStatistics));
+
+    quickStatistics.click();
+
+    System.out.println(
+            "Quick Statistics clicked.");
+}
+
 }
