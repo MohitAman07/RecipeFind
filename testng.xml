@@ -77,6 +77,7 @@
             <class name="tests.TC065_VerifyFollowNotification"/>
             <class name="tests.TC066_VerifyQuickStatisticsUsertab"/>
             <class name="tests.TC067_VerifyQuickStatisticsRecipeTab"/>
+            <class name="tests.TC068_VerifyCookingFacts"/>
         </classes>
  
     </test>
