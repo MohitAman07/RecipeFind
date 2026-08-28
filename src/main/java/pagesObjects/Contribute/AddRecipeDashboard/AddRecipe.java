@@ -1,938 +1,2605 @@
 package pagesObjects.Contribute.AddRecipeDashboard;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import utils.ValidationUtil;
 import utils.WaitUtil;
 
 public class AddRecipe {
 
     private final AndroidDriver driver;
-private final WaitUtil waitUtil;
+    private final WaitUtil waitUtil;
 
-public AddRecipe(AndroidDriver driver) {
+    // ======================== Constructor ======================== //
 
-    this.driver = driver;
+    public AddRecipe(
+            AndroidDriver driver) {
 
-    this.waitUtil = new WaitUtil(driver);
+        this.driver =
+                driver;
 
-    PageFactory.initElements(
-            new AppiumFieldDecorator(driver),
-            this);
-}
+        this.waitUtil =
+                new WaitUtil(
+                        driver);
+
+        PageFactory.initElements(
+                new AppiumFieldDecorator(
+                        driver),
+                this);
+    }
+
+    // ======================== Locators ======================== //
 
     /*
- * ==========================================================
- * Contribute Dashboard
- * ==========================================================
+     * Add Recipe Tab
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Add Recipe\n"
+                    + "Tab 1 of 2\"]")
+    private WebElement addRecipeButton;
+
+    /*
+     * Create New Recipe Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Create New Recipe\"]")
+    private WebElement createNewRecipeHeader;
+
+    /*
+     * Recipe Name
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.ScrollView/"
+                    + "android.view.View[3]/"
+                    + "android.widget.EditText")
+    private WebElement recipeNameField;
+
+    /*
+ * Cooking Time
  */
-
 @AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Contribute\nTab 3 of 4\"]")
-private WebElement contributeTab;
-
-@AndroidFindBy(
-        xpath = "//android.widget.ScrollView/android.view.View[3]/android.view.View")
-private WebElement image;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Gallery\"]")
-private WebElement gallery;
-
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Media grid\"]/android.view.View/android.view.View[3]/android.view.View[2]/android.view.View")
-private WebElement recipeImage;
-
-@AndroidFindBy(
-        xpath = "//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[5]/android.view.View/android.view.View[3]/android.widget.Button")
-private WebElement imageDone;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Crop\"]")
-private WebElement cropButton;
+        xpath = "//android.widget.ScrollView/"
+                + "android.view.View[5]/"
+                + "android.widget.EditText[1]")
+private WebElement cookingTimeField;
 
 /*
- * ==========================================================
- * Recipe Details
- * ==========================================================
+ * Serving Time
  */
-
 @AndroidFindBy(
-        xpath = "//android.widget.ScrollView/android.view.View[3]/android.widget.EditText")
-private WebElement recipeName;
-
-@AndroidFindBy(
-        xpath = "(//android.widget.ScrollView/android.view.View[5]/android.widget.EditText[@text=\"0\"])[1]")
-private WebElement prepTime;
-
-@AndroidFindBy(
-        xpath = "(//android.widget.ScrollView/android.view.View[5]/android.widget.EditText[@text=\"0\"])[2]")
-private WebElement cookTime;
-
-@AndroidFindBy(
-        xpath = "(//android.widget.ScrollView/android.view.View[5]/android.widget.EditText[@text=\"0\"])[3]")
-private WebElement servings;
-
-@AndroidFindBy(
-        xpath = "//android.widget.ScrollView/android.widget.EditText")
-private WebElement summary;
+        xpath = "//android.widget.ScrollView/"
+                + "android.view.View[5]/"
+                + "android.widget.EditText[2]")
+private WebElement servingTimeField;
 
 /*
- * ==========================================================
- * Image Upload
- * ==========================================================
+ * Serving Limit
  */
+@AndroidFindBy(
+        xpath = "//android.widget.ScrollView/"
+                + "android.view.View[5]/"
+                + "android.widget.EditText[3]")
+private WebElement servingLimitField;
 
-public void clickContributeTab() {
+    /*
+     * Recipe Summary
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.ScrollView/"
+                    + "android.widget.EditText")
+    private WebElement recipeSummaryField;
 
-    Assert.assertTrue(
-            contributeTab.isDisplayed(),
-            "Contribute tab is not displayed.");
+    /*
+     * Recipe Summary Mic
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.ScrollView/"
+                    + "android.widget.EditText/"
+                    + "android.widget.Button")
+    private WebElement recipeSummaryMic;
 
-    waitUtil.clickWithWait(
-            contributeTab);
+    /*
+     * Recipe Steps Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Recipe Steps\"]")
+    private WebElement recipeStepsHeader;
+
+
+    /*
+     * Add Step
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Add Step\"]")
+    private WebElement addStepButton;
+
+    /*
+     * Pro Tip
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Pro Tip\"]")
+    private WebElement proTip;
+
+    /*
+        * Pro Tip Button
+        */
+        @AndroidFindBy(
+                xpath = "//android.view.View[@content-desc=\"Pro Tip\"]"
+                        + "/android.widget.Button")
+        private WebElement proTipButton;
+
+    /*
+     * Pro Tip Input
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Pro Tip\"]/"
+                    + "android.widget.EditText")
+    private WebElement proTipField;
+
+    /*
+     * Pro Tip Delete
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Pro Tip\"]/"
+                    + "android.widget.Button")
+    private WebElement proTipDeleteButton;
+
+    /*
+     * Keywords
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Keywords\"]")
+    private WebElement keywords;
+
+    /*
+     * Add Keyword Button
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Keywords\"]/"
+                    + "android.widget.Button")
+    private WebElement addKeywordButton;
+
+    /*
+     * Cuisine
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Cuisine\"]")
+    private WebElement cuisineButton;
+
+    /*
+     * Dietary
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Dietary\"]")
+    private WebElement dietaryButton;
+
+    /*
+     * Occasions
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Occasions\"]")
+    private WebElement occasionsButton;
+
+    /*
+     * Difficulty
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Difficulty\"]")
+    private WebElement difficultyButton;
+
+    /*
+     * Attributes
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Attributes\"]")
+    private WebElement attributesButton;
+
+    /*
+     * Keyword Cancel
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Cancel\"]")
+    private WebElement cancelButton;
+
+    /*
+     * Keyword Confirm
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Confirm\"]")
+    private WebElement confirmButton;
+
+    /*
+     * Add Links Section
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]")
+    private WebElement addLinksSection;
+
+    /*
+     * Add Link Button
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]/"
+                    + "android.widget.Button")
+    private WebElement addLinkButton;
+
+    /*
+     * Add Link Input
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]/"
+                    + "android.widget.EditText")
+    private WebElement addLinkField;
+
+    /*
+     * Add Link Delete
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]/"
+                    + "android.widget.Button")
+    private WebElement addLinkDeleteButton;
+
+    /*
+     * Sourced From
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sourced From\"]")
+    private WebElement sourcedFromSection;
+
+    /*
+     * Add Sourced From Button
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sourced From\"]/"
+                    + "android.widget.Button")
+    private WebElement addSourcedFromButton;
+
+    /*
+     * Sourced From Input
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sourced From\"]/"
+                    + "android.widget.EditText")
+    private WebElement sourcedFromField;
+
+    /*
+     * Sourced From Delete
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sourced From\"]/"
+                    + "android.widget.Button")
+    private WebElement sourcedFromDeleteButton;
+
+    /*
+     * Proceed
+     */
+    @AndroidFindBy(
+            xpath = "//android.widget.Button[@content-desc=\"Proceed\"]")
+    private WebElement proceedButton;
+
+    // ======================== Navigation ======================== //
+
+    /*
+     * Click Add Recipe
+     */
+    public void clickAddRecipe() {
+
+        waitUtil.waitForElementVisible(
+                addRecipeButton);
+
+        waitUtil.clickWithWait(
+                addRecipeButton);
+
+        System.out.println(
+                "Add Recipe clicked.");
+    }
+
+    /*
+     * Verify Create New Recipe Header
+     */
+    public boolean isCreateNewRecipeDisplayed() {
+
+        try {
+
+            return createNewRecipeHeader
+                    .isDisplayed();
+
+        }
+
+        catch (Exception e) {
+
+            return false;
+        }
+    }
+
+    // ======================== Coordinate Scrolling ======================== //
+
+/*
+ * Scroll Add Recipe Form Down By Coordinates
+ */
+public void scrollAddRecipeFormDown() {
+
+    Map<String, Object> swipe =
+            new HashMap<>();
+
+    swipe.put(
+            "left",
+            100);
+
+    swipe.put(
+            "top",
+            350);
+
+    swipe.put(
+            "width",
+            880);
+
+    swipe.put(
+            "height",
+            1750);
+
+    swipe.put(
+            "direction",
+            "up");
+
+    swipe.put(
+            "percent",
+            0.70);
+
+    swipe.put(
+            "speed",
+            600);
+
+    driver.executeScript(
+            "mobile: swipeGesture",
+            swipe);
+
+    try {
+
+        Thread.sleep(
+                1000);
+
+    }
+
+    catch (InterruptedException e) {
+
+        Thread.currentThread()
+                .interrupt();
+
+        throw new RuntimeException(
+                "Interrupted while scrolling Add Recipe form.",
+                e);
+    }
+
+    System.out.println(
+            "Add Recipe form scrolled down.");
 }
 
-public void clickImage() {
 
-    Assert.assertTrue(
-            image.isDisplayed(),
-            "Image button is not displayed.");
+/*
+ * Scroll Add Recipe Form To Top By Coordinates
+ */
+private void scrollAddRecipeFormToTop() {
 
-    waitUtil.clickWithWait(
-            image);
+    Map<String, Object> swipe =
+            new HashMap<>();
+
+    swipe.put(
+            "left",
+            100);
+
+    swipe.put(
+            "top",
+            500);
+
+    swipe.put(
+            "width",
+            880);
+
+    swipe.put(
+            "height",
+            1400);
+
+    /*
+     * Swipe DOWN to move the form
+     * back towards the top.
+     */
+    swipe.put(
+            "direction",
+            "down");
+
+    swipe.put(
+            "percent",
+            0.70);
+
+    swipe.put(
+            "speed",
+            600);
+
+    driver.executeScript(
+            "mobile: swipeGesture",
+            swipe);
+
+    try {
+
+        Thread.sleep(
+                1000);
+
+    }
+
+    catch (InterruptedException e) {
+
+        Thread.currentThread()
+                .interrupt();
+
+        throw new RuntimeException(
+                "Interrupted while scrolling Add Recipe form to top.",
+                e);
+    }
+
+    System.out.println(
+            "Add Recipe form scrolled to top.");
 }
 
-public void clickGallery() {
 
-    Assert.assertTrue(
-            gallery.isDisplayed(),
-            "Gallery option is not displayed.");
+/*
+ * Scroll To Element
+ */
+private WebElement scrollToElement(
+        String xpath,
+        String elementName) {
 
-    waitUtil.clickWithWait(
-            gallery);
-}
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
 
-public void selectRecipeImage() {
+        try {
 
-    Assert.assertTrue(
-            recipeImage.isDisplayed(),
-            "Recipe image is not displayed.");
+            WebElement element =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    xpath));
 
-    waitUtil.clickWithWait(
-            recipeImage);
-}
+            if (element.isDisplayed()) {
 
-public void clickImageDone() {
+                System.out.println(
+                        "Element visible : "
+                                + elementName
+                                + " | Attempt : "
+                                + attempt);
 
-    Assert.assertTrue(
-            imageDone.isDisplayed(),
-            "Done button is not displayed.");
+                return element;
+            }
+        }
 
-    waitUtil.clickWithWait(
-            imageDone);
-}
+        catch (Exception e) {
 
-public void clickCropButton() {
+            /*
+             * Element is not currently visible.
+             * Continue coordinate scrolling.
+             */
+        }
 
-    Assert.assertTrue(
-            cropButton.isDisplayed(),
-            "Crop button is not displayed.");
+        scrollAddRecipeFormDown();
 
-    waitUtil.clickWithWait(
-            cropButton);
+        System.out.println(
+                "Scrolling to element : "
+                        + elementName
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    throw new RuntimeException(
+            "Unable to find element : "
+                    + elementName);
 }
 
 /*
- * ==========================================================
- * Recipe Details
- * ==========================================================
+ * Scroll Up To Element
  */
+private WebElement scrollUpToElement(
+        String xpath,
+        String elementName) {
 
-public void clickRecipeName() {
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
 
-    Assert.assertTrue(
-            recipeName.isDisplayed(),
-            "Recipe Name field is not displayed.");
+        try {
+
+            WebElement element =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    xpath));
+
+            if (element.isDisplayed()) {
+
+                System.out.println(
+                        "Element visible : "
+                                + elementName
+                                + " | Attempt : "
+                                + attempt);
+
+                return element;
+            }
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Element is not currently visible.
+             * Continue scrolling towards top.
+             */
+        }
+
+        scrollAddRecipeFormToTop();
+
+        System.out.println(
+                "Scrolling up to element : "
+                        + elementName
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    throw new RuntimeException(
+            "Unable to find element : "
+                    + elementName);
+}
+
+
+/*
+ * Click Element After Scrolling Into View
+ */
+private void clickAfterScroll(
+        String xpath,
+        String elementName) {
+
+    WebElement element =
+            scrollToElement(
+                    xpath,
+                    elementName);
 
     waitUtil.clickWithWait(
+            element);
+
+    System.out.println(
+            elementName
+                    + " clicked.");
+}
+
+// ======================== Recipe Details ======================== //
+
+/*
+ * Enter Recipe Name
+ */
+public void enterRecipeName(
+        String recipeName) {
+
+    WebElement field =
+            scrollToElement(
+                    "//android.widget.ScrollView/"
+                            + "android.view.View[3]/"
+                            + "android.widget.EditText",
+                    "Recipe Name");
+
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
             recipeName);
 
-    recipeName.clear();
+             hideKeyboard();
+
+    System.out.println(
+            "Recipe name entered : "
+                    + recipeName);
 }
 
-public void enterRecipeName(
-        String recipe) {
+/*
+ * Enter Cooking Time
+ */
+public void enterCookingTime(
+        String cookingTime) {
 
-    recipeName.sendKeys(
-            recipe);
-}
-
-public void clickPrepTime() {
-
-    Assert.assertTrue(
-            prepTime.isDisplayed(),
-            "Prep Time field is not displayed.");
+    waitUtil.waitForElementVisible(
+            cookingTimeField);
 
     waitUtil.clickWithWait(
-            prepTime);
+            cookingTimeField);
+
+    cookingTimeField.clear();
+
+    cookingTimeField.sendKeys(
+            cookingTime);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Cooking time entered : "
+                    + cookingTime);
 }
 
-public void enterPrepTime(
-        String prep) {
+/*
+ * Enter Serving Time
+ */
+public void enterServingTime(
+        String servingTime) {
 
-    prepTime.sendKeys(
-            prep);
-}
-
-public void clickCookTime() {
-
-    Assert.assertTrue(
-            cookTime.isDisplayed(),
-            "Cook Time field is not displayed.");
+    waitUtil.waitForElementVisible(
+            servingTimeField);
 
     waitUtil.clickWithWait(
-            cookTime);
+            servingTimeField);
+
+    servingTimeField.clear();
+
+    servingTimeField.sendKeys(
+            servingTime);
+
+         hideKeyboard();
+
+    System.out.println(
+            "Serving time entered : "
+                    + servingTime);
 }
 
-public void enterCookTime(
-        String cook) {
+/*
+ * Enter Serving Limit
+ */
+public void enterServingLimit(
+        String servingLimit) {
 
-    cookTime.sendKeys(
-            cook);
-}
-
-public void clickServings() {
-
-    Assert.assertTrue(
-            servings.isDisplayed(),
-            "Servings field is not displayed.");
+    waitUtil.waitForElementVisible(
+            servingLimitField);
 
     waitUtil.clickWithWait(
-            servings);
+            servingLimitField);
+
+    servingLimitField.clear();
+
+    servingLimitField.sendKeys(
+            servingLimit);
+
+         hideKeyboard();
+
+    System.out.println(
+            "Serving limit entered : "
+                    + servingLimit);
 }
 
-public void enterServings(
-        String serving) {
+/*
+ * Enter Recipe Summary
+ */
+public void enterRecipeSummary(
+        String summary) {
 
-    servings.sendKeys(
-            serving);
-}
-
-public void clickSummary() {
-
-    Assert.assertTrue(
-            summary.isDisplayed(),
-            "Summary field is not displayed.");
+    WebElement field =
+            scrollToElement(
+                    "//android.widget.ScrollView/"
+                            + "android.widget.EditText",
+                    "Recipe Summary");
 
     waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
             summary);
+
+            hideKeyboard();
+
+    System.out.println(
+            "Recipe summary entered.");
 }
 
-public void enterSummary(
-        String text) {
+/*
+ * Click Recipe Steps
+ */
+public void clickRecipeSteps() {
 
-    summary.sendKeys(
-            text);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Recipe Steps\"]",
+            "Recipe Steps");
 }
 
 /*
- * ==========================================================
- * Recipe Steps
- * ==========================================================
+ * Get Recipe Steps Input Fields
  */
+private List<WebElement> getRecipeStepInputs() {
 
-@AndroidFindBy(
-        xpath = "//android.widget.ScrollView/android.view.View[9]/android.view.View/android.view.View/android.widget.EditText")
-private WebElement recipeStep1;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@index='2']")
-private WebElement validateStep1;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Add Step\"]")
-private WebElement addStep;
-
-@AndroidFindBy(
-        xpath = "//android.widget.ScrollView/android.view.View[8]/android.view.View/android.view.View/android.widget.EditText[2]")
-private WebElement recipeStep2;
-
-@AndroidFindBy(
-        xpath = "//android.widget.EditText[@text=\"Heat oil to medium high\"]/android.widget.Button[3]")
-private WebElement validateStep2;
+    return driver.findElements(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc=\"Recipe Steps\"]"
+                            + "/following::android.widget.EditText"));
+}
 
 /*
- * ==========================================================
- * Pro Tip & Keywords
- * ==========================================================
+ * Get Latest Recipe Step Input
  */
+private WebElement getLatestRecipeStepInput() {
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Pro Tip\"]/android.widget.Button")
-private WebElement proTip;
+    List<WebElement> stepInputs =
+            driver.findElements(
+                    AppiumBy.xpath(
+                            "//android.view.View[@content-desc=\"Recipe Steps\"]"
+                                    + "/following::android.widget.EditText"));
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Pro Tip\"]/android.widget.EditText")
-private WebElement proTipField;
+    if (stepInputs.isEmpty()) {
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Pro Tip\"]/android.widget.EditText")
-private WebElement keywords;
+        throw new RuntimeException(
+                "Recipe Step input field is not displayed.");
+    }
+
+    return stepInputs.get(
+            stepInputs.size() - 1);
+}
+
 
 /*
- * ==========================================================
- * Recipe Step Methods
- * ==========================================================
+ * Enter Recipe Step
  */
+public void enterRecipeStep(
+        String recipeStep) throws InterruptedException {
 
-public void clickRecipeStep1() {
+    WebElement stepInput =
+            getLatestRecipeStepInput();
 
-    Assert.assertTrue(
-            recipeStep1.isDisplayed(),
-            "Recipe Step 1 is not displayed");
+    waitUtil.waitForElementVisible(
+            stepInput);
 
     waitUtil.clickWithWait(
-            recipeStep1);
+            stepInput);
+
+    stepInput.clear();
+
+    stepInput.sendKeys(
+            recipeStep);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Recipe step entered : "
+                    + recipeStep);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Verify Recipe Step
+     */
+    verifyRecipeStep();
 }
 
-public void enterRecipeStep1(
-        String step) {
 
-    recipeStep1.clear();
+/*
+ * Click Recipe Step Mic
+ */
+public void clickRecipeStepMic() {
 
-    recipeStep1.sendKeys(
-            step);
-}
-
-public void validateStep1() {
-
-    Assert.assertTrue(
-            validateStep1.isDisplayed(),
-            "Step 1 validation is not displayed");
+    WebElement micButton =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "(//android.view.View[@content-desc=\"Recipe Steps\"]"
+                                    + "/following::android.widget.EditText)[last()]"
+                                    + "/android.widget.Button[1]"));
 
     waitUtil.clickWithWait(
-            validateStep1);
+            micButton);
+
+    System.out.println(
+            "Recipe Step Mic clicked.");
 }
 
+
+/*
+ * Delete Recipe Step
+ */
+public void deleteRecipeStep() {
+
+    WebElement deleteButton =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "(//android.view.View[@content-desc=\"Recipe Steps\"]"
+                                    + "/following::android.widget.EditText)[last()]"
+                                    + "/android.widget.Button[2]"));
+
+    waitUtil.clickWithWait(
+            deleteButton);
+
+    System.out.println(
+            "Recipe Step Delete clicked.");
+}
+
+
+/*
+ * Verify Recipe Step
+ */
+public void verifyRecipeStep() {
+
+    WebElement verifyButton =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "(//android.view.View[@content-desc=\"Recipe Steps\"]"
+                                    + "/following::android.widget.EditText)[last()]"
+                                    + "/android.widget.Button[3]"));
+
+    waitUtil.clickWithWait(
+            verifyButton);
+
+    System.out.println(
+            "Recipe Step Verify clicked.");
+}
+
+
+/*
+ * Add Recipe Step
+ */
 public void clickAddStep() {
 
-    Assert.assertTrue(
-            addStep.isDisplayed(),
-            "Add Step button is not displayed");
-
-    waitUtil.clickWithWait(
-            addStep);
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Add Step\"]",
+            "Add Step");
 }
 
-public void clickRecipeStep2() {
-
-    Assert.assertTrue(
-            recipeStep2.isDisplayed(),
-            "Recipe Step 2 is not displayed");
-
-    waitUtil.clickWithWait(
-            recipeStep2);
-}
-
-public void enterRecipeStep2(
-        String step) {
-
-    recipeStep2.clear();
-
-    recipeStep2.sendKeys(
-            step);
-}
-
-public void validateStep2() {
-
-    Assert.assertTrue(
-            validateStep2.isDisplayed(),
-            "Step 2 validation is not displayed");
-
-    waitUtil.clickWithWait(
-            validateStep2);
-}
+// ======================== Pro Tip ======================== //
 
 /*
- * ==========================================================
- * Pro Tip
- * ==========================================================
+ * Scroll To Pro Tip
  */
+public void scrollToProTip() {
 
-public void openProTip() {
-
-    Assert.assertTrue(
-            proTip.isDisplayed(),
-            "Pro Tip button is not displayed");
-
-    waitUtil.clickWithWait(
-            proTip);
+    scrollToElement(
+            "//android.view.View[@content-desc=\"Pro Tip\"]",
+            "Pro Tip");
 }
 
-public void clickProTipField() {
 
-    Assert.assertTrue(
-            proTipField.isDisplayed(),
-            "Pro Tip field is not displayed");
+/*
+ * Click Add Pro Tip
+ */
+public void clickAddProTip() {
 
-    waitUtil.clickWithWait(
-            proTipField);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Pro Tip\"]"
+                    + "/android.widget.Button",
+            "Add Pro Tip");
+
 }
 
+
+// /*
+//  * Enter Pro Tip
+//  */
+// public void enterProTip(
+//         String proTipText) {
+
+//     WebElement field =
+//             scrollToElement(
+//                     "//android.view.View[@content-desc=\"Pro Tip\"]/"
+//                             + "android.widget.EditText",
+//                     "Pro Tip Input");
+
+//     waitUtil.clickWithWait(
+//             field);
+
+//     field.clear();
+
+//     field.sendKeys(
+//             proTipText);
+
+//     hideKeyboard();
+
+//     System.out.println(
+//             "Pro Tip entered : "
+//                     + proTipText);
+// }
+
+/*
+ * Enter Pro Tip
+ */
 public void enterProTip(
-        String tip) {
+        String proTipText) {
 
-    proTipField.sendKeys(
-            tip);
+    WebElement field =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "//android.view.View[@content-desc=\"Pro Tip\"]/"
+                                    + "android.widget.EditText"));
+
+    waitUtil.waitForElementVisible(
+            field);
+
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
+            proTipText);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Pro Tip entered : "
+                    + proTipText);
+}
+
+
+/*
+ * Delete Pro Tip
+ */
+public void deleteProTip() {
+
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Pro Tip\"]/"
+                    + "android.widget.Button",
+            "Pro Tip Delete");
+}
+
+// ======================== Keywords ======================== //
+
+
+/*
+ * Scroll Keyword Selection Window Down By Coordinates
+ */
+private void scrollKeywordWindowDown() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    634,
+                    878));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            new Pause(
+                    finger,
+                    Duration.ofMillis(300)));
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    634,
+                    450));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    try {
+
+        Thread.sleep(
+                1000);
+
+    }
+
+    catch (InterruptedException e) {
+
+        Thread.currentThread()
+                .interrupt();
+
+        throw new RuntimeException(
+                "Interrupted while scrolling keyword selection.",
+                e);
+    }
+
+    System.out.println(
+            "Keyword selection options scrolled down by coordinates.");
 }
 
 /*
- * ==========================================================
- * Keywords
- * ==========================================================
+ * Click Keywords
  */
-
 public void clickKeywords() {
 
-    Assert.assertTrue(
-            keywords.isDisplayed(),
-            "Keywords field is not displayed");
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Keywords\"]",
+            "Keywords");
+}
 
-    waitUtil.clickWithWait(
-            keywords);
+
+/*
+ * Click Add New Keyword
+ */
+public void clickAddKeyword() {
+
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Keywords\"]/"
+                    + "android.widget.Button",
+            "Add New Keyword");
 }
 
 /*
- * ==========================================================
- * Cuisine & Dietary
- * ==========================================================
+ * Select Keyword
  */
+public void selectKeyword(
+        String keywordName) {
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Caribbean\"]")
-private WebElement selectCuisines;
+    String keywordXpath =
+            "//android.view.View[@content-desc=\""
+                    + keywordName
+                    + "\"]";
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Caribbean\"]")
-private WebElement dietary;
+    for (int attempt = 1;
+            attempt <= 15;
+            attempt++) {
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Cardiovascular\"]")
-private WebElement selectDietary;
+        try {
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Cardiovascular\"]")
-private WebElement religion;
+            WebElement keyword =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    keywordXpath));
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Islam\"]")
-private WebElement selectReligion;
+            if (keyword.isDisplayed()) {
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Difficulty\"]")
-private WebElement difficulty;
+                waitUtil.clickWithWait(
+                        keyword);
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Beginner\"]")
-private WebElement selectDifficulty;
+                System.out.println(
+                        "Keyword selected : "
+                                + keywordName);
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Confirm\"]")
-private WebElement confirmKeywords;
+                return;
+            }
 
-/*
- * ==========================================================
- * Add Links
- * ==========================================================
- */
+        }
 
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Confirm\"]")
-private WebElement addLinks;
+        catch (Exception e) {
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Add Links\nHere you can add only 1 link per recipe\"]/android.widget.EditText")
-private WebElement addLinksField;
+            /*
+             * Keyword not currently visible.
+             */
+        }
 
-/*
- * ==========================================================
- * Sourced From
- * ==========================================================
- */
+        System.out.println(
+                "Keyword not visible : "
+                        + keywordName
+                        + " | Swipe attempt : "
+                        + attempt);
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Sourced From\"]/android.widget.Button")
-private WebElement sourcedFrom;
+        scrollKeywordWindowDown();
+    }
 
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Sourced From\"]/android.widget.Button")
-private WebElement sourcedField;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Proceed\"]")
-private WebElement proceed01;
-
-/*
- * ==========================================================
- * Cuisine & Dietary Methods
- * ==========================================================
- */
-
-public void clickSelectCuisine() {
-
-    Assert.assertTrue(
-            selectCuisines.isDisplayed(),
-            "Cuisine option is not displayed");
-
-    waitUtil.clickWithWait(
-            selectCuisines);
-}
-
-public void clickDietary() {
-
-    Assert.assertTrue(
-            dietary.isDisplayed(),
-            "Dietary option is not displayed");
-
-    waitUtil.clickWithWait(
-            dietary);
-}
-
-public void clickSelectDietary() {
-
-    Assert.assertTrue(
-            selectDietary.isDisplayed(),
-            "Dietary selection is not displayed");
-
-    waitUtil.clickWithWait(
-            selectDietary);
-}
-
-public void clickReligion() {
-
-    Assert.assertTrue(
-            religion.isDisplayed(),
-            "Religion option is not displayed");
-
-    waitUtil.clickWithWait(
-            religion);
-}
-
-public void clickSelectReligion() {
-
-    Assert.assertTrue(
-            selectReligion.isDisplayed(),
-            "Religion selection is not displayed");
-
-    waitUtil.clickWithWait(
-            selectReligion);
-}
-
-public void clickDifficulty() {
-
-    Assert.assertTrue(
-            difficulty.isDisplayed(),
-            "Difficulty option is not displayed");
-
-    waitUtil.clickWithWait(
-            difficulty);
-}
-
-public void clickSelectDifficulty() {
-
-    Assert.assertTrue(
-            selectDifficulty.isDisplayed(),
-            "Difficulty selection is not displayed");
-
-    waitUtil.clickWithWait(
-            selectDifficulty);
-}
-
-public void clickConfirmKeywords() {
-
-    Assert.assertTrue(
-            confirmKeywords.isDisplayed(),
-            "Confirm button is not displayed");
-
-    waitUtil.clickWithWait(
-            confirmKeywords);
+    throw new RuntimeException(
+            "Unable to find keyword : "
+                    + keywordName);
 }
 
 /*
- * ==========================================================
- * Add Links
- * ==========================================================
+ * Confirm Keyword Selection
  */
+public void confirmKeywordSelection() {
 
+    WebElement confirm =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.widget.Button[@content-desc=\"Confirm\"]")));
+
+    waitUtil.clickWithWait(
+            confirm);
+
+    System.out.println(
+            "Keyword selection confirmed.");
+
+        hideKeyboard();
+}
+
+
+/*
+ * Cancel Keyword Selection
+ */
+public void cancelKeywordSelection() {
+
+    WebElement cancel =
+            new WebDriverWait(
+                    driver,
+                    Duration.ofSeconds(10))
+                    .until(
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    "//android.widget.Button[@content-desc=\"Cancel\"]")));
+
+    waitUtil.clickWithWait(
+            cancel);
+
+    System.out.println(
+            "Keyword selection cancelled.");
+}
+
+// ======================== Selection Popup Scrolling ======================== //
+
+// /*
+//  * Scroll Selection Popup Down By Coordinates
+//  */
+// private void scrollSelectionPopupDown() {
+
+//     Map<String, Object> swipe =
+//             new HashMap<>();
+
+//     swipe.put(
+//             "left",
+//             100);
+
+//     swipe.put(
+//             "top",
+//             450);
+
+//     swipe.put(
+//             "width",
+//             880);
+
+//     swipe.put(
+//             "height",
+//             1400);
+
+//     swipe.put(
+//             "direction",
+//             "up");
+
+//     swipe.put(
+//             "percent",
+//             0.60);
+
+//     swipe.put(
+//             "speed",
+//             600);
+
+//     driver.executeScript(
+//             "mobile: swipeGesture",
+//             swipe);
+
+//     try {
+
+//         Thread.sleep(
+//                 800);
+
+//     }
+
+//     catch (InterruptedException e) {
+
+//         Thread.currentThread()
+//                 .interrupt();
+
+//         throw new RuntimeException(
+//                 "Interrupted while scrolling selection popup.",
+//                 e);
+//     }
+
+//     System.out.println(
+//             "Selection popup scrolled down.");
+// }
+
+// /*
+//  * Find Selection Option With Scroll
+//  */
+// private WebElement findSelectionOptionWithScroll(
+//         String optionName) {
+
+//     String optionXpath =
+//             "//android.widget.Button[@content-desc=\""
+//                     + optionName
+//                     + "\"]";
+
+//     for (int attempt = 1;
+//             attempt <= 10;
+//             attempt++) {
+
+//         try {
+
+//             WebElement option =
+//                     driver.findElement(
+//                             AppiumBy.xpath(
+//                                     optionXpath));
+
+//             if (option.isDisplayed()) {
+
+//                 System.out.println(
+//                         "Option visible : "
+//                                 + optionName
+//                                 + " | Attempt : "
+//                                 + attempt);
+
+//                 return option;
+//             }
+//         }
+
+//         catch (Exception e) {
+
+//             /*
+//              * Option is not currently visible.
+//              * Continue coordinate scrolling.
+//              */
+//         }
+
+//         scrollSelectionPopupDown();
+
+//         System.out.println(
+//                 "Searching option : "
+//                         + optionName
+//                         + " | Attempt : "
+//                         + attempt);
+//     }
+
+//     throw new RuntimeException(
+//             "Option could not be found : "
+//                     + optionName);
+// }
+
+/*
+ * Scroll Selection Popup Down By Coordinates
+ */
+private void scrollSelectionPopupDown() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    /*
+     * Start inside the right-side
+     * selection options list.
+     */
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    634,
+                    878));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            new Pause(
+                    finger,
+                    Duration.ofMillis(300)));
+
+    /*
+     * Swipe UP inside the options list.
+     */
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    634,
+                    500));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    try {
+
+        Thread.sleep(
+                800);
+
+    }
+
+    catch (InterruptedException e) {
+
+        Thread.currentThread()
+                .interrupt();
+
+        throw new RuntimeException(
+                "Interrupted while scrolling selection popup.",
+                e);
+    }
+
+    System.out.println(
+            "Selection popup scrolled down.");
+}
+
+
+/*
+ * Find Selection Option With Scroll
+ */
+private WebElement findSelectionOptionWithScroll(
+        String optionName) {
+
+    String optionXpath =
+            "//android.widget.Button[@content-desc=\""
+                    + optionName
+                    + "\"]";
+
+    for (int attempt = 1;
+            attempt <= 15;
+            attempt++) {
+
+        try {
+
+            WebElement option =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    optionXpath));
+
+            if (option.isDisplayed()) {
+
+                System.out.println(
+                        "Option visible : "
+                                + optionName
+                                + " | Attempt : "
+                                + attempt);
+
+                return option;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Option is not currently visible.
+             * Continue coordinate scrolling.
+             */
+        }
+
+        System.out.println(
+                "Searching option : "
+                        + optionName
+                        + " | Attempt : "
+                        + attempt);
+
+        /*
+         * Swipe only inside the
+         * selection options list.
+         */
+        scrollSelectionPopupDown();
+    }
+
+    throw new RuntimeException(
+            "Option could not be found : "
+                    + optionName);
+}
+
+// ======================== Cuisine ======================== //
+
+/*
+ * Select Cuisine
+ */
+public void selectCuisine(
+        String cuisineName) {
+
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Cuisine\"]",
+            "Cuisine");
+
+    WebElement cuisineOption =
+            findSelectionOptionWithScroll(
+                    cuisineName);
+
+    waitUtil.clickWithWait(
+            cuisineOption);
+
+    System.out.println(
+            "Cuisine selected : "
+                    + cuisineName);
+}
+
+// ======================== Dietary ======================== //
+
+/*
+ * Select Dietary
+ */
+public void selectDietary(
+        String dietaryName) {
+
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Dietary\"]",
+            "Dietary");
+
+    WebElement dietaryOption =
+            findSelectionOptionWithScroll(
+                    dietaryName);
+
+    waitUtil.clickWithWait(
+            dietaryOption);
+
+    System.out.println(
+            "Dietary selected : "
+                    + dietaryName);
+}
+
+// ======================== Occasions ======================== //
+
+/*
+ * Select Occasion
+ */
+public void selectOccasion(
+        String occasionName) {
+
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Occasions\"]",
+            "Occasions");
+
+    WebElement occasionOption =
+            findSelectionOptionWithScroll(
+                    occasionName);
+
+    waitUtil.clickWithWait(
+            occasionOption);
+
+    System.out.println(
+            "Occasion selected : "
+                    + occasionName);
+}
+
+// ======================== Difficulty ======================== //
+
+/*
+ * Select Difficulty
+ */
+public void selectDifficulty(
+        String difficultyName) {
+
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Difficulty\"]",
+            "Difficulty");
+
+    WebElement difficultyOption =
+            findSelectionOptionWithScroll(
+                    difficultyName);
+
+    waitUtil.clickWithWait(
+            difficultyOption);
+
+    System.out.println(
+            "Difficulty selected : "
+                    + difficultyName);
+}
+
+// ======================== Attributes ======================== //
+
+/*
+ * Select Attribute
+ */
+public void selectAttribute(
+        String attributeName) {
+
+    clickAfterScroll(
+            "//android.widget.Button[@content-desc=\"Attributes\"]",
+            "Attributes");
+
+    WebElement attributeOption =
+            findSelectionOptionWithScroll(
+                    attributeName);
+
+    waitUtil.clickWithWait(
+            attributeOption);
+
+    System.out.println(
+            "Attribute selected : "
+                    + attributeName);
+}
+
+// ======================== Add Links ======================== //
+
+/*
+ * Click Add Links
+ */
 public void clickAddLinks() {
 
-    Assert.assertTrue(
-            addLinks.isDisplayed(),
-            "Add Links button is not displayed");
-
-    waitUtil.clickWithWait(
-            addLinks);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]",
+            "Add Links");
 }
 
-public void enterAddLinks() {
 
-    Assert.assertTrue(
-            addLinksField.isDisplayed(),
-            "Add Links field is not displayed");
+/*
+ * Click Add New Link
+ */
+public void clickAddNewLink() {
 
-    waitUtil.clickWithWait(
-            addLinksField);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]/"
+                    + "android.widget.Button",
+            "Add New Link");
 }
 
-public void enterLinkText(
+
+/*
+ * Enter Link
+ */
+public void enterLink(
         String link) {
 
-    addLinksField.clear();
 
-    addLinksField.sendKeys(
+    WebElement field =
+            scrollToElement(
+                    "//android.view.View[@content-desc=\"Add Links\n"
+                            + "Here you can add only 1 link per recipe\"]/"
+                            + "android.widget.EditText",
+                    "Add Link Input");
+
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
             link);
+
+    System.out.println(
+            "Recipe link entered : "
+                    + link);
 }
 
-/*
- * ==========================================================
- * Sourced From
- * ==========================================================
- */
 
+/*
+ * Delete Link
+ */
+public void deleteLink() {
+
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Add Links\n"
+                    + "Here you can add only 1 link per recipe\"]/"
+                    + "android.widget.Button",
+            "Delete Link");
+}
+
+// ======================== Sourced From ======================== //
+
+/*
+ * Click Sourced From
+ */
 public void clickSourcedFrom() {
 
-    Assert.assertTrue(
-            sourcedFrom.isDisplayed(),
-            "Sourced From button is not displayed");
-
-    waitUtil.clickWithWait(
-            sourcedFrom);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Sourced From\"]",
+            "Sourced From");
 }
 
-public void enterSourcedField() {
 
-    Assert.assertTrue(
-            sourcedField.isDisplayed(),
-            "Sourced Field is not displayed");
+/*
+ * Click Add New Sourced From
+ */
+public void clickAddSourcedFrom() {
 
-    waitUtil.clickWithWait(
-            sourcedField);
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Sourced From\"]/"
+                    + "android.widget.Button",
+            "Add Sourced From");
 }
 
-public void enterSourcedText(
+
+/*
+ * Enter Sourced From
+ */
+public void enterSourcedFrom(
         String source) {
 
-    sourcedField.clear();
+    WebElement field =
+            scrollToElement(
+                    "//android.view.View[@content-desc=\"Sourced From\"]/"
+                            + "android.widget.EditText",
+                    "Sourced From Input");
 
-    sourcedField.sendKeys(
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
             source);
+
+             hideKeyboard();
+
+    System.out.println(
+            "Sourced From entered : "
+                    + source);
 }
 
-/*
- * ==========================================================
- * Navigation
- * ==========================================================
- */
 
+/*
+ * Delete Sourced From
+ */
+public void deleteSourcedFrom() {
+
+    clickAfterScroll(
+            "//android.view.View[@content-desc=\"Sourced From\"]/"
+                    + "android.widget.Button",
+            "Delete Sourced From");
+}
+
+// ======================== Final Actions ======================== //
+
+/*
+ * Click Cancel
+ */
+public void clickCancel() {
+
+    WebElement cancel =
+            scrollToElement(
+                    "//android.widget.Button[@content-desc=\"Cancel\"]",
+                    "Cancel");
+
+    waitUtil.clickWithWait(
+            cancel);
+
+    System.out.println(
+            "Cancel clicked.");
+}
+
+
+/*
+ * Click Proceed
+ */
 public void clickProceed() {
 
-    Assert.assertTrue(
-            proceed01.isDisplayed(),
-            "Proceed button is not displayed");
-
-    waitUtil.clickWithWait(
-            proceed01);
-}
-
-/*
- * ==========================================================
- * Verification
- * ==========================================================
- */
-
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Thinly slice the potaties.Soak slices in cold water for 20 to 30 min.\"]")
-private WebElement verifyStep1;
-
-/*
- * ==========================================================
- * Ingredients
- * ==========================================================
- */
-
-@AndroidFindBy(
-        xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View/android.view.View/android.view.View/android.widget.Button[1]")
-private WebElement addIngredient;
-
-@AndroidFindBy(
-        xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.view.View[1]/android.widget.EditText")
-private WebElement enterIngredient;
-
-@AndroidFindBy(
-        xpath = "//android.widget.EditText[@text=\"0.0\"]")
-private WebElement enterQuantity;
-
-@AndroidFindBy(
-        xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.view.View[3]/android.widget.Button")
-private WebElement viewUnitList;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Gram\"]")
-private WebElement selectGram;
-
-@AndroidFindBy(
-        xpath = "//android.view.View[@index='0']")
-private WebElement deleteIngredient;
-
-/*
- * ==========================================================
- * Verification
- * ==========================================================
- */
-
-public boolean verifyStep01Displayed() {
-
-    Assert.assertTrue(
-            verifyStep1.isDisplayed(),
-            "Step 1 is not displayed");
-
-    return verifyStep1.isDisplayed();
-}
-
-/*
- * ==========================================================
- * Ingredients
- * ==========================================================
- */
-
-public void clickAddIngredient() {
-
-    Assert.assertTrue(
-            addIngredient.isDisplayed(),
-            "Add Ingredient button is not displayed");
-
-    waitUtil.clickWithWait(
-            addIngredient);
-}
-
-public void enterIngredient() {
-
-    Assert.assertTrue(
-            enterIngredient.isDisplayed(),
-            "Ingredient field is not displayed");
-
-    waitUtil.clickWithWait(
-            enterIngredient);
-}
-
-public void typeIngredient(
-        String ingredient) {
-
-    enterIngredient.clear();
-
-    enterIngredient.sendKeys(
-            ingredient);
-}
-
-public void enterQuantity() {
-
-    Assert.assertTrue(
-            enterQuantity.isDisplayed(),
-            "Quantity field is not displayed");
-
-    waitUtil.clickWithWait(
-            enterQuantity);
-}
-
-public void typeQuantity(
-        String quantity) {
-
-    enterQuantity.clear();
-
-    enterQuantity.sendKeys(
-            quantity);
-}
-
-public void clickUnitList() {
-
-    Assert.assertTrue(
-            viewUnitList.isDisplayed(),
-            "Unit List is not displayed");
-
-    waitUtil.clickWithWait(
-            viewUnitList);
-}
-
-public void selectGram() {
-
-    waitUtil.clickWithWait(
-            selectGram);
-}
-
-public void clickDeleteIngredient() {
-
-    Assert.assertTrue(
-            deleteIngredient.isDisplayed(),
-            "Delete Ingredient button is not displayed");
-
-    waitUtil.clickWithWait(
-            deleteIngredient);
-}
-
-/*
- * ==========================================================
- * Utensils
- * ==========================================================
- */
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@index='6']")
-private WebElement addUtensils;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Baking Sheet\"]")
-private WebElement selectUtensils;
-
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Add custom utensil\"]")
-private WebElement addCustomUtensils;
-
-@AndroidFindBy(
-        xpath = "//android.widget.EditText[@index='0']")
-private WebElement addCustomEnterField;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Add\"]")
-private WebElement addUtensilsButton;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Confirm\"]")
-private WebElement utensilsConfirm;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Next\"]")
-private WebElement next;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Proceed\"]")
-private WebElement proceed;
-
-@AndroidFindBy(
-        xpath = "//android.widget.Button[@content-desc=\"Submit Recipe\"]")
-private WebElement submitRecipe;
-
-/*
- * ==========================================================
- * Utensils
- * ==========================================================
- */
-
-public void clickAddUtensils() {
-
-    Assert.assertTrue(
-            addUtensils.isDisplayed(),
-            "Add Utensils button is not displayed");
-
-    waitUtil.clickWithWait(
-            addUtensils);
-}
-
-public void selectUtensils() {
-
-    Assert.assertTrue(
-            selectUtensils.isDisplayed(),
-            "Utensil is not displayed");
-
-    waitUtil.clickWithWait(
-            selectUtensils);
-}
-
-public void clickAddCustomUtensils() {
-
-    Assert.assertTrue(
-            addCustomUtensils.isDisplayed(),
-            "Add Custom Utensils option is not displayed");
-
-    waitUtil.clickWithWait(
-            addCustomUtensils);
-}
-
-public void enterCustomUtensils(
-        String utensil) {
-
-    Assert.assertTrue(
-            addCustomEnterField.isDisplayed(),
-            "Custom Utensil field is not displayed");
-
-    waitUtil.clickWithWait(
-            addCustomEnterField);
-
-    addCustomEnterField.clear();
-
-    addCustomEnterField.sendKeys(
-            utensil);
-}
-
-public void clickAddButton() {
-
-    Assert.assertTrue(
-            addUtensilsButton.isDisplayed(),
-            "Add button is not displayed");
-
-    waitUtil.clickWithWait(
-            addUtensilsButton);
-}
-
-public void clickUtensilsConfirm() {
-
-    Assert.assertTrue(
-            utensilsConfirm.isDisplayed(),
-            "Confirm button is not displayed");
-
-    waitUtil.clickWithWait(
-            utensilsConfirm);
-}
-
-public void clickNext() {
-
-    Assert.assertTrue(
-            next.isDisplayed(),
-            "Next button is not displayed");
-
-    waitUtil.clickWithWait(
-            next);
-}
-
-public void clickProceed02() {
-
-    Assert.assertTrue(
-            proceed.isDisplayed(),
-            "Proceed button is not displayed");
+    WebElement proceed =
+            scrollToElement(
+                    "//android.widget.Button[@content-desc=\"Proceed\"]",
+                    "Proceed");
 
     waitUtil.clickWithWait(
             proceed);
+
+    System.out.println(
+            "Proceed clicked.");
+}
+
+// ======================== Complete Recipe Creation Flow ======================== //
+/*
+ * Complete Add Recipe Flow
+ */
+public void createRecipe(
+        String recipeName,
+        String cookingTime,
+        String servingTime,
+        String servingLimit,
+        String recipeSummary,
+        String recipeStep,
+        String proTipText,
+        String cuisineName,
+        String dietaryName,
+        String occasionName,
+        String difficultyName,
+        String attributeName,
+        String link,
+        String sourcedFrom)
+        throws Exception {
+
+    /*
+     * Click Add Recipe
+     */
+    clickAddRecipe();
+
+    Thread.sleep(
+            1500);
+
+    /*
+     * Enter Recipe Name
+     */
+    enterRecipeName(
+            recipeName);
+
+    /*
+     * Enter Cooking Time
+     */
+    enterCookingTime(
+            cookingTime);
+
+    /*
+     * Enter Serving Time
+     */
+    enterServingTime(
+            servingTime);
+
+    /*
+     * Enter Serving Limit
+     */
+    enterServingLimit(
+            servingLimit);
+
+    /*
+     * Enter Recipe Summary
+     */
+    enterRecipeSummary(
+            recipeSummary);
+
+    /*
+     * Enter Recipe Step
+     */
+    enterRecipeStep(
+            recipeStep);
+
+    Thread.sleep(
+        60000);
+
+    /*
+     * Add Pro Tip
+     */
+    clickAddProTip();
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Enter Pro Tip
+     */
+    enterProTip(
+            proTipText);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Add Keyword
+     */
+    clickAddKeyword();
+
+    Thread.sleep(
+            500);
+
+
+    /*
+     * Select Cuisine
+     */
+    selectCuisine(
+            cuisineName);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Select Dietary
+     */
+    selectDietary(
+            dietaryName);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Select Occasion
+     */
+    selectOccasion(
+            occasionName);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Select Difficulty
+     */
+    selectDifficulty(
+            difficultyName);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Select Attribute
+     */
+    selectAttribute(
+            attributeName);
+
+
+    Thread.sleep(
+            500);
+
+    /*
+ * Confirm Keyword
+ */
+confirmKeywordSelection();
+
+
+Thread.sleep(500);
+
+hideKeyboard();
+
+
+
+    /*
+     * Add New Link
+     */
+    clickAddNewLink();
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Enter Link
+     */
+    enterLink(
+            link);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Add Sourced From
+     */
+    clickAddSourcedFrom();
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Enter Sourced From
+     */
+    enterSourcedFrom(
+            sourcedFrom);
+
+    Thread.sleep(
+            500);
+
+    /*
+     * Proceed
+     */
+    clickProceed();
+
+    System.out.println(
+            "==================================================");
+
+    System.out.println(
+            "Recipe creation flow completed.");
+
+    System.out.println(
+            "Recipe name : "
+                    + recipeName);
+
+    System.out.println(
+            "Cuisine : "
+                    + cuisineName);
+
+    System.out.println(
+            "Dietary : "
+                    + dietaryName);
+
+    System.out.println(
+            "Occasion : "
+                    + occasionName);
+
+    System.out.println(
+            "Difficulty : "
+                    + difficultyName);
+
+    System.out.println(
+            "Attribute : "
+                    + attributeName);
+
+    System.out.println(
+            "Link : "
+                    + link);
+
+    System.out.println(
+            "Sourced From : "
+                    + sourcedFrom);
+
+    System.out.println(
+            "==================================================");
+}
+
+
+/*
+     * Hide Keyboard
+     */
+    public void hideKeyboard() {
+
+        try {
+
+            driver.hideKeyboard();
+
+            System.out.println(
+                    "Keyboard hidden successfully.");
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Keyboard is already hidden.");
+        }
+    }
+
+/*------------------Error Message--------------------- */
+/*
+ * Recipe Name Error Message
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Recipe name cannot be empty\"]")
+private WebElement recipeNameErrorMessage;
+
+/*
+ * Serving Limit Error Message
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Enter 1-999\"]")
+private WebElement servingLimitErrorMessage;
+
+/*
+ * Recipe Summary Error Message
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Required\"]")
+private WebElement recipeSummaryErrorMessage;
+
+/*
+ * Verify Recipe Name Error Message
+ */
+public void verifyRecipeNameErrorMessage() {
+
+    WebElement errorMessage =
+            scrollUpToElement(
+                    "//android.view.View[@content-desc=\"Recipe name cannot be empty\"]",
+                    "Recipe Name Error Message");
+
+    ValidationUtil.verifyTrue(
+            errorMessage.isDisplayed(),
+            "Recipe name error message is displayed.");
+
+    System.out.println(
+            "Recipe name error message displayed.");
 }
 
 /*
+ * Verify Serving Limit Error Message
+ */
+public void verifyServingLimitErrorMessage() {
+
+    WebElement errorMessage =
+            scrollUpToElement(
+                    "//android.view.View[@content-desc=\"Enter 1-999\"]",
+                    "Serving Limit Error Message");
+
+    ValidationUtil.verifyTrue(
+            errorMessage.isDisplayed(),
+            "Serving limit error message is displayed.");
+
+    System.out.println(
+            "Serving limit error message displayed : "
+                    + errorMessage.getAttribute(
+                            "content-desc"));
+}
+
+/*
+ * Verify Recipe Summary Error Message
+ */
+public void verifyRecipeSummaryErrorMessage() {
+
+    WebElement errorMessage =
+            scrollUpToElement(
+                    "//android.view.View[@content-desc=\"Required\"]",
+                    "Recipe Summary Error Message");
+
+    ValidationUtil.verifyTrue(
+            errorMessage.isDisplayed(),
+            "Recipe summary error message is displayed.");
+
+    System.out.println(
+            "Recipe summary error message displayed : "
+                    + errorMessage.getAttribute(
+                            "content-desc"));
+}
+
+
+/*
  * ==========================================================
- * Submit Recipe
+ * RECIPE STEPS & INGREDIENTS
  * ==========================================================
  */
 
-public void clickSubmitRecipe() {
+/*
+ * Recipe Steps & Ingredients Header
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Recipe Steps & Ingredients\"]")
+private WebElement recipeStepsIngredientsHeader;
 
-    Assert.assertTrue(
-            submitRecipe.isDisplayed(),
-            "Submit Recipe button is not displayed");
+
+/*
+ * Step 1
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Step 1\"]")
+private WebElement step1;
+
+
+/*
+ * Extracted Items Verification
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Extracted items verification\"]")
+private WebElement extractedItemsVerification;
+
+
+/*
+ * Add Ingredient Button
+ */
+@AndroidFindBy(
+        xpath = "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                + "/following-sibling::android.widget.Button[1]")
+private WebElement addIngredientButton;
+
+
+/*
+ * Proceed Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc=\"Proceed\"]")
+private WebElement ingredientsProceedButton;
+
+
+/*
+ * Previous Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc=\"Prev\"]")
+private WebElement prevButton;
+
+
+/*
+ * Next Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc=\"Next\"]")
+private WebElement nextButton;
+
+
+/*
+ * Submit Recipe Button
+ */
+@AndroidFindBy(
+        xpath = "//android.widget.Button[@content-desc=\"Submit Recipe\"]")
+private WebElement submitRecipeButton;
+
+
+/*
+ * ==========================================================
+ * RECIPE STEP
+ * ==========================================================
+ */
+
+/*
+ * Get Recipe Step
+ *
+ * Recipe step text is dynamic.
+ */
+private WebElement getRecipeStep(
+        String recipeStep) {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc=\""
+                            + recipeStep
+                            + "\"]"));
+}
+
+
+/*
+ * Verify Recipe Step
+ */
+public void verifyRecipeStep(
+        String recipeStep) {
+
+    WebElement step =
+            getRecipeStep(
+                    recipeStep);
+
+    waitUtil.waitForElementVisible(
+            step);
+
+    ValidationUtil.verifyTrue(
+            step.isDisplayed(),
+            "Recipe step is displayed.");
+
+    System.out.println(
+            "Recipe step displayed : "
+                    + recipeStep);
+}
+
+
+/*
+ * ==========================================================
+ * EXTRACTED ITEMS VERIFICATION
+ * ==========================================================
+ */
+
+/*
+ * Verify Extracted Items Verification
+ */
+public void verifyExtractedItemsVerification() {
+
+    waitUtil.waitForElementVisible(
+            extractedItemsVerification);
+
+    ValidationUtil.verifyTrue(
+            extractedItemsVerification.isDisplayed(),
+            "Extracted items verification section is displayed.");
+
+    System.out.println(
+            "Extracted items verification section displayed.");
+}
+
+
+/*
+ * Check Whether Ingredient Is Extracted
+ */
+private boolean isIngredientExtracted(
+        String ingredientName) {
+
+    try {
+
+        List<WebElement> ingredients =
+                driver.findElements(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                                        + "/following::android.widget.EditText[@text=\""
+                                        + ingredientName
+                                        + "\"]"));
+
+        return !ingredients.isEmpty();
+
+    }
+
+    catch (Exception e) {
+
+        return false;
+    }
+}
+
+
+/*
+ * Click Add Ingredient
+ */
+public void clickAddIngredient() {
+
+    waitUtil.waitForElementVisible(
+            extractedItemsVerification);
 
     waitUtil.clickWithWait(
-            submitRecipe);
+            addIngredientButton);
+
+    System.out.println(
+            "Add Ingredient clicked.");
 }
 
+
+/*
+ * ==========================================================
+ * INGREDIENT ROW FIELDS
+ * ==========================================================
+ */
+
+/*
+ * Get Ingredient Field
+ *
+ * Gets the first Ingredient EditText
+ * under Extracted Items Verification.
+ */
+private WebElement getIngredientField() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                            + "/following::android.widget.EditText)[1]"));
 }
 
+
+/*
+ * Get Quantity Field
+ *
+ * Gets the second EditText under
+ * Extracted Items Verification.
+ */
+private WebElement getQuantityField() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                            + "/following::android.widget.EditText)[2]"));
+}
+
+
+/*
+ * Get Ingredient Unit Button
+ *
+ * Gets the unit button from the
+ * ingredient row.
+ */
+private WebElement getIngredientUnitButton() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                            + "/following::android.widget.Button[@content-desc=\"-\"])[1]"));
+}
+
+
+/*
+ * Get Ingredient Note Field
+ *
+ * Gets the Notes EditText from
+ * the ingredient row.
+ */
+private WebElement getIngredientNoteField() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                            + "/following::android.widget.EditText)[3]"));
+}
+
+
+/*
+ * Get Delete Ingredient Button
+ */
+private WebElement getDeleteIngredientButton() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                            + "/following::android.widget.EditText[3]"
+                            + "/following-sibling::android.view.View[1]"));
+}
+
+
+/*
+ * ==========================================================
+ * INGREDIENT ENTRY
+ * ==========================================================
+ */
+
+/*
+ * Enter Ingredient
+ *
+ * Handles both extracted and
+ * non-extracted ingredient.
+ */
+public void enterIngredient(
+        String ingredientName)
+        throws Exception {
+
+    /*
+     * Check whether ingredient was extracted.
+     */
+    if (isIngredientExtracted(
+            ingredientName)) {
+
+        /*
+         * Ingredient already extracted.
+         */
+        System.out.println(
+                "Ingredient extracted : "
+                        + ingredientName);
+
+        WebElement field =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                                        + "/following::android.widget.EditText[@text=\""
+                                        + ingredientName
+                                        + "\"][1]"));
+
+        waitUtil.waitForElementVisible(
+                field);
+
+        waitUtil.clickWithWait(
+                field);
+
+        field.clear();
+
+        field.sendKeys(
+                ingredientName);
+
+        hideKeyboard();
+
+        System.out.println(
+                "Extracted ingredient updated : "
+                        + ingredientName);
+    }
+
+    else {
+
+        /*
+         * Ingredient was not extracted.
+         */
+        System.out.println(
+                "Ingredient not extracted : "
+                        + ingredientName);
+
+        /*
+         * Add a new ingredient row.
+         */
+        clickAddIngredient();
+
+        Thread.sleep(
+                500);
+
+        /*
+         * Enter ingredient manually.
+         */
+        WebElement field =
+                getIngredientField();
+
+        waitUtil.waitForElementVisible(
+                field);
+
+        waitUtil.clickWithWait(
+                field);
+
+        field.clear();
+
+        field.sendKeys(
+                ingredientName);
+
+        hideKeyboard();
+
+        System.out.println(
+                "Ingredient entered manually : "
+                        + ingredientName);
+    }
+}
+
+
+/*
+ * Enter Ingredient Quantity
+ */
+public void enterIngredientQuantity(
+        String quantity) {
+
+    WebElement field =
+            getQuantityField();
+
+    waitUtil.waitForElementVisible(
+            field);
+
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
+            quantity);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Ingredient quantity entered : "
+                    + quantity);
+}
+
+
+/*
+ * Click Ingredient Unit
+ */
+public void clickIngredientUnit() {
+
+    WebElement button =
+            getIngredientUnitButton();
+
+    waitUtil.waitForElementVisible(
+            button);
+
+    waitUtil.clickWithWait(
+            button);
+
+    System.out.println(
+            "Ingredient unit dropdown clicked.");
+}
+
+
+/*
+ * Enter Ingredient Note
+ */
+public void enterIngredientNote(
+        String note) {
+
+    WebElement field =
+            getIngredientNoteField();
+
+    waitUtil.waitForElementVisible(
+            field);
+
+    waitUtil.clickWithWait(
+            field);
+
+    field.clear();
+
+    field.sendKeys(
+            note);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Ingredient note entered : "
+                    + note);
+}
+
+
+/*
+ * Delete Ingredient
+ */
+public void deleteIngredient() {
+
+    WebElement button =
+            getDeleteIngredientButton();
+
+    waitUtil.waitForElementVisible(
+            button);
+
+    waitUtil.clickWithWait(
+            button);
+
+    System.out.println(
+            "Ingredient row deleted.");
+}
+
+
+/*
+ * ==========================================================
+ * NAVIGATION
+ * ==========================================================
+ */
+
+/*
+ * Click Ingredients Proceed
+ */
+public void clickIngredientsProceed() {
+
+    waitUtil.waitForElementVisible(
+            ingredientsProceedButton);
+
+    waitUtil.clickWithWait(
+            ingredientsProceedButton);
+
+    System.out.println(
+            "Ingredients Proceed clicked.");
+}
+
+
+/*
+ * Click Previous
+ */
+public void clickPrevious() {
+
+    waitUtil.waitForElementVisible(
+            prevButton);
+
+    waitUtil.clickWithWait(
+            prevButton);
+
+    System.out.println(
+            "Previous button clicked.");
+}
+
+
+/*
+ * Click Next
+ */
+public void clickNext() {
+
+    waitUtil.waitForElementVisible(
+            nextButton);
+
+    waitUtil.clickWithWait(
+            nextButton);
+
+    System.out.println(
+            "Next button clicked.");
+}
+
+
+/*
+ * Click Submit Recipe
+ *
+ * Submit Recipe is available on the
+ * Final Review screen.
+ */
+public void clickSubmitRecipe() {
+
+    WebElement button =
+            scrollToElement(
+                    "//android.widget.Button[@content-desc=\"Submit Recipe\"]",
+                    "Submit Recipe");
+
+    waitUtil.waitForElementVisible(
+            button);
+
+    waitUtil.clickWithWait(
+            button);
+
+    System.out.println(
+            "Submit Recipe clicked.");
+}
+
+/*
+ * Select Ingredient Unit
+ */
+public void selectIngredientUnit(
+        String unit) {
+
+    WebElement option =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "//android.widget.Button[@content-desc=\""
+                                    + unit
+                                    + "\"]"));
+
+    waitUtil.waitForElementVisible(
+            option);
+
+    waitUtil.clickWithWait(
+            option);
+
+    System.out.println(
+            "Ingredient unit selected : "
+                    + unit);
+}
+
+/*
+ * Verify Recipe Steps & Ingredients Header
+ */
+public void verifyRecipeStepsIngredientsHeader() {
+
+    waitUtil.waitForElementVisible(
+            recipeStepsIngredientsHeader);
+
+    ValidationUtil.verifyTrue(
+            recipeStepsIngredientsHeader.isDisplayed(),
+            "Recipe Steps & Ingredients header is displayed.");
+
+    System.out.println(
+            "Recipe Steps & Ingredients header displayed.");
+}
+
+
+}

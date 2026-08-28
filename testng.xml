@@ -67,7 +67,7 @@
             <class name="tests.TC055_VerifyNutritionMinGreaterThanMax"/>
             <class name="tests.TC056_Verify_createShoppingListforSelf"/>
             <class name="tests.TC057_VerifyCreateShoppingListFor_Group"/>
-            <class name="tests.TC058_VerifyCreateNewRecipe"/>
+            <class name="tests.TC058_VerifyAddRecipe"/>
             <class name="tests.TC059_VerifyFollowingTab"/>
             <class name="tests.TC060_VerifyOnlyGroupAdminSelectedRecipesAreDisplayedInCreateShoppingListForGroup"/>
             <class name="tests.TC061_VerifyRecipeStatusChangeToVerifiedNotification"/>
@@ -78,6 +78,10 @@
             <class name="tests.TC066_VerifyQuickStatisticsUsertab"/>
             <class name="tests.TC067_VerifyQuickStatisticsRecipeTab"/>
             <class name="tests.TC068_VerifyCookingFacts"/>
+            <class name="tests.TC069_VerifyusercantproceedwithemptyrecipeName"/>
+            <class name="tests.TC070_VerifyServingLimitCantBeZero"/>
+            <class name="tests.TC071_VerifyUserUnableToProceedWithBlankSummary"/>
+            <class name="tests.TC072_AddNewRecipe"/>
         </classes>
  
     </test>
