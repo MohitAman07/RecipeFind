@@ -232,7 +232,12 @@ public class TC072_AddNewRecipe
         hamburger.clickHamburgerMenu();
 
         Thread.sleep(
-                3000);
+                2000);
+
+        /*
+         * Logout Super User
+         */
+        hamburger.clickSignOut();
 
         System.out.println(
                 "==================================================");

@@ -143,6 +143,11 @@ public class TC071_VerifyUserUnableToProceedWithBlankSummary
         Thread.sleep(
                 2000);
 
+        /*
+         * Logout Super User
+         */
+        hamburger.clickSignOut();
+
         System.out.println(
                 "==================================================");
 
