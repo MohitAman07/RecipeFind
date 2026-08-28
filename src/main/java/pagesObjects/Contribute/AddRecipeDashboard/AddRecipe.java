@@ -2264,18 +2264,43 @@ private WebElement getIngredientUnitButton() {
 }
 
 
+// /*
+//  * Get Ingredient Note Field
+//  *
+//  * Gets the Notes EditText from
+//  * the ingredient row.
+//  */
+// private WebElement getIngredientNoteField() {
+
+//     return driver.findElement(
+//             AppiumBy.xpath(
+//                     "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+//                             + "/following::android.widget.EditText)[3]"));
+// }
+
 /*
  * Get Ingredient Note Field
- *
- * Gets the Notes EditText from
- * the ingredient row.
  */
 private WebElement getIngredientNoteField() {
 
     return driver.findElement(
             AppiumBy.xpath(
-                    "(//android.view.View[@content-desc=\"Extracted items verification\"]"
-                            + "/following::android.widget.EditText)[3]"));
+                    "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]"
+                            + "/android.widget.FrameLayout"
+                            + "/android.view.View"
+                            + "/android.view.View"
+                            + "/android.view.View"
+                            + "/android.view.View"
+                            + "/android.view.View[1]"
+                            + "/android.view.View"
+                            + "/android.view.View[3]"
+                            + "/android.view.View"
+                            + "/android.view.View"
+                            + "/android.view.View"
+                            + "/android.view.View[4]"
+                            + "/android.view.View[2]"
+                            + "/android.view.View[4]"
+                            + "/android.widget.EditText"));
 }
 
 
@@ -2436,6 +2461,33 @@ public void clickIngredientUnit() {
             "Ingredient unit dropdown clicked.");
 }
 
+
+// /*
+//  * Enter Ingredient Note
+//  */
+// public void enterIngredientNote(
+//         String note) {
+
+//     WebElement field =
+//             getIngredientNoteField();
+
+//     waitUtil.waitForElementVisible(
+//             field);
+
+//     waitUtil.clickWithWait(
+//             field);
+
+//     field.clear();
+
+//     field.sendKeys(
+//             note);
+
+//     hideKeyboard();
+
+//     System.out.println(
+//             "Ingredient note entered : "
+//                     + note);
+// }
 
 /*
  * Enter Ingredient Note
