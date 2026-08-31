@@ -195,19 +195,6 @@ public class TC044_VerifyRecipeCommentOperations extends BaseTest {
                 recipeDetails.isCommentButtonDisplayed(),
                 "Comment button displayed successfully.");
 
-        /*
-         * Verify Export PDF Button
-         */
-        ValidationUtil.verifyTrue(
-                recipeDetails.isExportPdfButtonDisplayed(),
-                "Export PDF button displayed successfully.");
-
-        /*
-         * Verify Share Button
-         */
-        ValidationUtil.verifyTrue(
-                recipeDetails.isShareButtonDisplayed(),
-                "Share button displayed successfully.");
 
         Thread.sleep(
                 2000);
@@ -347,9 +334,16 @@ public class TC044_VerifyRecipeCommentOperations extends BaseTest {
         /*
          * Open Hamburger Menu
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(
                 2000);

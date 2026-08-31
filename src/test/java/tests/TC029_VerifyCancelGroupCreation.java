@@ -54,9 +54,16 @@ public class TC029_VerifyCancelGroupCreation extends BaseTest {
         /*
          * Navigate to Group Management
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(3000);
 

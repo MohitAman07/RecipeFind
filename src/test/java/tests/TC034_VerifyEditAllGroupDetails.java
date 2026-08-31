@@ -69,9 +69,16 @@ public class TC034_VerifyEditAllGroupDetails extends BaseTest {
         /*
          * Navigate To Group Management
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(3000);
 

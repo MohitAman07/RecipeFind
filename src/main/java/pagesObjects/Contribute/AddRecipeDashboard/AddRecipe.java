@@ -2170,6 +2170,32 @@ public void verifyExtractedItemsVerification() {
 }
 
 
+// /*
+//  * Check Whether Ingredient Is Extracted
+//  */
+// private boolean isIngredientExtracted(
+//         String ingredientName) {
+
+//     try {
+
+//         List<WebElement> ingredients =
+//                 driver.findElements(
+//                         AppiumBy.xpath(
+//                                 "//android.view.View[@content-desc=\"Extracted items verification\"]"
+//                                         + "/following::android.widget.EditText[@text=\""
+//                                         + ingredientName
+//                                         + "\"]"));
+
+//         return !ingredients.isEmpty();
+
+//     }
+
+//     catch (Exception e) {
+
+//         return false;
+//     }
+// }
+
 /*
  * Check Whether Ingredient Is Extracted
  */
@@ -2182,8 +2208,12 @@ private boolean isIngredientExtracted(
                 driver.findElements(
                         AppiumBy.xpath(
                                 "//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                        + "/following::android.widget.EditText[@text=\""
-                                        + ingredientName
+                                        + "/following::android.widget.EditText"
+                                        + "[translate(@text,"
+                                        + "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
+                                        + "'abcdefghijklmnopqrstuvwxyz')="
+                                        + "\""
+                                        + ingredientName.toLowerCase()
                                         + "\"]"));
 
         return !ingredients.isEmpty();
@@ -2278,29 +2308,55 @@ private WebElement getIngredientUnitButton() {
 //                             + "/following::android.widget.EditText)[3]"));
 // }
 
+// /*
+//  * Get Ingredient Note Field
+//  */
+// private WebElement getIngredientNoteField() {
+
+//     return driver.findElement(
+//             AppiumBy.xpath(
+//                     "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]"
+//                             + "/android.widget.FrameLayout"
+//                             + "/android.view.View"
+//                             + "/android.view.View"
+//                             + "/android.view.View"
+//                             + "/android.view.View"
+//                             + "/android.view.View[1]"
+//                             + "/android.view.View"
+//                             + "/android.view.View[3]"
+//                             + "/android.view.View"
+//                             + "/android.view.View"
+//                             + "/android.view.View"
+//                             + "/android.view.View[4]"
+//                             + "/android.view.View[2]"
+//                             + "/android.view.View[4]"
+//                             + "/android.widget.EditText"));
+// }
+
 /*
  * Get Ingredient Note Field
+ *
+ * Gets the Notes EditText from
+ * the ingredient verification row.
  */
 private WebElement getIngredientNoteField() {
 
-    return driver.findElement(
-            AppiumBy.xpath(
-                    "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]"
-                            + "/android.widget.FrameLayout"
-                            + "/android.view.View"
-                            + "/android.view.View"
-                            + "/android.view.View"
-                            + "/android.view.View"
-                            + "/android.view.View[1]"
-                            + "/android.view.View"
-                            + "/android.view.View[3]"
-                            + "/android.view.View"
-                            + "/android.view.View"
-                            + "/android.view.View"
-                            + "/android.view.View[4]"
-                            + "/android.view.View[2]"
-                            + "/android.view.View[4]"
-                            + "/android.widget.EditText"));
+    List<WebElement> fields =
+            driver.findElements(
+                    AppiumBy.xpath(
+                            "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                                    + "/following::android.widget.EditText"));
+
+    if (fields.size() < 3) {
+
+        throw new RuntimeException(
+                "Unable to find Ingredient Note field. "
+                        + "Available EditText fields : "
+                        + fields.size());
+    }
+
+    return fields.get(
+            2);
 }
 
 
@@ -2340,78 +2396,55 @@ public void enterIngredient(
             ingredientName)) {
 
         /*
-         * Ingredient already extracted.
+         * Ingredient is already extracted.
+         *
+         * Do not update the
+         * ingredient field.
          */
         System.out.println(
-                "Ingredient extracted : "
+                "Ingredient already extracted : "
                         + ingredientName);
 
-        WebElement field =
-                driver.findElement(
-                        AppiumBy.xpath(
-                                "//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                        + "/following::android.widget.EditText[@text=\""
-                                        + ingredientName
-                                        + "\"][1]"));
-
-        waitUtil.waitForElementVisible(
-                field);
-
-        waitUtil.clickWithWait(
-                field);
-
-        field.clear();
-
-        field.sendKeys(
-                ingredientName);
-
-        hideKeyboard();
-
-        System.out.println(
-                "Extracted ingredient updated : "
-                        + ingredientName);
+        return;
     }
 
-    else {
+    /*
+     * Ingredient was not extracted.
+     */
+    System.out.println(
+            "Ingredient not extracted : "
+                    + ingredientName);
 
-        /*
-         * Ingredient was not extracted.
-         */
-        System.out.println(
-                "Ingredient not extracted : "
-                        + ingredientName);
+    /*
+     * Add a new ingredient row.
+     */
+    clickAddIngredient();
 
-        /*
-         * Add a new ingredient row.
-         */
-        clickAddIngredient();
+    Thread.sleep(
+            500);
 
-        Thread.sleep(
-                500);
+    /*
+     * Enter ingredient manually.
+     */
+    WebElement field =
+            getIngredientField();
 
-        /*
-         * Enter ingredient manually.
-         */
-        WebElement field =
-                getIngredientField();
+    waitUtil.waitForElementVisible(
+            field);
 
-        waitUtil.waitForElementVisible(
-                field);
+    waitUtil.clickWithWait(
+            field);
 
-        waitUtil.clickWithWait(
-                field);
+    field.clear();
 
-        field.clear();
+    field.sendKeys(
+            ingredientName);
 
-        field.sendKeys(
-                ingredientName);
+    hideKeyboard();
 
-        hideKeyboard();
-
-        System.out.println(
-                "Ingredient entered manually : "
-                        + ingredientName);
-    }
+    System.out.println(
+            "Ingredient entered manually : "
+                    + ingredientName);
 }
 
 
@@ -2448,14 +2481,57 @@ public void enterIngredientQuantity(
  */
 public void clickIngredientUnit() {
 
-    WebElement button =
-            getIngredientUnitButton();
+    try {
+
+        WebElement unitButton =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                                        + "/following::android.widget.Button)[1]"));
+
+        if (unitButton.isDisplayed()) {
+
+            String unit =
+                    unitButton.getAttribute(
+                            "content-desc");
+
+            if (unit != null
+                    && !unit.equals("-")
+                    && !unit.isEmpty()) {
+
+                System.out.println(
+                        "Ingredient unit already selected : "
+                                + unit);
+
+                return;
+            }
+        }
+
+    }
+
+    catch (Exception e) {
+
+        /*
+         * Unit button is not currently available.
+         * Continue without opening the unit dropdown.
+         */
+    }
+
+    /*
+     * Open unit dropdown only when
+     * unit has not been selected.
+     */
+    WebElement unitButton =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "(//android.view.View[@content-desc=\"Extracted items verification\"]"
+                                    + "/following::android.widget.Button[@content-desc=\"-\"])[1]"));
 
     waitUtil.waitForElementVisible(
-            button);
+            unitButton);
 
     waitUtil.clickWithWait(
-            button);
+            unitButton);
 
     System.out.println(
             "Ingredient unit dropdown clicked.");
@@ -2533,6 +2609,111 @@ public void deleteIngredient() {
 
     System.out.println(
             "Ingredient row deleted.");
+}
+
+/*
+ * Complete Ingredient Entry
+ *
+ * Handles both extracted and
+ * non-extracted ingredients.
+ */
+public void enterIngredientDetails(
+        String ingredientName,
+        String quantity,
+        String unit,
+        String note)
+        throws Exception {
+
+    /*
+     * Check whether ingredient was extracted.
+     */
+    if (isIngredientExtracted(
+            ingredientName)) {
+
+        /*
+         * Ingredient is already extracted.
+         *
+         * Do not modify:
+         * Ingredient
+         * Quantity
+         * Unit
+         *
+         * Only enter the note.
+         */
+        System.out.println(
+                "Ingredient already extracted : "
+                        + ingredientName);
+
+        enterIngredientNote(
+                note);
+    }
+
+    else {
+
+        /*
+         * Ingredient was not extracted.
+         */
+        System.out.println(
+                "Ingredient not extracted : "
+                        + ingredientName);
+
+        /*
+         * Add a new ingredient row.
+         */
+        clickAddIngredient();
+
+        Thread.sleep(
+                500);
+
+        /*
+         * Enter Ingredient
+         */
+        WebElement ingredientField =
+                getIngredientField();
+
+        waitUtil.waitForElementVisible(
+                ingredientField);
+
+        waitUtil.clickWithWait(
+                ingredientField);
+
+        ingredientField.clear();
+
+        ingredientField.sendKeys(
+                ingredientName);
+
+        hideKeyboard();
+
+        System.out.println(
+                "Ingredient entered manually : "
+                        + ingredientName);
+
+        /*
+         * Enter Quantity
+         */
+        enterIngredientQuantity(
+                quantity);
+
+        /*
+         * Click Unit
+         */
+        clickIngredientUnit();
+
+        Thread.sleep(
+                500);
+
+        /*
+         * Select Unit
+         */
+        selectIngredientUnit(
+                unit);
+
+        /*
+         * Enter Note
+         */
+        enterIngredientNote(
+                note);
+    }
 }
 
 

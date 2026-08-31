@@ -1,6 +1,7 @@
 package tests;
 
 import java.lang.reflect.Method;
+import java.util.Random;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -45,7 +46,12 @@ public class TC072_AddNewRecipe
                 new HomeDashboard(
                         DriverFactory.getDriver());
 
-        Hamburger hamburger=new Hamburger(DriverFactory.getDriver());
+        Hamburger hamburger =
+                new Hamburger(
+                        DriverFactory.getDriver());
+
+        int randomNumber =
+        100 + new Random().nextInt(900);
 
         /*
          * Allow Home Dashboard To Stabilize
@@ -65,7 +71,8 @@ public class TC072_AddNewRecipe
          * Recipe Details
          */
         String recipeName =
-                "Automation Test Recipe";
+        "Automation Test Recipe "
+                + randomNumber;
 
         String cookingTime =
                 "15";
@@ -169,38 +176,23 @@ public class TC072_AddNewRecipe
                 "Automation Test Note";
 
         /*
-         * Enter Ingredient
+         * Complete Ingredient Entry
          *
-         * Handles extracted and
-         * non-extracted cases.
+         * Handles both extracted and
+         * non-extracted ingredients.
+         *
+         * If ingredient is extracted:
+         * Leave ingredient, quantity and
+         * unit unchanged and enter note.
+         *
+         * If ingredient is not extracted:
+         * Add ingredient manually and enter
+         * ingredient, quantity, unit and note.
          */
-        addRecipe.enterIngredient(
-                ingredientName);
-
-        /*
-         * Enter Quantity
-         */
-        addRecipe.enterIngredientQuantity(
-                quantity);
-
-        /*
-         * Click Ingredient Unit
-         */
-        addRecipe.clickIngredientUnit();
-
-        Thread.sleep(
-                500);
-
-        /*
-         * Select Ingredient Unit
-         */
-        addRecipe.selectIngredientUnit(
-                unit);
-
-        /*
-         * Enter Note
-         */
-        addRecipe.enterIngredientNote(
+        addRecipe.enterIngredientDetails(
+                ingredientName,
+                quantity,
+                unit,
                 note);
 
         /*
@@ -216,19 +208,27 @@ public class TC072_AddNewRecipe
          */
         addRecipe.clickSubmitRecipe();
 
-        Thread.sleep(500);
+        Thread.sleep(
+                500);
 
-        homeDashboard.clickHomeButton();  
+        /*
+         * Return To Home
+         */
+        homeDashboard.clickHomeButton();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
+
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
 
         /*
          * Open Hamburger Menu
          */
-        ValidationUtil.verifyTrue(
-                hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is  displayed.");
-
         hamburger.clickHamburgerMenu();
 
         Thread.sleep(
@@ -272,8 +272,7 @@ public class TC072_AddNewRecipe
         System.out.println(
                 "==================================================");
 
-            Thread.sleep(500);
-
-        
+        Thread.sleep(
+                500);
     }
 }

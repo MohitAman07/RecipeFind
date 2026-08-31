@@ -69,8 +69,6 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
          */
         hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
-
         Thread.sleep(3000);
 
         hamburger.clickGroupManagement();
@@ -286,8 +284,6 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
 
         hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
-
         Thread.sleep(3000);
 
         hamburger.clickSignOut();
@@ -318,12 +314,19 @@ public class TC036_VerifyReviewerCanEditOnlyAssignedGroup extends BaseTest {
                 new GroupManagement(
                         DriverFactory.getDriver());
 
+        Thread.sleep(3000);
+
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
         /*
          * Navigate To Group Management
          */
         hamburger.clickHamburgerMenu();
-
-        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 

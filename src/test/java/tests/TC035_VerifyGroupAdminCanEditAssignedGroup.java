@@ -290,9 +290,14 @@ public class TC035_VerifyGroupAdminCanEditAssignedGroup extends BaseTest {
 
         Thread.sleep(3000);
 
-        hamburger.clickHamburgerMenu();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
 
-        hamburger.hideKeyboardIfVisible();
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(3000);
 

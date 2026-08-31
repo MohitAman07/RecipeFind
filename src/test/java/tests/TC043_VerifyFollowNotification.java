@@ -142,9 +142,16 @@ public class TC043_VerifyFollowNotification extends BaseTest {
         /*
          * Logout Super Admin
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(2000);
 
@@ -235,9 +242,16 @@ public class TC043_VerifyFollowNotification extends BaseTest {
             /*
              * Logout Group Admin
              */
-            hamburger.clickHamburgerMenu();
+            Thread.sleep(3000);
 
-            hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
             Thread.sleep(2000);
 

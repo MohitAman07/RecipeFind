@@ -59,9 +59,17 @@ public class TC038_VerifyLastAdminValidation extends BaseTest {
         /*
          * Navigate To Group Management
          */
-        hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
+        Thread.sleep(3000);
+
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed."); 
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(3000);
 

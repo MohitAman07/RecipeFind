@@ -112,9 +112,17 @@ public class TC040_VerifyNotificationScreen extends BaseTest {
         /*
          * Logout
          */
-        hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
+        Thread.sleep(3000);
+
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         hamburger.clickSignOut();
     }

@@ -110,9 +110,16 @@ public class TC042_VerifyNotificationAfterGroupAssignment extends BaseTest {
         /*
          * Navigate To Group Management
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(3000);
 
@@ -258,9 +265,14 @@ public class TC042_VerifyNotificationAfterGroupAssignment extends BaseTest {
 
         Thread.sleep(3000);
 
-        hamburger.clickHamburgerMenu();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
 
-        hamburger.hideKeyboardIfVisible();
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(2000);
 
@@ -425,9 +437,16 @@ public class TC042_VerifyNotificationAfterGroupAssignment extends BaseTest {
         /*
          * Logout Group Admin
          */
-        hamburger.clickHamburgerMenu();
+        Thread.sleep(3000);
 
-        hamburger.hideKeyboardIfVisible();
+        /*
+         * Verify Hamburger Menu
+         */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
+        hamburger.clickHamburgerMenu();
 
         Thread.sleep(2000);
 
