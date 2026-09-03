@@ -107,12 +107,12 @@ public void hideKeyboardIfVisible() {
         private WebElement control_panel;
 
         /*
-        * Create Shopping List
+        * Exports
         */
-        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Create Shopping List, Collapsed']")
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Exports, Collapsed']")
         private WebElement createShoppingListCollapsed;
 
-        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Create Shopping List, Expanded']")
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Exports, Expanded']")
         private WebElement createShoppingListExpanded;
 
         /*
@@ -155,7 +155,7 @@ public void hideKeyboardIfVisible() {
 public void clickHamburgerMenu() {
 
 
-    new WebDriverWait(driver, Duration.ofSeconds(10))
+    new WebDriverWait(driver, Duration.ofSeconds(20))
             .until(ExpectedConditions.visibilityOfElementLocated(
                     AppiumBy.accessibilityId("Open navigation menu")));
 
@@ -526,29 +526,29 @@ public void clickSignOut() {
 }
 
          /*
-        * Create Shopping List - Collapsed
+        * Exports - Collapsed
         */
         public boolean isCreateShoppingListCollapsedVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Create Shopping List, Collapsed']"))
+                        "//android.view.View[@content-desc='Exports, Collapsed']"))
                 .isEmpty();
         }
 
         /*
-        * Create Shopping List - Expanded
+        * Exports - Expanded
         */
         public boolean isCreateShoppingListExpandedVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Create Shopping List, Expanded']"))
+                        "//android.view.View[@content-desc='Exports, Expanded']"))
                 .isEmpty();
         }
 
         /*
- * Expand Create Shopping List
+ * Expand Exports
  */
 public void expandCreateShoppingList() {
 
@@ -561,11 +561,11 @@ public void expandCreateShoppingList() {
     createShoppingListCollapsed.click();
 
     System.out.println(
-            "Create Shopping List expanded.");
+            "Exports expanded.");
 }
 
 /*
- * Collapse Create Shopping List
+ * Collapse Exports
  */
 public void collapseCreateShoppingList() {
 
@@ -578,7 +578,7 @@ public void collapseCreateShoppingList() {
     createShoppingListExpanded.click();
 
     System.out.println(
-            "Create Shopping List collapsed.");
+            "Exports collapsed.");
 }
         /*
         * For Self

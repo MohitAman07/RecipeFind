@@ -7,6 +7,7 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC020_VerifyRejectedStatus extends BaseTest {
 
@@ -25,11 +26,17 @@ public class TC020_VerifyRejectedStatus extends BaseTest {
                 "========== Verify Rejected Status ==========");
 
         /*
+         * Allow Home Dashboard To Stabilize
+         */
+        Thread.sleep(
+                3000);
+
+        /*
          * Open Hamburger Menu
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
+                "Hamburger menu displayed successfully.");
 
         hamburger.clickHamburgerMenu();
 

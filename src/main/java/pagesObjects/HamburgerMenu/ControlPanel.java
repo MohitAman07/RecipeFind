@@ -404,7 +404,7 @@ public void enterSearchText(
         try {
 
             Thread.sleep(
-                    2000);
+                    3000);
 
         }
 

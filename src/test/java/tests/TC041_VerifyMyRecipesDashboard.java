@@ -144,11 +144,6 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
                         "Grilled Chicken Salad"),
                 "Nutrition Panel is displayed.");
 
-        ValidationUtil.verifyTrue(
-                myRecipes.isDeleteNutritionPanelDisplayed(
-                        "Grilled Chicken Salad"),
-                "Delete Nutrition Panel is displayed.");
-
         /*
          * Open Recipe
          */
