@@ -889,33 +889,6 @@ public void clickAddProTip() {
 }
 
 
-// /*
-//  * Enter Pro Tip
-//  */
-// public void enterProTip(
-//         String proTipText) {
-
-//     WebElement field =
-//             scrollToElement(
-//                     "//android.view.View[@content-desc=\"Pro Tip\"]/"
-//                             + "android.widget.EditText",
-//                     "Pro Tip Input");
-
-//     waitUtil.clickWithWait(
-//             field);
-
-//     field.clear();
-
-//     field.sendKeys(
-//             proTipText);
-
-//     hideKeyboard();
-
-//     System.out.println(
-//             "Pro Tip entered : "
-//                     + proTipText);
-// }
-
 /*
  * Enter Pro Tip
  */
@@ -1156,122 +1129,6 @@ public void cancelKeywordSelection() {
 
 // ======================== Selection Popup Scrolling ======================== //
 
-// /*
-//  * Scroll Selection Popup Down By Coordinates
-//  */
-// private void scrollSelectionPopupDown() {
-
-//     Map<String, Object> swipe =
-//             new HashMap<>();
-
-//     swipe.put(
-//             "left",
-//             100);
-
-//     swipe.put(
-//             "top",
-//             450);
-
-//     swipe.put(
-//             "width",
-//             880);
-
-//     swipe.put(
-//             "height",
-//             1400);
-
-//     swipe.put(
-//             "direction",
-//             "up");
-
-//     swipe.put(
-//             "percent",
-//             0.60);
-
-//     swipe.put(
-//             "speed",
-//             600);
-
-//     driver.executeScript(
-//             "mobile: swipeGesture",
-//             swipe);
-
-//     try {
-
-//         Thread.sleep(
-//                 800);
-
-//     }
-
-//     catch (InterruptedException e) {
-
-//         Thread.currentThread()
-//                 .interrupt();
-
-//         throw new RuntimeException(
-//                 "Interrupted while scrolling selection popup.",
-//                 e);
-//     }
-
-//     System.out.println(
-//             "Selection popup scrolled down.");
-// }
-
-// /*
-//  * Find Selection Option With Scroll
-//  */
-// private WebElement findSelectionOptionWithScroll(
-//         String optionName) {
-
-//     String optionXpath =
-//             "//android.widget.Button[@content-desc=\""
-//                     + optionName
-//                     + "\"]";
-
-//     for (int attempt = 1;
-//             attempt <= 10;
-//             attempt++) {
-
-//         try {
-
-//             WebElement option =
-//                     driver.findElement(
-//                             AppiumBy.xpath(
-//                                     optionXpath));
-
-//             if (option.isDisplayed()) {
-
-//                 System.out.println(
-//                         "Option visible : "
-//                                 + optionName
-//                                 + " | Attempt : "
-//                                 + attempt);
-
-//                 return option;
-//             }
-//         }
-
-//         catch (Exception e) {
-
-//             /*
-//              * Option is not currently visible.
-//              * Continue coordinate scrolling.
-//              */
-//         }
-
-//         scrollSelectionPopupDown();
-
-//         System.out.println(
-//                 "Searching option : "
-//                         + optionName
-//                         + " | Attempt : "
-//                         + attempt);
-//     }
-
-//     throw new RuntimeException(
-//             "Option could not be found : "
-//                     + optionName);
-// }
 
 /*
  * Scroll Selection Popup Down By Coordinates
@@ -2124,26 +1981,132 @@ private WebElement getRecipeStep(
 }
 
 
-/*
- * Verify Recipe Step
- */
+private WebElement scrollToRecipeStep(
+        String recipeStep) {
+
+    String recipeStepXpath =
+            "//android.view.View[@content-desc=\""
+                    + recipeStep
+                    + "\"]";
+
+    /*
+     * Check current position first.
+     */
+    try {
+        WebElement recipeStepElement =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                recipeStepXpath));
+
+        if (recipeStepElement.isDisplayed()) {
+
+            System.out.println(
+                    "Recipe Step visible : "
+                            + recipeStep);
+
+            return recipeStepElement;
+        }
+
+    } catch (Exception e) {
+        // Continue with scrolling.
+    }
+
+    /*
+     * First scroll to the top of the
+     * Add Recipe form.
+     */
+    for (int attempt = 1;
+            attempt <= 5;
+            attempt++) {
+
+        scrollAddRecipeFormToTop();
+
+        System.out.println(
+                "Scrolling to top for Recipe Step"
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    /*
+     * Now search from the top by
+     * scrolling down.
+     */
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
+
+        try {
+
+            WebElement recipeStepElement =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    recipeStepXpath));
+
+            if (recipeStepElement.isDisplayed()) {
+
+                System.out.println(
+                        "Recipe Step visible : "
+                                + recipeStep
+                                + " | Attempt : "
+                                + attempt);
+
+                return recipeStepElement;
+            }
+
+        } catch (Exception e) {
+            // Continue scrolling.
+        }
+
+        scrollAddRecipeFormDown();
+
+        System.out.println(
+                "Scrolling to Recipe Step"
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    throw new RuntimeException(
+            "Unable to find recipe step : "
+                    + recipeStep);
+}
+
 public void verifyRecipeStep(
         String recipeStep) {
 
-    WebElement step =
-            getRecipeStep(
+    WebElement recipeStepElement =
+            scrollToRecipeStep(
                     recipeStep);
 
     waitUtil.waitForElementVisible(
-            step);
+            recipeStepElement);
 
-    ValidationUtil.verifyTrue(
-            step.isDisplayed(),
-            "Recipe step is displayed.");
+    String actualRecipeStep =
+            recipeStepElement.getAttribute(
+                    "content-desc");
+
+    if (actualRecipeStep == null) {
+        actualRecipeStep = "";
+    }
 
     System.out.println(
-            "Recipe step displayed : "
-                    + recipeStep);
+            "Recipe Step : "
+                    + actualRecipeStep);
+
+    ValidationUtil.verifyTrue(
+            !actualRecipeStep.isEmpty(),
+            "Recipe step is displayed.");
+
+    ValidationUtil.verifyTrue(
+            actualRecipeStep.equals(
+                    recipeStep),
+            "Recipe step matches the entered recipe step.");
+
+    extractedRecipeStepText =
+            actualRecipeStep;
+
+    System.out.println(
+            "Extracted recipe step stored : "
+                    + extractedRecipeStepText);
 }
 
 
@@ -2170,60 +2133,105 @@ public void verifyExtractedItemsVerification() {
 }
 
 
-// /*
-//  * Check Whether Ingredient Is Extracted
-//  */
-// private boolean isIngredientExtracted(
-//         String ingredientName) {
-
-//     try {
-
-//         List<WebElement> ingredients =
-//                 driver.findElements(
-//                         AppiumBy.xpath(
-//                                 "//android.view.View[@content-desc=\"Extracted items verification\"]"
-//                                         + "/following::android.widget.EditText[@text=\""
-//                                         + ingredientName
-//                                         + "\"]"));
-
-//         return !ingredients.isEmpty();
-
-//     }
-
-//     catch (Exception e) {
-
-//         return false;
-//     }
-// }
 
 /*
- * Check Whether Ingredient Is Extracted
+ * Extracted Recipe Step Text
+ */
+private String extractedRecipeStepText;
+
+/*
+ * Check If Ingredient Is Extracted
  */
 private boolean isIngredientExtracted(
         String ingredientName) {
 
-    try {
+    if (extractedRecipeStepText == null
+            || extractedRecipeStepText.isEmpty()) {
 
-        List<WebElement> ingredients =
-                driver.findElements(
-                        AppiumBy.xpath(
-                                "//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                        + "/following::android.widget.EditText"
-                                        + "[translate(@text,"
-                                        + "'ABCDEFGHIJKLMNOPQRSTUVWXYZ',"
-                                        + "'abcdefghijklmnopqrstuvwxyz')="
-                                        + "\""
-                                        + ingredientName.toLowerCase()
-                                        + "\"]"));
-
-        return !ingredients.isEmpty();
-
-    }
-
-    catch (Exception e) {
+        System.out.println(
+                "Extracted recipe step text is not available.");
 
         return false;
     }
+
+
+    /*
+     * Remove extra spaces and convert
+     * to lower case for comparison.
+     */
+    String recipeText =
+            extractedRecipeStepText
+                    .toLowerCase()
+                    .replaceAll(
+                            "\\s+",
+                            " ")
+                    .trim();
+
+    String ingredient =
+            ingredientName
+                    .toLowerCase()
+                    .trim();
+
+    /*
+     * Check the ingredient as a complete
+     * ingredient entry.
+     *
+     * Example:
+     * 1 kg Milk
+     * 1 kg Peanut
+     */
+    String[] extractedIngredients =
+            recipeText.split(",");
+
+    for (String extractedIngredient :
+            extractedIngredients) {
+
+        String currentIngredient =
+                extractedIngredient
+                        .trim();
+
+        /*
+         * Remove quantity and unit from
+         * the beginning of the entry.
+         *
+         * Example:
+         * "1 kg milk"
+         * becomes
+         * "milk"
+         */
+        String ingredientText =
+                currentIngredient
+                        .replaceFirst(
+                                "^\\d+(\\.\\d+)?\\s+",
+                                "")
+                        .trim();
+
+        /*
+         * Remove unit from the beginning.
+         */
+        ingredientText =
+                ingredientText
+                        .replaceFirst(
+                                "^(kg|kilogram|kilograms)\\s+",
+                                "")
+                        .trim();
+
+        if (ingredientText.equals(
+                ingredient)) {
+
+            System.out.println(
+                    "Ingredient already extracted : "
+                            + ingredientName);
+
+            return true;
+        }
+    }
+
+    System.out.println(
+            "Ingredient not extracted : "
+                    + ingredientName);
+
+    return false;
 }
 
 
@@ -2294,69 +2302,23 @@ private WebElement getIngredientUnitButton() {
 }
 
 
-// /*
-//  * Get Ingredient Note Field
-//  *
-//  * Gets the Notes EditText from
-//  * the ingredient row.
-//  */
-// private WebElement getIngredientNoteField() {
-
-//     return driver.findElement(
-//             AppiumBy.xpath(
-//                     "(//android.view.View[@content-desc=\"Extracted items verification\"]"
-//                             + "/following::android.widget.EditText)[3]"));
-// }
-
-// /*
-//  * Get Ingredient Note Field
-//  */
-// private WebElement getIngredientNoteField() {
-
-//     return driver.findElement(
-//             AppiumBy.xpath(
-//                     "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]"
-//                             + "/android.widget.FrameLayout"
-//                             + "/android.view.View"
-//                             + "/android.view.View"
-//                             + "/android.view.View"
-//                             + "/android.view.View"
-//                             + "/android.view.View[1]"
-//                             + "/android.view.View"
-//                             + "/android.view.View[3]"
-//                             + "/android.view.View"
-//                             + "/android.view.View"
-//                             + "/android.view.View"
-//                             + "/android.view.View[4]"
-//                             + "/android.view.View[2]"
-//                             + "/android.view.View[4]"
-//                             + "/android.widget.EditText"));
-// }
-
 /*
- * Get Ingredient Note Field
- *
- * Gets the Notes EditText from
- * the ingredient verification row.
+ * Ingredient Note Field
  */
-private WebElement getIngredientNoteField() {
+private WebElement getIngredientNoteField(
+        String ingredientName) {
 
-    List<WebElement> fields =
-            driver.findElements(
-                    AppiumBy.xpath(
-                            "//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                    + "/following::android.widget.EditText"));
+    String noteXpath =
+            "//android.widget.EditText[@text='"
+                    + ingredientName
+                    + "']"
+                    + "/ancestor::android.view.View[2]"
+                    + "/android.view.View[4]"
+                    + "//android.widget.EditText";
 
-    if (fields.size() < 3) {
-
-        throw new RuntimeException(
-                "Unable to find Ingredient Note field. "
-                        + "Available EditText fields : "
-                        + fields.size());
-    }
-
-    return fields.get(
-            2);
+    return driver.findElement(
+            AppiumBy.xpath(
+                    noteXpath));
 }
 
 
@@ -2423,28 +2385,121 @@ public void enterIngredient(
     Thread.sleep(
             500);
 
+
+/*
+ * The newly added ingredient row is
+ * always added at the bottom.
+ *
+ * Scroll to the last ingredient row
+ * before entering the ingredient.
+ */
+WebElement ingredientField =
+        scrollToNewIngredientField();
+
+waitUtil.waitForElementVisible(
+        ingredientField);
+
+waitUtil.clickWithWait(
+        ingredientField);
+
+ingredientField.clear();
+
+ingredientField.sendKeys(
+        ingredientName);
+
+hideKeyboard();
+
+System.out.println(
+        "Ingredient entered manually : "
+                + ingredientName);
+}
+
+
+/*
+ * Scroll To New Ingredient Field
+ *
+ * The newly added ingredient row is always
+ * appended at the bottom of the ingredient list.
+ *
+ * The new row initially contains:
+ *
+ * Ingredient : empty
+ * Quantity   : 0.0
+ * Unit       : -
+ * Note       : empty
+ *
+ * The Ingredient field is identified using
+ * the empty field together with the Quantity
+ * and Unit values belonging to the same row.
+ */
+private WebElement scrollToNewIngredientField() {
+
+    String emptyIngredientFieldXpath =
+            "//android.view.View[@content-desc=\"Extracted items verification\"]"
+                    + "/following::android.view.View"
+                    + "[.//android.widget.EditText"
+                    + "[normalize-space(@text)='']"
+                    + " and .//android.widget.EditText"
+                    + "[@text='0.0']"
+                    + " and .//android.widget.Button"
+                    + "[@content-desc='-']]"
+                    + "//android.widget.EditText"
+                    + "[normalize-space(@text)='']";
+
     /*
-     * Enter ingredient manually.
+     * Scroll down because the newly added
+     * ingredient row is always appended
+     * at the bottom.
      */
-    WebElement field =
-            getIngredientField();
+    for (int attempt = 1;
+            attempt <= 15;
+            attempt++) {
 
-    waitUtil.waitForElementVisible(
-            field);
+        try {
 
-    waitUtil.clickWithWait(
-            field);
+            List<WebElement> fields =
+                    driver.findElements(
+                            AppiumBy.xpath(
+                                    emptyIngredientFieldXpath));
 
-    field.clear();
+            for (WebElement field :
+                    fields) {
 
-    field.sendKeys(
-            ingredientName);
+                if (field.isDisplayed()) {
 
-    hideKeyboard();
+                    System.out.println(
+                            "New ingredient field visible"
+                                    + " | Attempt : "
+                                    + attempt);
 
-    System.out.println(
-            "Ingredient entered manually : "
-                    + ingredientName);
+                    return field;
+                }
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * New ingredient field is not
+             * currently visible.
+             */
+        }
+
+        /*
+         * Continue scrolling down towards
+         * the bottom of the ingredient list.
+         */
+        scrollAddRecipeFormDown();
+
+        System.out.println(
+                "Scrolling to newly added ingredient"
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    throw new RuntimeException(
+            "Unable to find newly added ingredient field.");
 }
 
 
@@ -2476,35 +2531,89 @@ public void enterIngredientQuantity(
 }
 
 
+
 /*
  * Click Ingredient Unit
  */
 public void clickIngredientUnit() {
 
-    try {
+    String unitButtonXpath =
+            "//android.widget.Button[@content-desc=\"-\"]";
 
-        WebElement unitButton =
-                driver.findElement(
-                        AppiumBy.xpath(
-                                "(//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                        + "/following::android.widget.Button)[1]"));
+    List<WebElement> unitButtons =
+            driver.findElements(
+                    AppiumBy.xpath(
+                            unitButtonXpath));
 
-        if (unitButton.isDisplayed()) {
+    /*
+     * Find the visible Unit dropdown
+     * from the ingredient rows.
+     */
+    for (WebElement unitButton :
+            unitButtons) {
 
-            String unit =
-                    unitButton.getAttribute(
-                            "content-desc");
+        try {
 
-            if (unit != null
-                    && !unit.equals("-")
-                    && !unit.isEmpty()) {
+            if (unitButton.isDisplayed()) {
+
+                waitUtil.waitForElementVisible(
+                        unitButton);
+
+                waitUtil.clickWithWait(
+                        unitButton);
 
                 System.out.println(
-                        "Ingredient unit already selected : "
-                                + unit);
+                        "Ingredient unit dropdown clicked.");
 
                 return;
             }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Continue checking the
+             * next Unit button.
+             */
+        }
+    }
+
+    throw new RuntimeException(
+            "Unable to find visible ingredient unit dropdown.");
+}
+
+
+/*
+ * Scroll To Ingredient
+ */
+private WebElement scrollToIngredient(
+        String ingredientName) {
+
+    String ingredientXpath =
+            "//android.widget.EditText[@text=\""
+                    + ingredientName
+                    + "\"]";
+
+    /*
+     * First check whether the ingredient
+     * is already visible.
+     */
+    try {
+
+        WebElement ingredient =
+                driver.findElement(
+                        AppiumBy.xpath(
+                                ingredientXpath));
+
+        if (ingredient.isDisplayed()) {
+
+            System.out.println(
+                    "Ingredient visible : "
+                            + ingredientName
+                            + " | Current position");
+
+            return ingredient;
         }
 
     }
@@ -2512,84 +2621,153 @@ public void clickIngredientUnit() {
     catch (Exception e) {
 
         /*
-         * Unit button is not currently available.
-         * Continue without opening the unit dropdown.
+         * Ingredient is not currently visible.
          */
     }
 
     /*
-     * Open unit dropdown only when
-     * unit has not been selected.
+     * First move the form towards the top.
+     *
+     * This is important when the requested
+     * ingredient is near the beginning of
+     * the ingredient list.
      */
-    WebElement unitButton =
-            driver.findElement(
-                    AppiumBy.xpath(
-                            "(//android.view.View[@content-desc=\"Extracted items verification\"]"
-                                    + "/following::android.widget.Button[@content-desc=\"-\"])[1]"));
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
 
-    waitUtil.waitForElementVisible(
-            unitButton);
+        try {
 
-    waitUtil.clickWithWait(
-            unitButton);
+            WebElement ingredient =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    ingredientXpath));
 
-    System.out.println(
-            "Ingredient unit dropdown clicked.");
+            if (ingredient.isDisplayed()) {
+
+                System.out.println(
+                        "Ingredient visible : "
+                                + ingredientName
+                                + " | Up Attempt : "
+                                + attempt);
+
+                return ingredient;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Ingredient is not currently visible.
+             */
+        }
+
+        scrollAddRecipeFormToTop();
+
+        System.out.println(
+                "Scrolling up to ingredient : "
+                        + ingredientName
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    /*
+     * Now start scrolling down from the
+     * top of the form.
+     *
+     * This handles ingredients located
+     * further down in the list.
+     */
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
+
+        try {
+
+            WebElement ingredient =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    ingredientXpath));
+
+            if (ingredient.isDisplayed()) {
+
+                System.out.println(
+                        "Ingredient visible : "
+                                + ingredientName
+                                + " | Down Attempt : "
+                                + attempt);
+
+                return ingredient;
+            }
+
+        }
+
+        catch (Exception e) {
+
+            /*
+             * Ingredient is not currently visible.
+             */
+        }
+
+        scrollAddRecipeFormDown();
+
+        System.out.println(
+                "Scrolling down to ingredient : "
+                        + ingredientName
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    throw new RuntimeException(
+            "Unable to find ingredient : "
+                    + ingredientName);
 }
 
-
-// /*
-//  * Enter Ingredient Note
-//  */
-// public void enterIngredientNote(
-//         String note) {
-
-//     WebElement field =
-//             getIngredientNoteField();
-
-//     waitUtil.waitForElementVisible(
-//             field);
-
-//     waitUtil.clickWithWait(
-//             field);
-
-//     field.clear();
-
-//     field.sendKeys(
-//             note);
-
-//     hideKeyboard();
-
-//     System.out.println(
-//             "Ingredient note entered : "
-//                     + note);
-// }
 
 /*
  * Enter Ingredient Note
  */
 public void enterIngredientNote(
-        String note) {
+        String ingredientName,
+        String note) throws Exception {
 
-    WebElement field =
-            getIngredientNoteField();
+    /*
+     * Scroll to the specific ingredient.
+     */
+    WebElement ingredient =
+            scrollToIngredient(
+                    ingredientName);
 
     waitUtil.waitForElementVisible(
-            field);
+            ingredient);
+
+    /*
+     * Locate the Note field belonging
+     * to the same ingredient row.
+     */
+    WebElement noteField =
+            getIngredientNoteField(
+                    ingredientName);
+
+    waitUtil.waitForElementVisible(
+            noteField);
 
     waitUtil.clickWithWait(
-            field);
+            noteField);
 
-    field.clear();
+    noteField.clear();
 
-    field.sendKeys(
+    noteField.sendKeys(
             note);
 
     hideKeyboard();
 
     System.out.println(
             "Ingredient note entered : "
-                    + note);
+                    + note
+                    + " | Ingredient : "
+                    + ingredientName);
 }
 
 
@@ -2611,65 +2789,162 @@ public void deleteIngredient() {
             "Ingredient row deleted.");
 }
 
-/*
- * Complete Ingredient Entry
- *
- * Handles both extracted and
- * non-extracted ingredients.
- */
+
+private WebElement findExtractedIngredient(
+        String ingredientName) {
+
+    String ingredientXpath =
+            "//android.widget.EditText[@text='"
+                    + ingredientName
+                    + "']";
+
+    /*
+     * Search the ingredient while scrolling
+     * down through the form.
+     */
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
+
+        try {
+
+            WebElement ingredient =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    ingredientXpath));
+
+            if (ingredient.isDisplayed()) {
+
+                System.out.println(
+                        "Extracted ingredient found : "
+                                + ingredientName);
+
+                return ingredient;
+            }
+
+        } catch (Exception e) {
+            // Ingredient not visible.
+        }
+
+        scrollAddRecipeFormDown();
+
+        System.out.println(
+                "Searching extracted ingredient : "
+                        + ingredientName
+                        + " | Scroll Down Attempt : "
+                        + attempt);
+    }
+
+    /*
+     * Ingredient was not found while
+     * scrolling down.
+     *
+     * Scroll back to the top.
+     */
+    scrollAddRecipeFormToTop();
+
+    /*
+     * Search again while scrolling down.
+     * This ensures the complete form is
+     * checked from the beginning.
+     */
+    for (int attempt = 1;
+            attempt <= 10;
+            attempt++) {
+
+        try {
+
+            WebElement ingredient =
+                    driver.findElement(
+                            AppiumBy.xpath(
+                                    ingredientXpath));
+
+            if (ingredient.isDisplayed()) {
+
+                System.out.println(
+                        "Extracted ingredient found : "
+                                + ingredientName);
+
+                return ingredient;
+            }
+
+        } catch (Exception e) {
+            // Ingredient not visible.
+        }
+
+        scrollAddRecipeFormDown();
+
+        System.out.println(
+                "Searching extracted ingredient again : "
+                        + ingredientName
+                        + " | Attempt : "
+                        + attempt);
+    }
+
+    System.out.println(
+            "Extracted ingredient not found : "
+                    + ingredientName);
+
+    return null;
+}
+
 public void enterIngredientDetails(
         String ingredientName,
         String quantity,
         String unit,
-        String note)
-        throws Exception {
+        String note) throws Exception {
 
     /*
-     * Check whether ingredient was extracted.
+     * Check whether the ingredient
+     * was extracted.
+     *
+     * The search will scroll through
+     * the ingredient rows.
      */
-    if (isIngredientExtracted(
-            ingredientName)) {
+    WebElement ingredient =
+            findExtractedIngredient(
+                    ingredientName);
+
+    if (ingredient != null) {
 
         /*
-         * Ingredient is already extracted.
+         * Ingredient was extracted.
          *
-         * Do not modify:
-         * Ingredient
-         * Quantity
-         * Unit
+         * DO NOT change ingredient,
+         * quantity or unit.
          *
-         * Only enter the note.
+         * Only enter the Note.
          */
         System.out.println(
                 "Ingredient already extracted : "
                         + ingredientName);
 
         enterIngredientNote(
+                ingredientName,
                 note);
-    }
 
-    else {
+    } else {
 
         /*
          * Ingredient was not extracted.
+         *
+         * Add a new ingredient row.
          */
         System.out.println(
                 "Ingredient not extracted : "
                         + ingredientName);
 
-        /*
-         * Add a new ingredient row.
-         */
         clickAddIngredient();
 
         Thread.sleep(
                 500);
 
         /*
-         * Enter Ingredient
+         * Find the newly added
+         * empty ingredient field.
          */
         WebElement ingredientField =
-                getIngredientField();
+                scrollToNewIngredientField();
 
         waitUtil.waitForElementVisible(
                 ingredientField);
@@ -2684,34 +2959,28 @@ public void enterIngredientDetails(
 
         hideKeyboard();
 
-        System.out.println(
-                "Ingredient entered manually : "
-                        + ingredientName);
-
         /*
-         * Enter Quantity
+         * Enter Quantity.
          */
         enterIngredientQuantity(
                 quantity);
 
         /*
-         * Click Unit
+         * Select Unit.
          */
         clickIngredientUnit();
 
         Thread.sleep(
                 500);
 
-        /*
-         * Select Unit
-         */
         selectIngredientUnit(
                 unit);
 
         /*
-         * Enter Note
+         * Enter Note.
          */
         enterIngredientNote(
+                ingredientName,
                 note);
     }
 }
@@ -2833,6 +3102,56 @@ public void verifyRecipeStepsIngredientsHeader() {
     System.out.println(
             "Recipe Steps & Ingredients header displayed.");
 }
+
+/*
+        * Dynamic Invalid Reference URL Error
+        */
+        private WebElement invalidReferenceUrlError(
+                String invalidUrl) {
+
+        return driver.findElement(
+                AppiumBy.xpath(
+                        "//android.view.View[starts-with(@content-desc,"
+                                + "'Invalid reference URL:')]"));
+        }
+
+        /*
+        * Verify Invalid Reference URL Error
+        */
+        public void verifyInvalidReferenceUrlError(
+                String invalidUrl) {
+
+        String errorXpath =
+                "//android.view.View[starts-with(@content-desc,"
+                        + "'Invalid reference URL:')]";
+
+        WebElement error =
+                scrollToElement(
+                        errorXpath,
+                        "Invalid Reference URL Error");
+
+        ValidationUtil.verifyTrue(
+                error.isDisplayed(),
+                "Invalid reference URL error is displayed.");
+
+        String actualError =
+                error.getAttribute(
+                        "content-desc");
+
+        System.out.println(
+                "Invalid Reference URL Error : "
+                        + actualError);
+
+        ValidationUtil.verifyTrue(
+                actualError.contains(
+                        "Invalid reference URL:"),
+                "Invalid reference URL error message is displayed for invalid URL.");
+
+        ValidationUtil.verifyTrue(
+                actualError.contains(
+                        invalidUrl),
+                "Invalid reference URL error contains the entered invalid URL.");
+        }
 
 
 }

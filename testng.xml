@@ -82,6 +82,9 @@
             <class name="tests.TC070_VerifyServingLimitCantBeZero"/>
             <class name="tests.TC071_VerifyUserUnableToProceedWithBlankSummary"/>
             <class name="tests.TC072_AddNewRecipe"/>
+            <class name="tests.TC073_VerifyNewRecipeDisplayedAtTop"/>
+            <class name="tests.TC074_VerifyInvalidReferenceUrlError"/>
+            <class name="tests.TC075_AddRecipeWithAllAllergenIngredients"/>
         </classes>
  
     </test>
