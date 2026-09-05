@@ -158,6 +158,10 @@ public class TC075_AddRecipeWithAllAllergenIngredients
 
         /*
          * All Allergen Ingredients
+         *
+         * These ingredients are present
+         * in the Recipe Step and should
+         * be extracted by AI.
          */
         String[] allergenIngredients = {
                 "Crustacean",
@@ -173,7 +177,8 @@ public class TC075_AddRecipeWithAllAllergenIngredients
         };
 
         /*
-         * Enter All Allergen Ingredients
+         * Enter All AI Extracted
+         * Allergen Ingredients
          */
         for (String ingredientName :
                 allergenIngredients) {
@@ -188,6 +193,55 @@ public class TC075_AddRecipeWithAllAllergenIngredients
                     unit,
                     note);
         }
+
+        /*
+         * Verify New Ingredient Addition
+         *
+         * Salt is intentionally not included
+         * in the Recipe Step.
+         *
+         * This verifies that when AI does not
+         * extract an ingredient:
+         *
+         * 1. Ingredient is not found.
+         * 2. Add Ingredient button is clicked.
+         * 3. Form scrolls down to the new row.
+         * 4. New ingredient is entered.
+         * 5. Quantity is entered.
+         * 6. Unit is selected.
+         * 7. Note is entered.
+         */
+        String newIngredientName =
+                "Salt";
+
+        String newIngredientQuantity =
+                "2.0";
+
+        String newIngredientUnit =
+                "Kilogram";
+
+        String newIngredientNote =
+                "New ingredient automation test.";
+
+        System.out.println(
+                "==================================================");
+
+        System.out.println(
+                "Testing new ingredient addition : "
+                        + newIngredientName);
+
+        addRecipe.enterIngredientDetails(
+                newIngredientName,
+                newIngredientQuantity,
+                newIngredientUnit,
+                newIngredientNote);
+
+        System.out.println(
+                "New ingredient addition completed : "
+                        + newIngredientName);
+
+        System.out.println(
+                "==================================================");
 
         /*
          * Proceed From Ingredients
@@ -239,7 +293,7 @@ public class TC075_AddRecipeWithAllAllergenIngredients
                         + recipeName);
 
         System.out.println(
-                "Allergen Ingredients :");
+                "AI Extracted Allergen Ingredients :");
 
         for (String ingredientName :
                 allergenIngredients) {
@@ -248,6 +302,22 @@ public class TC075_AddRecipeWithAllAllergenIngredients
                     "1 Kg "
                             + ingredientName);
         }
+
+        System.out.println(
+                "Manually Added Ingredient : "
+                        + newIngredientName);
+
+        System.out.println(
+                "Quantity : "
+                        + newIngredientQuantity);
+
+        System.out.println(
+                "Unit : "
+                        + newIngredientUnit);
+
+        System.out.println(
+                "Note : "
+                        + newIngredientNote);
 
         System.out.println(
                 "==================================================");

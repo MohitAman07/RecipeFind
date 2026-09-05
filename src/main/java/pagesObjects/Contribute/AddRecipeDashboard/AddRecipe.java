@@ -333,60 +333,119 @@ private WebElement servingLimitField;
 
     // ======================== Coordinate Scrolling ======================== //
 
+// /*
+//  * Scroll Add Recipe Form Down By Coordinates
+//  */
+// public void scrollAddRecipeFormDown() {
+
+//     Map<String, Object> swipe =
+//             new HashMap<>();
+
+//     swipe.put(
+//             "left",
+//             100);
+
+//     swipe.put(
+//             "top",
+//             350);
+
+//     swipe.put(
+//             "width",
+//             880);
+
+//     swipe.put(
+//             "height",
+//             1750);
+
+//     swipe.put(
+//             "direction",
+//             "up");
+
+//     swipe.put(
+//             "percent",
+//             0.70);
+
+//     swipe.put(
+//             "speed",
+//             600);
+
+//     driver.executeScript(
+//             "mobile: swipeGesture",
+//             swipe);
+
+//     try {
+
+//         Thread.sleep(
+//                 1000);
+
+//     }
+
+//     catch (InterruptedException e) {
+
+//         Thread.currentThread()
+//                 .interrupt();
+
+//         throw new RuntimeException(
+//                 "Interrupted while scrolling Add Recipe form.",
+//                 e);
+//     }
+
+//     System.out.println(
+//             "Add Recipe form scrolled down.");
+// }
+
 /*
- * Scroll Add Recipe Form Down By Coordinates
+ * Scroll Add Recipe Form Down
  */
 public void scrollAddRecipeFormDown() {
 
-    Map<String, Object> swipe =
-            new HashMap<>();
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
 
-    swipe.put(
-            "left",
-            100);
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
 
-    swipe.put(
-            "top",
-            350);
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(0),
+                    PointerInput.Origin.viewport(),
+                    540,
+                    1800));
 
-    swipe.put(
-            "width",
-            880);
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
 
-    swipe.put(
-            "height",
-            1750);
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    540,
+                    600));
 
-    swipe.put(
-            "direction",
-            "up");
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
 
-    swipe.put(
-            "percent",
-            0.70);
-
-    swipe.put(
-            "speed",
-            600);
-
-    driver.executeScript(
-            "mobile: swipeGesture",
-            swipe);
+    driver.perform(
+            Arrays.asList(
+                    swipe));
 
     try {
 
         Thread.sleep(
                 1000);
 
-    }
+    } catch (InterruptedException e) {
 
-    catch (InterruptedException e) {
-
-        Thread.currentThread()
-                .interrupt();
+        Thread.currentThread().interrupt();
 
         throw new RuntimeException(
-                "Interrupted while scrolling Add Recipe form.",
+                "Add Recipe form scroll was interrupted.",
                 e);
     }
 
@@ -2418,38 +2477,33 @@ System.out.println(
 /*
  * Scroll To New Ingredient Field
  *
- * The newly added ingredient row is always
- * appended at the bottom of the ingredient list.
+ * The newly added ingredient row is
+ * identified using:
  *
- * The new row initially contains:
- *
- * Ingredient : empty
+ * Ingredient : Empty
  * Quantity   : 0.0
  * Unit       : -
- * Note       : empty
- *
- * The Ingredient field is identified using
- * the empty field together with the Quantity
- * and Unit values belonging to the same row.
  */
 private WebElement scrollToNewIngredientField() {
 
-    String emptyIngredientFieldXpath =
-            "//android.view.View[@content-desc=\"Extracted items verification\"]"
-                    + "/following::android.view.View"
-                    + "[.//android.widget.EditText"
-                    + "[normalize-space(@text)='']"
-                    + " and .//android.widget.EditText"
-                    + "[@text='0.0']"
-                    + " and .//android.widget.Button"
-                    + "[@content-desc='-']]"
+    String newIngredientRowXpath =
+            "//android.view.View"
+                    + "[.//android.widget.EditText[@text='0.0']"
+                    + " and .//android.widget.Button[@content-desc='-']]";
+
+    String ingredientFieldXpath =
+            "("
+                    + newIngredientRowXpath
                     + "//android.widget.EditText"
-                    + "[normalize-space(@text)='']";
+                    + "[normalize-space(@text)='']"
+                    + ")[1]";
 
     /*
-     * Scroll down because the newly added
-     * ingredient row is always appended
-     * at the bottom.
+     * The caller has already performed
+     * the first scroll down.
+     *
+     * Locate the new ingredient field
+     * only after the scroll.
      */
     for (int attempt = 1;
             attempt <= 15;
@@ -2457,70 +2511,72 @@ private WebElement scrollToNewIngredientField() {
 
         try {
 
-            List<WebElement> fields =
-                    driver.findElements(
+            WebElement ingredientField =
+                    driver.findElement(
                             AppiumBy.xpath(
-                                    emptyIngredientFieldXpath));
+                                    ingredientFieldXpath));
 
-            for (WebElement field :
-                    fields) {
+            if (ingredientField.isDisplayed()) {
 
-                if (field.isDisplayed()) {
+                System.out.println(
+                        "New empty ingredient field visible"
+                                + " | Attempt : "
+                                + attempt);
 
-                    System.out.println(
-                            "New ingredient field visible"
-                                    + " | Attempt : "
-                                    + attempt);
-
-                    return field;
-                }
+                return ingredientField;
             }
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             /*
-             * New ingredient field is not
+             * Continue scrolling because
+             * the new ingredient row is not
              * currently visible.
              */
         }
 
-        /*
-         * Continue scrolling down towards
-         * the bottom of the ingredient list.
-         */
         scrollAddRecipeFormDown();
 
         System.out.println(
-                "Scrolling to newly added ingredient"
+                "Scrolling Add Recipe tab down to make new ingredient visible"
                         + " | Attempt : "
                         + attempt);
     }
 
     throw new RuntimeException(
-            "Unable to find newly added ingredient field.");
+            "Unable to make new ingredient field visible.");
 }
 
 
 /*
  * Enter Ingredient Quantity
  */
+
 public void enterIngredientQuantity(
+        String ingredientName,
         String quantity) {
 
-    WebElement field =
-            getQuantityField();
+    String quantityXpath =
+            "//android.widget.EditText[@text='"
+                    + ingredientName
+                    + "']"
+                    + "/ancestor::android.view.View[2]"
+                    + "//android.widget.EditText[@text='0.0']";
+
+    WebElement quantityField =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            quantityXpath));
 
     waitUtil.waitForElementVisible(
-            field);
+            quantityField);
 
     waitUtil.clickWithWait(
-            field);
+            quantityField);
 
-    field.clear();
+    quantityField.clear();
 
-    field.sendKeys(
+    quantityField.sendKeys(
             quantity);
 
     hideKeyboard();
@@ -2583,7 +2639,6 @@ public void clickIngredientUnit() {
             "Unable to find visible ingredient unit dropdown.");
 }
 
-
 /*
  * Scroll To Ingredient
  */
@@ -2596,7 +2651,7 @@ private WebElement scrollToIngredient(
                     + "\"]";
 
     /*
-     * First check whether the ingredient
+     * Check whether the ingredient
      * is already visible.
      */
     try {
@@ -2610,8 +2665,7 @@ private WebElement scrollToIngredient(
 
             System.out.println(
                     "Ingredient visible : "
-                            + ingredientName
-                            + " | Current position");
+                            + ingredientName);
 
             return ingredient;
         }
@@ -2626,61 +2680,16 @@ private WebElement scrollToIngredient(
     }
 
     /*
-     * First move the form towards the top.
-     *
-     * This is important when the requested
-     * ingredient is near the beginning of
-     * the ingredient list.
+     * Move the Add Recipe tab to the top
+     * using coordinate scrolling.
      */
-    for (int attempt = 1;
-            attempt <= 10;
-            attempt++) {
-
-        try {
-
-            WebElement ingredient =
-                    driver.findElement(
-                            AppiumBy.xpath(
-                                    ingredientXpath));
-
-            if (ingredient.isDisplayed()) {
-
-                System.out.println(
-                        "Ingredient visible : "
-                                + ingredientName
-                                + " | Up Attempt : "
-                                + attempt);
-
-                return ingredient;
-            }
-
-        }
-
-        catch (Exception e) {
-
-            /*
-             * Ingredient is not currently visible.
-             */
-        }
-
-        scrollAddRecipeFormToTop();
-
-        System.out.println(
-                "Scrolling up to ingredient : "
-                        + ingredientName
-                        + " | Attempt : "
-                        + attempt);
-    }
+    scrollAddRecipeFormToTop();
 
     /*
-     * Now start scrolling down from the
-     * top of the form.
-     *
-     * This handles ingredients located
-     * further down in the list.
+     * Search from top to bottom.
      */
     for (int attempt = 1;
-            attempt <= 10;
+            attempt <= 15;
             attempt++) {
 
         try {
@@ -2695,7 +2704,7 @@ private WebElement scrollToIngredient(
                 System.out.println(
                         "Ingredient visible : "
                                 + ingredientName
-                                + " | Down Attempt : "
+                                + " | Attempt : "
                                 + attempt);
 
                 return ingredient;
@@ -2707,20 +2716,22 @@ private WebElement scrollToIngredient(
 
             /*
              * Ingredient is not currently visible.
+             * Continue scrolling down.
              */
         }
 
         scrollAddRecipeFormDown();
 
         System.out.println(
-                "Scrolling down to ingredient : "
+                "Scrolling Add Recipe tab down"
+                        + " to make ingredient visible : "
                         + ingredientName
                         + " | Attempt : "
                         + attempt);
     }
 
     throw new RuntimeException(
-            "Unable to find ingredient : "
+            "Unable to make ingredient visible : "
                     + ingredientName);
 }
 
@@ -2790,6 +2801,12 @@ public void deleteIngredient() {
 }
 
 
+/*
+ * Find Extracted Ingredient
+ *
+ * Searches the complete ingredient list
+ * using coordinate scrolling.
+ */
 private WebElement findExtractedIngredient(
         String ingredientName) {
 
@@ -2799,85 +2816,77 @@ private WebElement findExtractedIngredient(
                     + "']";
 
     /*
-     * Search the ingredient while scrolling
-     * down through the form.
+     * Move to the top of the Add Recipe tab
+     * before starting the search.
+     */
+    scrollAddRecipeFormToTop();
+
+    /*
+     * Search from top to bottom.
      */
     for (int attempt = 1;
-            attempt <= 10;
+            attempt <= 15;
             attempt++) {
 
         try {
 
-            WebElement ingredient =
-                    driver.findElement(
+            List<WebElement> ingredients =
+                    driver.findElements(
                             AppiumBy.xpath(
                                     ingredientXpath));
 
-            if (ingredient.isDisplayed()) {
+            System.out.println(
+                    "Matching ingredient elements : "
+                            + ingredients.size()
+                            + " | Ingredient : "
+                            + ingredientName
+                            + " | Attempt : "
+                            + attempt);
 
-                System.out.println(
-                        "Extracted ingredient found : "
-                                + ingredientName);
+            for (WebElement ingredient :
+                    ingredients) {
 
-                return ingredient;
+                try {
+
+                    if (ingredient.isDisplayed()) {
+
+                        System.out.println(
+                                "Extracted ingredient found : "
+                                        + ingredientName
+                                        + " | Attempt : "
+                                        + attempt);
+
+                        return ingredient;
+                    }
+
+                } catch (Exception e) {
+
+                    /*
+                     * Continue checking the
+                     * remaining matching elements.
+                     */
+                }
             }
 
         } catch (Exception e) {
-            // Ingredient not visible.
+
+            /*
+             * Continue scrolling if the
+             * ingredient is not currently
+             * available.
+             */
         }
 
+        /*
+         * Scroll down to search the next
+         * section of the ingredient list.
+         */
         scrollAddRecipeFormDown();
 
         System.out.println(
                 "Searching extracted ingredient : "
                         + ingredientName
                         + " | Scroll Down Attempt : "
-                        + attempt);
-    }
-
-    /*
-     * Ingredient was not found while
-     * scrolling down.
-     *
-     * Scroll back to the top.
-     */
-    scrollAddRecipeFormToTop();
-
-    /*
-     * Search again while scrolling down.
-     * This ensures the complete form is
-     * checked from the beginning.
-     */
-    for (int attempt = 1;
-            attempt <= 10;
-            attempt++) {
-
-        try {
-
-            WebElement ingredient =
-                    driver.findElement(
-                            AppiumBy.xpath(
-                                    ingredientXpath));
-
-            if (ingredient.isDisplayed()) {
-
-                System.out.println(
-                        "Extracted ingredient found : "
-                                + ingredientName);
-
-                return ingredient;
-            }
-
-        } catch (Exception e) {
-            // Ingredient not visible.
-        }
-
-        scrollAddRecipeFormDown();
-
-        System.out.println(
-                "Searching extracted ingredient again : "
-                        + ingredientName
-                        + " | Attempt : "
                         + attempt);
     }
 
@@ -2923,66 +2932,87 @@ public void enterIngredientDetails(
                 ingredientName,
                 note);
 
-    } else {
+        }  else {
 
-        /*
-         * Ingredient was not extracted.
-         *
-         * Add a new ingredient row.
-         */
-        System.out.println(
-                "Ingredient not extracted : "
-                        + ingredientName);
+    System.out.println(
+            "Ingredient not extracted : "
+                    + ingredientName);
 
-        clickAddIngredient();
+    /*
+     * Scroll to the top of the
+     * Add Recipe form before adding
+     * a new ingredient row.
+     */
+    scrollAddRecipeFormToTop();
 
-        Thread.sleep(
-                500);
+    /*
+     * Add a new ingredient row.
+     *
+     * The new row is appended at the
+     * bottom of the ingredient list.
+     */
+    clickAddIngredient();
 
-        /*
-         * Find the newly added
-         * empty ingredient field.
-         */
-        WebElement ingredientField =
-                scrollToNewIngredientField();
+    Thread.sleep(
+            500);
 
-        waitUtil.waitForElementVisible(
-                ingredientField);
+    /*
+     * Scroll down after the new
+     * ingredient row is created.
+     *
+     * The newly added row is at
+     * the bottom of the list and
+     * may not be visible immediately.
+     */
+    scrollAddRecipeFormDown();
 
-        waitUtil.clickWithWait(
-                ingredientField);
+    Thread.sleep(
+            500);
 
-        ingredientField.clear();
+    /*
+     * Now locate the newly added
+     * blank ingredient field.
+     */
+    WebElement ingredientField =
+            scrollToNewIngredientField();
 
-        ingredientField.sendKeys(
-                ingredientName);
+    waitUtil.waitForElementVisible(
+            ingredientField);
 
-        hideKeyboard();
+    waitUtil.clickWithWait(
+            ingredientField);
 
-        /*
-         * Enter Quantity.
-         */
-        enterIngredientQuantity(
-                quantity);
+    ingredientField.clear();
 
-        /*
-         * Select Unit.
-         */
-        clickIngredientUnit();
+    ingredientField.sendKeys(
+            ingredientName);
 
-        Thread.sleep(
-                500);
+    hideKeyboard();
 
-        selectIngredientUnit(
-                unit);
+    System.out.println(
+            "Ingredient entered manually : "
+                    + ingredientName);
 
-        /*
-         * Enter Note.
-         */
-        enterIngredientNote(
-                ingredientName,
-                note);
-    }
+    enterIngredientQuantity(ingredientName, quantity);
+
+    clickIngredientUnit();
+
+    Thread.sleep(
+            500);
+
+    selectIngredientUnit(
+            unit);
+
+    /*
+     * Ingredient now has a name,
+     * so locate it dynamically and
+     * scroll to its row before
+     * entering the Note.
+     */
+    enterIngredientNote(
+            ingredientName,
+            note);
+}
 }
 
 
