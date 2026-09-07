@@ -85,6 +85,7 @@
             <class name="tests.TC073_VerifyNewRecipeDisplayedAtTop"/>
             <class name="tests.TC074_VerifyInvalidReferenceUrlError"/>
             <class name="tests.TC075_AddRecipeWithAllAllergenIngredients"/>
+            <class name="tests.TC076_VerifyNutritionFactsPanel"/>
         </classes>
  
     </test>
