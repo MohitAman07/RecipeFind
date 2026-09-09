@@ -167,31 +167,162 @@ public void clickHamburgerMenu() {
     System.out.println("Hamburger menu clicked.");
 
 }
-    /*
-     * Tutorial
-     */
-    public boolean isTutorialVisible() {
+        // /*
+        // * Tutorial
+        // */
+        // public boolean isTutorialVisible() {
 
-        return !driver.findElements(
-                AppiumBy.accessibilityId(
-                        "Tutorial"))
-                .isEmpty();
-    }
+        // return !driver.findElements(
+        //         AppiumBy.accessibilityId(
+        //                 "Tutorial"))
+        //         .isEmpty();
+        // }
 
+        // /*
+        // * Click Tutorial
+        // */
+        // public void clickTutorial() {
+
+        // hideKeyboardIfVisible();
+
+        // new WebDriverWait(driver, Duration.ofSeconds(10))
+        //         .until(ExpectedConditions.visibilityOfElementLocated(
+        //                 AppiumBy.accessibilityId(
+        //                         "Tutorial, Collapsed")));
+
+        // driver.findElement(
+        //         AppiumBy.accessibilityId(
+        //                 "Tutorial, Collapsed"))
+        //         .click();
+
+        // System.out.println(
+        //         "Tutorial clicked.");
+        // }
+
+        /*
+ * Tutorial
+ */
+public boolean isTutorialVisible() {
+
+    return !driver.findElements(
+            AppiumBy.accessibilityId(
+                    "Tutorial, Collapsed"))
+            .isEmpty()
+            ||
+            !driver.findElements(
+                    AppiumBy.accessibilityId(
+                            "Tutorial, Expanded"))
+                    .isEmpty();
+}
+
+/*
+ * Tutorial - Expanded
+ */
+public boolean isTutorialExpandedVisible() {
+
+    return !driver.findElements(
+            AppiumBy.accessibilityId(
+                    "Tutorial, Expanded"))
+            .isEmpty();
+}
+
+/*
+ * Click Tutorial
+ */
 public void clickTutorial() {
 
     hideKeyboardIfVisible();
 
     new WebDriverWait(driver, Duration.ofSeconds(10))
             .until(ExpectedConditions.visibilityOfElementLocated(
-                    AppiumBy.accessibilityId("Tutorial")));
+                    AppiumBy.accessibilityId(
+                            "Tutorial, Collapsed")));
 
     driver.findElement(
-            AppiumBy.accessibilityId("Tutorial"))
+            AppiumBy.accessibilityId(
+                    "Tutorial, Collapsed"))
             .click();
 
-    System.out.println("Tutorial clicked.");
+    System.out.println(
+            "Tutorial clicked.");
 }
+
+        /*
+        * Tutorial Sub Menu
+        *
+        * Visibility methods are kept in the
+        * Hamburger page object.
+        *
+        * Click methods will be handled
+        * in the Tutorial page object.
+        */
+
+        /*
+        * Home
+        */
+        public boolean isTutorialHomeVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Home"))
+                .isEmpty();
+        }
+
+        /*
+        * Cookbook
+        */
+        public boolean isTutorialCookbookVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Cookbook"))
+                .isEmpty();
+        }
+
+        /*
+        * Contribute
+        */
+        public boolean isTutorialContributeVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Contribute"))
+                .isEmpty();
+        }
+
+        /*
+        * Profile
+        */
+        public boolean isTutorialProfileVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Profile"))
+                .isEmpty();
+        }
+
+        /*
+        * Engagement
+        */
+        public boolean isTutorialEngagementVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Engagement"))
+                .isEmpty();
+        }
+
+        /*
+        * Exports
+        */
+        public boolean isTutorialExportsVisible() {
+
+        return !driver.findElements(
+                AppiumBy.accessibilityId(
+                        "Exports"))
+                .isEmpty();
+        }
+
 
     /*
      * FAQs

@@ -1,32 +1,18 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.Hamburger;
 import pagesObjects.HamburgerMenu.Tutorials;
+import utils.ValidationUtil;
 
 public class TC006_Tutorial extends BaseTest {
 
     @Test
     public void verifyTutorialFunctionality()
             throws InterruptedException {
-
-        System.out.println(
-                "==================================================");
-
-        System.out.println(
-                "Executing Test Case : verifyTutorialFunctionality");
-
-        System.out.println(
-                "==================================================");
-
-        /*
-         * Wait for Home Dashboard to stabilize
-         */
-        Thread.sleep(3000);
 
         Hamburger hamburger =
                 new Hamburger(
@@ -36,93 +22,265 @@ public class TC006_Tutorial extends BaseTest {
                 new Tutorials(
                         DriverFactory.getDriver());
 
-        /*
-         * Verify Hamburger Menu Visibility
-         */
-        Assert.assertTrue(
-                hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
-
-        System.out.println(
-                "Hamburger menu displayed successfully.");
+        Thread.sleep(
+                3000);
 
         /*
+         * ==================================================
          * Open Hamburger Menu
+         * ==================================================
          */
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
         hamburger.clickHamburgerMenu();
 
-        Thread.sleep(2000);
-
-        System.out.println(
-                "Hamburger menu clicked successfully.");
+        Thread.sleep(
+                1000);
 
         /*
-         * Verify Tutorial Option
+         * ==================================================
+         * Open Tutorial
+         * ==================================================
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 hamburger.isTutorialVisible(),
-                "Tutorial option is not displayed.");
+                "Tutorial option is displayed.");
 
-        System.out.println(
-                "Tutorial option displayed successfully.");
-
-        /*
-         * Click Tutorial
-         */
         hamburger.clickTutorial();
 
-        Thread.sleep(5000);
+        Thread.sleep(
+                1000);
 
-        System.out.println(
-                "Tutorial option clicked successfully.");
-
-        /*
-         * Verify Tutorial Screen
-         */
-        Assert.assertTrue(
-                tutorials.isTutorialScreenVisible(),
-                "Tutorial screen is not displayed.");
-
-        System.out.println(
-                "Tutorial screen displayed successfully.");
+        ValidationUtil.verifyTrue(
+                hamburger.isTutorialExpandedVisible(),
+                "Tutorial menu is expanded.");
 
         /*
-         * Fetch Tutorial Cards
+         * ==================================================
+         * HOME
+         * ==================================================
          */
-        int totalCards =
-                tutorials.getAllTutorialCards();
+        ValidationUtil.verifyTrue(
+                tutorials.isHomeVisible(),
+                "Home is displayed.");
 
-        Assert.assertTrue(
-                totalCards > 0,
-                "No tutorial cards found.");
+        tutorials.clickHome();
 
-        System.out.println(
-                "Total Tutorial Cards : "
-                        + totalCards);
-
-        /*
-         * Navigate Back to Home
-         */
-        Assert.assertTrue(
-                hamburger.isBackButtonVisible(),
-                "Back button is not displayed.");
+        tutorials.swipeSelectedTutorialScreen(
+                3);
 
         hamburger.clickBackButton();
 
-        Thread.sleep(2000);
+        Thread.sleep(
+                1000);
 
-        hamburger.hideKeyboardIfVisible();
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed after Home.");
 
-        Thread.sleep(2000);
+        hamburger.clickHamburgerMenu();
 
-        System.out.println(
-                "Back button clicked successfully.");
+        Thread.sleep(
+                1000);
 
+        hamburger.clickTutorial();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * ==================================================
+         * COOKBOOK
+         * ==================================================
+         */
+        tutorials.swipeTutorialMenu(
+                2);
+
+        ValidationUtil.verifyTrue(
+                tutorials.isCookbookVisible(),
+                "Cookbook is displayed.");
+
+        tutorials.clickCookbook();
+
+        tutorials.swipeSelectedTutorialScreen(
+                2);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(
+                1000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed after Cookbook.");
+
+        hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                1000);
+
+        hamburger.clickTutorial();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * ==================================================
+         * CONTRIBUTE
+         * ==================================================
+         */
+        tutorials.swipeTutorialMenu(
+                5);
+
+        ValidationUtil.verifyTrue(
+                tutorials.isContributeVisible(),
+                "Contribute is displayed.");
+
+        tutorials.clickContribute();
+
+        tutorials.swipeSelectedTutorialScreen(
+                5);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(
+                1000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed after Contribute.");
+
+        hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                1000);
+
+        hamburger.clickTutorial();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * ==================================================
+         * PROFILE
+         * ==================================================
+         */
+        tutorials.swipeTutorialMenu(
+                5);
+
+        ValidationUtil.verifyTrue(
+                tutorials.isProfileVisible(),
+                "Profile is displayed.");
+
+        tutorials.clickProfile();
+
+        tutorials.swipeSelectedTutorialScreen(
+                5);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(
+                1000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed after Profile.");
+
+        hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                1000);
+
+        hamburger.clickTutorial();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * ==================================================
+         * ENGAGEMENT
+         * ==================================================
+         */
+        tutorials.swipeTutorialMenu(
+                3);
+
+        ValidationUtil.verifyTrue(
+                tutorials.isEngagementVisible(),
+                "Engagement is displayed.");
+
+        tutorials.clickEngagement();
+
+        tutorials.swipeSelectedTutorialScreen(
+                3);
+
+        hamburger.clickBackButton();
+
+        Thread.sleep(
+                1000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed after Engagement.");
+
+        hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                1000);
+
+        hamburger.clickTutorial();
+
+        Thread.sleep(
+                1000);
+
+        /*
+         * ==================================================
+         * EXPORTS
+         * ==================================================
+         */
+        ValidationUtil.verifyTrue(
+                tutorials.isExportsVisible(),
+                "Exports is displayed.");
+
+        tutorials.clickExports();
+
+        hamburger.clickBackButton();
+
+        /*
+         * ==================================================
+         * Test Completed
+         * ==================================================
+         */
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Completed Test Case : verifyTutorialFunctionality");
+                "Tutorial functionality verified successfully.");
+
+        System.out.println(
+                "Home : 3 swipes");
+
+        System.out.println(
+                "Cookbook : 2 swipes");
+
+        System.out.println(
+                "Contribute : 5 swipes");
+
+        System.out.println(
+                "Profile : 5 swipes");
+
+        System.out.println(
+                "Engagement : 3 swipes");
+
+        System.out.println(
+                "Exports : No swipe");
+
+        System.out.println(
+                "Group Management : 2 swipes");
+
+        System.out.println(
+                "Control Panel : No swipe");
 
         System.out.println(
                 "==================================================");

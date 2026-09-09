@@ -222,26 +222,6 @@ public class TC005_HamburgerMenu extends BaseTest {
         Thread.sleep(
                 2000);
 
-        /*
-         * Tutorial
-         */
-        hamburger.clickTutorial();
-
-        Thread.sleep(
-                2000);
-
-        hamburger.clickBackButton();
-
-        Thread.sleep(
-                2000);
-
-        /*
-         * Reopen Hamburger Menu
-         */
-        hamburger.clickHamburgerMenu();
-
-        Thread.sleep(
-                2000);
 
         /*
          * FAQs
