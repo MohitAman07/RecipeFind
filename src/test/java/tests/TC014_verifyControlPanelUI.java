@@ -9,6 +9,7 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC014_verifyControlPanelUI extends BaseTest {
 
@@ -29,14 +30,14 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Hamburger Menu
          */
-        Thread.sleep(3000);
-        Assert.assertTrue(
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
+                "Hamburger menu is displayed after Cookbook.");
 
         hamburger.clickHamburgerMenu();
-
-        hamburger.hideKeyboardIfVisible();
 
         Thread.sleep(3000);
 
