@@ -7,6 +7,7 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC015_VerifyRecipeSearch extends BaseTest {
 
@@ -25,14 +26,19 @@ public class TC015_VerifyRecipeSearch extends BaseTest {
                 "========== Verify Recipe Search ==========");
 
         /*
-         * Open Hamburger Menu
+         * Verify Hamburger Menu
          */
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
 
         hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
-
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         /*
          * Open Control Panel

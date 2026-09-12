@@ -34,7 +34,7 @@ public class TC057_VerifyCreateShoppingListFor_Group extends BaseTest {
          * Allow Home Dashboard To Stabilize
          */
         Thread.sleep(
-                3000);
+                5000);
 
         /*
          * Open Hamburger Menu

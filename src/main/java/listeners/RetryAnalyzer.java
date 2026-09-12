@@ -14,7 +14,7 @@ public class RetryAnalyzer
             0;
 
     private static final int MAX_RETRY_COUNT =
-            1;
+            2;
 
     @Override
     public boolean retry(

@@ -33,7 +33,7 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
     }
 
     @Test
-    public void verifyMyRecipesDashboard() {
+    public void verifyMyRecipesDashboard() throws InterruptedException {
 
         HomeDashboard home =
                 new HomeDashboard(
@@ -57,6 +57,8 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
                 "My Recipes tab is displayed.");
 
         myRecipes.clickMyRecipesTab();
+
+        Thread.sleep(5000);
 
         /*
          * Verify Dashboard UI

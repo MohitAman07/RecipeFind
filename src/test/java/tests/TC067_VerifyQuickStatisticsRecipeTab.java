@@ -45,18 +45,25 @@ public class TC067_VerifyQuickStatisticsRecipeTab
                         DriverFactory.getDriver());
 
         /*
+         * ======================== Open Quick Statistics ========================
+         */
+
+        /*
          * Allow Home Dashboard To Stabilize
          */
         Thread.sleep(
                 3000);
 
         /*
-         * Open Hamburger Menu
+         * Verify Hamburger Menu
          */
         ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is  displayed.");
+                "Hamburger menu is displayed.");
 
+        /*
+         * Open Hamburger Menu
+         */
         hamburger.clickHamburgerMenu();
 
         Thread.sleep(
@@ -69,6 +76,10 @@ public class TC067_VerifyQuickStatisticsRecipeTab
 
         Thread.sleep(
                 5000);
+
+        /*
+         * ======================== Analytics ========================
+         */
 
         /*
          * Verify Analytics Header
@@ -84,10 +95,14 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 lastUpdated != null
                         && !lastUpdated.isBlank(),
-                "Last updated date is  displayed.");
+                "Last updated date is displayed.");
 
         /*
-         * Open Recipe Tab
+         * ======================== Recipe Tab ========================
+         */
+
+        /*
+         * Click Recipe Tab
          */
         quickStatics.clickRecipeTab();
 
@@ -95,7 +110,11 @@ public class TC067_VerifyQuickStatisticsRecipeTab
                 2000);
 
         /*
-         * Verify Content Status Section
+         * ======================== Content Status ========================
+         */
+
+        /*
+         * Verify Content Status Header
          */
         quickStatics.verifyContentStatusHeader();
 
@@ -108,7 +127,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 topExportedRecipe != null
                         && !topExportedRecipe.isBlank(),
-                "Top exported recipe is  displayed.");
+                "Top exported recipe is displayed.");
 
         /*
          * Verify Community Count
@@ -119,29 +138,18 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 communityCount != null
                         && !communityCount.isBlank(),
-                "Community count is  displayed.");
+                "Community count is displayed.");
 
         /*
-         * Verify AI Count
+         * Verify Verified Recipes Count
          */
-        String aiCount =
-                quickStatics.getAICount();
+        String verifiedRecipesCount =
+                quickStatics.getVerifiedRecipesCount();
 
         ValidationUtil.verifyTrue(
-                aiCount != null
-                        && !aiCount.isBlank(),
-                "AI count is  displayed.");
-
-        /*
-         * Verify Published Recipes Count
-         */
-        String publishedRecipesCount =
-                quickStatics.getPublishedRecipesCount();
-
-        ValidationUtil.verifyTrue(
-                publishedRecipesCount != null
-                        && !publishedRecipesCount.isBlank(),
-                "Published recipes count is  displayed.");
+                verifiedRecipesCount != null
+                        && !verifiedRecipesCount.isBlank(),
+                "Verified recipes count is displayed.");
 
         /*
          * Verify Pending Recipes Count
@@ -152,18 +160,29 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 pendingRecipesCount != null
                         && !pendingRecipesCount.isBlank(),
-                "Pending recipes count is  displayed.");
+                "Pending recipes count is displayed.");
 
         /*
-         * Verify Pending Delete Recipes Count
+         * Verify AI Recipes Count
          */
-        String pendingDeleteRecipesCount =
-                quickStatics.getPendingDeleteRecipesCount();
+        String aiCount =
+                quickStatics.getAICount();
 
         ValidationUtil.verifyTrue(
-                pendingDeleteRecipesCount != null
-                        && !pendingDeleteRecipesCount.isBlank(),
-                "Pending delete recipes count is  displayed.");
+                aiCount != null
+                        && !aiCount.isBlank(),
+                "AI recipes count is displayed.");
+
+        /*
+         * Verify Shared Recipes Count
+         */
+        String sharedCount =
+                quickStatics.getSharedCount();
+
+        ValidationUtil.verifyTrue(
+                sharedCount != null
+                        && !sharedCount.isBlank(),
+                "Shared recipes count is displayed.");
 
         /*
          * Verify Monthly Recipe Growth
@@ -174,7 +193,11 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 monthlyRecipeGrowth != null
                         && !monthlyRecipeGrowth.isBlank(),
-                "Monthly recipe growth is  displayed.");
+                "Monthly recipe growth is displayed.");
+
+        /*
+         * ======================== Engagement ========================
+         */
 
         /*
          * Mandatory Coordinate Scroll Down
@@ -183,7 +206,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         quickStatics.scrollDownToEngagement();
 
         /*
-         * Verify Engagement Section
+         * Verify Engagement Header
          */
         quickStatics.verifyEngagementHeader();
 
@@ -196,7 +219,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 topLikedRecipe != null
                         && !topLikedRecipe.isBlank(),
-                "Top liked recipe is  displayed.");
+                "Top liked recipe is displayed.");
 
         /*
          * Verify Top Commented Recipe
@@ -207,7 +230,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 topCommentedRecipe != null
                         && !topCommentedRecipe.isBlank(),
-                "Top commented recipe is  displayed.");
+                "Top commented recipe is displayed.");
 
         /*
          * Verify Top Favorite Recipe
@@ -218,7 +241,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 topFavoriteRecipe != null
                         && !topFavoriteRecipe.isBlank(),
-                "Top favorite recipe is  displayed.");
+                "Top favorite recipe is displayed.");
 
         /*
          * Verify Recipes With Likes Count
@@ -229,7 +252,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 recipesWithLikesCount != null
                         && !recipesWithLikesCount.isBlank(),
-                "Recipes with likes count is  displayed.");
+                "Recipes with likes count is displayed.");
 
         /*
          * Verify Recipes With Comments Count
@@ -240,7 +263,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 recipesWithCommentsCount != null
                         && !recipesWithCommentsCount.isBlank(),
-                "Recipes with comments count is  displayed.");
+                "Recipes with comments count is displayed.");
 
         /*
          * Verify Recipes With Favorites Count
@@ -251,7 +274,11 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 recipesWithFavoritesCount != null
                         && !recipesWithFavoritesCount.isBlank(),
-                "Recipes with favorites count is  displayed.");
+                "Recipes with favorites count is displayed.");
+
+        /*
+         * ======================== Exports / Share ========================
+         */
 
         /*
          * Mandatory Coordinate Scroll Down
@@ -260,7 +287,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         quickStatics.scrollDownToExportsShare();
 
         /*
-         * Verify Exports/Share Section
+         * Verify Exports/Share Header
          */
         quickStatics.verifyExportsShareHeader();
 
@@ -273,7 +300,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 totalRecipeExports != null
                         && !totalRecipeExports.isBlank(),
-                "Total recipe exports count is  displayed.");
+                "Total recipe exports count is displayed.");
 
         /*
          * Verify Most Exported Recipe
@@ -284,7 +311,7 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 mostExportedRecipe != null
                         && !mostExportedRecipe.isBlank(),
-                "Most exported recipe is  displayed.");
+                "Most exported recipe is displayed.");
 
         /*
          * Verify Exports This Month
@@ -295,7 +322,11 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         ValidationUtil.verifyTrue(
                 exportsThisMonth != null
                         && !exportsThisMonth.isBlank(),
-                "Exports this month count is  displayed.");
+                "Exports this month count is displayed.");
+
+        /*
+         * ======================== Return To Analytics ========================
+         */
 
         /*
          * Scroll Up To Analytics
@@ -311,12 +342,20 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         quickStatics.verifyAnalyticsHeader();
 
         /*
+         * ======================== Navigate Back ========================
+         */
+
+        /*
          * Navigate Back From Analytics
          */
         quickStatics.clickBackButton();
 
         Thread.sleep(
                 2000);
+
+        /*
+         * ======================== Logout ========================
+         */
 
         /*
          * Open Hamburger Menu
@@ -334,11 +373,15 @@ public class TC067_VerifyQuickStatisticsRecipeTab
         Thread.sleep(
                 8000);
 
+        /*
+         * ======================== Execution Summary ========================
+         */
+
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Quick Statistics Recipe tab verified successfully.");
+                "Quick Statistics Recipe Tab verified successfully.");
 
         System.out.println(
                 "Last Updated : "
@@ -353,20 +396,20 @@ public class TC067_VerifyQuickStatisticsRecipeTab
                         + communityCount);
 
         System.out.println(
-                "AI : "
-                        + aiCount);
-
-        System.out.println(
-                "Published Recipes : "
-                        + publishedRecipesCount);
+                "Verified Recipes : "
+                        + verifiedRecipesCount);
 
         System.out.println(
                 "Pending Recipes : "
                         + pendingRecipesCount);
 
         System.out.println(
-                "Pending Delete Recipes : "
-                        + pendingDeleteRecipesCount);
+                "AI Recipes : "
+                        + aiCount);
+
+        System.out.println(
+                "Shared Recipes : "
+                        + sharedCount);
 
         System.out.println(
                 "Monthly Recipe Growth : "

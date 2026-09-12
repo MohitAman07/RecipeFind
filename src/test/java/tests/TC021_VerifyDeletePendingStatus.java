@@ -26,19 +26,19 @@ public class TC021_VerifyDeletePendingStatus extends BaseTest {
                 "========== Verify Delete Pending Status ==========");
 
         /*
-         * Allow Home Dashboard To Stabilize
+         * Verify Hamburger Menu
          */
         Thread.sleep(
                 3000);
 
-        /*
-         * Open Hamburger Menu
-         */
         ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu displayed successfully.");
+                "Hamburger menu is displayed.");
 
         hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                3000);
 
         /*
          * Open Control Panel

@@ -758,6 +758,39 @@ public void clickExportButton() {
 }
 
 /*
+ * Dynamic Nutrition Panel Export Option
+ */
+private WebElement nutritionPanelExportOption() {
+
+    return driver.findElement(
+            AppiumBy.xpath(
+                    "//android.view.View[@content-desc='Nutrition Panel']"));
+}
+
+/*
+ * Verify Nutrition Panel Export Option
+ */
+public boolean isNutritionPanelExportOptionDisplayed() {
+
+    try {
+
+        WebElement nutritionPanel =
+                nutritionPanelExportOption();
+
+        return nutritionPanel.isDisplayed();
+
+    }
+
+    catch (Exception e) {
+
+        System.out.println(
+                "Nutrition Panel export option is not available.");
+
+        return false;
+    }
+}
+
+/*
  * Select Export Option
  */
 public void selectExportOption(
@@ -776,6 +809,12 @@ public void selectExportOption(
 
         exportOption =
                 shoppingListExportOption;
+
+    } else if (optionName.equalsIgnoreCase(
+            "Nutrition Panel")) {
+
+        exportOption =
+                nutritionPanelExportOption();
 
     } else {
 

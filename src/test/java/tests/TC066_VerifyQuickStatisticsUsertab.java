@@ -33,7 +33,7 @@ public class TC066_VerifyQuickStatisticsUsertab
     }
 
     @Test
-    public void verifyQuickStatisticsUsertab()
+    public void verifyQuickStatisticsUserTab()
             throws Exception {
 
         Hamburger hamburger =
@@ -45,18 +45,25 @@ public class TC066_VerifyQuickStatisticsUsertab
                         DriverFactory.getDriver());
 
         /*
+         * ======================== Open Quick Statistics ========================
+         */
+
+        /*
          * Allow Home Dashboard To Stabilize
          */
         Thread.sleep(
                 3000);
 
         /*
-         * Open Hamburger Menu
+         * Verify Hamburger Menu
          */
         ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is  displayed.");
+                "Hamburger menu is displayed.");
 
+        /*
+         * Open Hamburger Menu
+         */
         hamburger.clickHamburgerMenu();
 
         Thread.sleep(
@@ -69,6 +76,10 @@ public class TC066_VerifyQuickStatisticsUsertab
 
         Thread.sleep(
                 5000);
+
+        /*
+         * ======================== Analytics ========================
+         */
 
         /*
          * Verify Analytics Header
@@ -84,7 +95,11 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 lastUpdated != null
                         && !lastUpdated.isBlank(),
-                "Last updated date is  displayed.");
+                "Last updated date is displayed.");
+
+        /*
+         * ======================== User Tab ========================
+         */
 
         /*
          * Click User Tab
@@ -95,31 +110,24 @@ public class TC066_VerifyQuickStatisticsUsertab
                 2000);
 
         /*
-         * Verify Account Section
+         * ======================== Account Section ========================
+         */
+
+        /*
+         * Verify Account Header
          */
         quickStatics.verifyAccountHeader();
 
         /*
-         * Verify Total Users
+         * Verify Total New Users
          */
-        String totalUsers =
-                quickStatics.getTotalUserCount();
+        String totalNewUsers =
+                quickStatics.getTotalNewUserCount();
 
         ValidationUtil.verifyTrue(
-                totalUsers != null
-                        && !totalUsers.isBlank(),
-                "Total users count is  displayed.");
-
-        /*
-         * Verify Active Users
-         */
-        String activeUsers =
-                quickStatics.getActiveUserCount();
-
-        ValidationUtil.verifyTrue(
-                activeUsers != null
-                        && !activeUsers.isBlank(),
-                "Active users count is  displayed.");
+                totalNewUsers != null
+                        && !totalNewUsers.isBlank(),
+                "Total new users count is displayed.");
 
         /*
          * Verify Monthly User Growth
@@ -130,10 +138,14 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 monthlyUserGrowth != null
                         && !monthlyUserGrowth.isBlank(),
-                "Monthly user growth is  displayed.");
+                "Monthly user growth is displayed.");
 
         /*
-         * Verify Subscription Section
+         * ======================== Subscription Section ========================
+         */
+
+        /*
+         * Verify Subscription Header
          */
         quickStatics.verifySubscriptionsHeader();
 
@@ -146,7 +158,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 activeSubscriptions != null
                         && !activeSubscriptions.isBlank(),
-                "Active subscription count is  displayed.");
+                "Active subscription count is displayed.");
 
         /*
          * Verify Expired Subscriptions
@@ -157,7 +169,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 expiredSubscriptions != null
                         && !expiredSubscriptions.isBlank(),
-                "Expired subscription count is  displayed.");
+                "Expired subscription count is displayed.");
 
         /*
          * Verify Auto Renew Enabled
@@ -168,7 +180,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 autoRenewEnabled != null
                         && !autoRenewEnabled.isBlank(),
-                "Auto renew enabled count is  displayed.");
+                "Auto renew enabled count is displayed.");
 
         /*
          * Verify Auto Renew Disabled
@@ -179,7 +191,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 autoRenewDisabled != null
                         && !autoRenewDisabled.isBlank(),
-                "Auto renew disabled count is  displayed.");
+                "Auto renew disabled count is displayed.");
 
         /*
          * Verify Monthly Subscription Growth
@@ -190,7 +202,11 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 monthlySubscriptionGrowth != null
                         && !monthlySubscriptionGrowth.isBlank(),
-                "Monthly subscription growth is  displayed.");
+                "Monthly subscription growth is displayed.");
+
+        /*
+         * ======================== Social And Community ========================
+         */
 
         /*
          * Mandatory Coordinate Scroll Down
@@ -212,7 +228,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 usersWithFollowers != null
                         && !usersWithFollowers.isBlank(),
-                "Users with followers count is  displayed.");
+                "Users with followers count is displayed.");
 
         /*
          * Verify Highest Followers
@@ -223,7 +239,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 highestFollowers != null
                         && !highestFollowers.isBlank(),
-                "Highest followers information is  displayed.");
+                "Highest followers information is displayed.");
 
         /*
          * Verify Top Contributor
@@ -234,7 +250,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 topContributor != null
                         && !topContributor.isBlank(),
-                "Top contributor information is  displayed.");
+                "Top contributor information is displayed.");
 
         /*
          * Verify Most Liked Contributor
@@ -245,7 +261,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 mostLikedContributor != null
                         && !mostLikedContributor.isBlank(),
-                "Most liked contributor information is  displayed.");
+                "Most liked contributor information is displayed.");
 
         /*
          * Verify Total Groups
@@ -256,7 +272,7 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 totalGroups != null
                         && !totalGroups.isBlank(),
-                "Total groups count is  displayed.");
+                "Total groups count is displayed.");
 
         /*
          * Verify Group With Most Recipes
@@ -267,7 +283,11 @@ public class TC066_VerifyQuickStatisticsUsertab
         ValidationUtil.verifyTrue(
                 groupWithMostRecipes != null
                         && !groupWithMostRecipes.isBlank(),
-                "Group with most recipes information is  displayed.");
+                "Group with most recipes information is displayed.");
+
+        /*
+         * ======================== Return To Top ========================
+         */
 
         /*
          * Scroll Back To Top
@@ -282,16 +302,21 @@ public class TC066_VerifyQuickStatisticsUsertab
          */
         quickStatics.verifyAnalyticsHeader();
 
-        Thread.sleep(
-                2000);
+        /*
+         * ======================== Navigate Back ========================
+         */
 
         /*
-         * Navigate Back
+         * Navigate Back From Quick Statistics
          */
         quickStatics.clickBackButton();
 
         Thread.sleep(
                 2000);
+
+        /*
+         * ======================== Logout ========================
+         */
 
         /*
          * Open Hamburger Menu
@@ -309,11 +334,15 @@ public class TC066_VerifyQuickStatisticsUsertab
         Thread.sleep(
                 8000);
 
+        /*
+         * ======================== Execution Summary ========================
+         */
+
         System.out.println(
                 "==================================================");
 
         System.out.println(
-                "Quick Statistics verified successfully.");
+                "Quick Statistics User Tab verified successfully.");
 
         System.out.println(
                 "Analytics Header : Verified");
@@ -323,12 +352,8 @@ public class TC066_VerifyQuickStatisticsUsertab
                         + lastUpdated);
 
         System.out.println(
-                "Total Users : "
-                        + totalUsers);
-
-        System.out.println(
-                "Active Users : "
-                        + activeUsers);
+                "Total New Users : "
+                        + totalNewUsers);
 
         System.out.println(
                 "Monthly User Growth : "

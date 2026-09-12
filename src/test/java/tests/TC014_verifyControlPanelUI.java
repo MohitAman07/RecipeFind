@@ -1,6 +1,5 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
@@ -35,95 +34,101 @@ public class TC014_verifyControlPanelUI extends BaseTest {
 
         ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is displayed after Cookbook.");
+                "Hamburger menu is displayed.");
 
         hamburger.clickHamburgerMenu();
 
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Control Panel
          */
-
         hamburger.clickControlPanel();
-        Thread.sleep(3000);        
-        /*
-         * Verify Search Field
-         */
-        Assert.assertTrue(
+
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
                 controlPanel.isSearchFieldDisplayed(),
-                "Search field is not displayed.");
+                "Search field is displayed.");
 
         /*
          * Verify Groups Section
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isGroupsDisplayed(),
-                "Groups section is not displayed.");
+                "Groups section is displayed.");
 
         /*
          * Verify Sort Button
          */
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isSortButtonDisplayed(),
-                "Sort button is not displayed.");
+                "Sort button is displayed.");
 
         /*
          * Verify All Tab
          */
+        Thread.sleep(
+                3000);
 
-         Thread.sleep(3000);  
         controlPanel.clickAllTab();
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isAllTabDisplayed(),
-                "All tab is not displayed.");
+                "All tab is displayed.");
 
-         Thread.sleep(3000);  
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Submitted Tab
          */
         controlPanel.clickSubmittedTab();
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isSubmittedTabDisplayed(),
-                "Submitted tab is not displayed.");
+                "Submitted tab is displayed.");
 
-         Thread.sleep(3000);  
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Verified Tab
          */
         controlPanel.clickVerifiedTab();
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isVerifiedTabDisplayed(),
-                "Verified tab is not displayed.");
+                "Verified tab is displayed.");
 
-         Thread.sleep(3000);  
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Rejected Tab
          */
         controlPanel.clickRejectedTab();
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isRejectedTabDisplayed(),
-                "Rejected tab is not displayed.");
-        
-         Thread.sleep(3000);  
+                "Rejected tab is displayed.");
+
+        Thread.sleep(
+                3000);
 
         /*
          * Verify Delete Pending Tab
          */
         controlPanel.clickDeletePendingTab();
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isDeletePendingTabDisplayed(),
-                "Delete Pending tab is not displayed.");
-        
-         Thread.sleep(3000);  
+                "Delete Pending tab is displayed.");
+
+        Thread.sleep(
+                3000);
 
         /*
          * Return To All Tab
@@ -133,96 +138,110 @@ public class TC014_verifyControlPanelUI extends BaseTest {
         /*
          * Verify Recipe Card
          */
-        Thread.sleep(5000);
+        Thread.sleep(
+                5000);
 
-        controlPanel.enterSearchText(recipeName);
+        controlPanel.enterSearchText(
+                recipeName);
+
         controlPanel.hideKeyboard();
 
-        Thread.sleep(3000);
-        
-        Assert.assertTrue(
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
                 controlPanel.isRecipeDisplayed(recipeName),
-                "Recipe is not displayed.");
+                "Recipe is displayed.");
 
         /*
          * Verify Change Status Screen
          */
-        Thread.sleep(3000);
-        controlPanel.clickRecipeMenu(recipeName);
+        Thread.sleep(
+                3000);
 
-        Assert.assertTrue(
+        controlPanel.clickRecipeMenu(
+                recipeName);
+
+        ValidationUtil.verifyTrue(
                 controlPanel.isChangeStatusScreenDisplayed(),
-                "Change Status screen is not displayed.");
+                "Change Status screen is displayed.");
 
-        Assert.assertTrue(
-                controlPanel.isRecipeDisplayedOnChangeStatus(recipeName),
-                "Recipe name is not displayed on Change Status screen.");
+        ValidationUtil.verifyTrue(
+                controlPanel.isRecipeDisplayedOnChangeStatus(
+                        recipeName),
+                "Recipe name is displayed on Change Status screen.");
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isSubmittedStatusDisplayed(),
-                "Submitted option is not displayed.");
+                "Submitted option is displayed.");
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isVerifiedStatusDisplayed(),
-                "Verified option is not displayed.");
+                "Verified option is displayed.");
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isRejectedStatusDisplayed(),
-                "Rejected option is not displayed.");
+                "Rejected option is displayed.");
 
-        Assert.assertTrue(
+        ValidationUtil.verifyTrue(
                 controlPanel.isDeletePendingStatusDisplayed(),
-                "Delete Pending option is not displayed.");
+                "Delete Pending option is displayed.");
 
         /*
          * Verify Delete Recipe Option (Role Based)
          */
         if (controlPanel.isDeleteRecipeDisplayed()) {
 
-            System.out.println(
+            ValidationUtil.verifyTrue(
+                    true,
                     "Delete Recipe option is displayed.");
+
         }
         else {
 
             System.out.println(
-                    "Delete Recipe option is not available for the current user role.");
+                    "Delete Recipe option is not available "
+                            + "for the current user role.");
         }
 
         /*
          * Close Change Status Screen
          */
-        DriverFactory.getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
+        DriverFactory.getDriver().pressKey(
+                new KeyEvent(
+                        AndroidKey.BACK));
 
         /*
- * Verify Sort Options
- */
-Thread.sleep(3000);
+         * Verify Sort Options
+         */
+        Thread.sleep(
+                3000);
 
-controlPanel.clickSort();
+        controlPanel.clickSort();
 
-Assert.assertTrue(
-        controlPanel.isNewestDisplayed(),
-        "Newest option is not displayed.");
+        ValidationUtil.verifyTrue(
+                controlPanel.isNewestDisplayed(),
+                "Newest option is displayed.");
 
-Assert.assertTrue(
-        controlPanel.isOldestDisplayed(),
-        "Oldest option is not displayed.");
+        ValidationUtil.verifyTrue(
+                controlPanel.isOldestDisplayed(),
+                "Oldest option is displayed.");
 
-Assert.assertTrue(
-        controlPanel.isNameDisplayed(),
-        "Name option is not displayed.");
+        ValidationUtil.verifyTrue(
+                controlPanel.isNameDisplayed(),
+                "Name option is displayed.");
 
-/*
- * Select Newest to close the sort dialog
- */
-controlPanel.selectNewest();
+        /*
+         * Select Newest to close the sort dialog
+         */
+        controlPanel.selectNewest();
 
-Thread.sleep(2000);
+        Thread.sleep(
+                2000);
 
         /*
          * Navigate Back From Control Panel
          */
-
         hamburger.clickBackButton();
 
         System.out.println(

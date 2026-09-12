@@ -56,13 +56,19 @@ public class TC024_VerifyValidGroupSearch extends BaseTest {
                         DriverFactory.getDriver());
 
         /*
-         * Navigate to Group Management
+         * Verify Hamburger Menu
          */
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
+                hamburger.isHamburgerMenuVisible(),
+                "Hamburger menu is displayed.");
+
         hamburger.clickHamburgerMenu();
 
-        hamburger.hideKeyboardIfVisible();
-
-        Thread.sleep(3000);
+        Thread.sleep(
+                3000);
 
         hamburger.clickGroupManagement();
 

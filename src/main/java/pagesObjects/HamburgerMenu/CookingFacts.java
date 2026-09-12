@@ -1,6 +1,8 @@
 package pagesObjects.HamburgerMenu;
+
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
@@ -18,6 +20,7 @@ public class CookingFacts {
 
     private final AndroidDriver driver;
     private final WaitUtil waitUtil;
+
 
     // ======================== Constructor ======================== //
 
@@ -38,7 +41,7 @@ public class CookingFacts {
     }
 
 
-    // ======================== Locators ======================== //
+    // ======================== Top Level Sections ======================== //
 
     /*
      * Cooking Facts Header
@@ -48,14 +51,51 @@ public class CookingFacts {
     private WebElement cookingFactsHeader;
 
 
-    // ======================== Culinary Abbreviations ======================== //
-
     /*
-     * Culinary Abbreviations & Measures / Equivalents Header
+     * Culinary Abbreviations & Measures /
+     * Equivalents Header
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Culinary Abbreviations & Measures / Equivalents\"]")
     private WebElement culinaryAbbreviationsHeader;
+
+
+    /*
+     * Time and Temperature Control Header
+     *
+     * Note:
+     * Application locator contains a trailing space.
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Time and Temperature Control \"]")
+    private WebElement timeTemperatureHeader;
+
+
+    /*
+     * Stages of Sugar Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Stages of Sugar\"]")
+    private WebElement stagesOfSugarHeader;
+
+
+    /*
+     * Cool Food in Two Stages Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Cool Food in Two Stages\"]")
+    private WebElement coolFoodHeader;
+
+
+    /*
+     * Avoiding Your Allergen Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Avoiding Your Allergen\"]")
+    private WebElement avoidingYourAllergenHeader;
+
+
+    // ======================== Abbreviations ======================== //
 
     /*
      * Abbreviations - Collapsed
@@ -64,12 +104,64 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Abbreviations, Collapsed\"]")
     private WebElement abbreviationsCollapsed;
 
+
     /*
      * Abbreviations - Expanded
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Abbreviations, Expanded\"]")
     private WebElement abbreviationsExpanded;
+
+
+    /*
+     * US Customary - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"US Customary, Collapsed\"]")
+    private WebElement usCustomaryCollapsed;
+
+
+    /*
+     * US Customary - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"US Customary, Expanded\"]")
+    private WebElement usCustomaryExpanded;
+
+
+    /*
+     * SI (Metric) - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"SI (Metric), Collapsed\"]")
+    private WebElement siMetricCollapsed;
+
+
+    /*
+     * SI (Metric) - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"SI (Metric), Expanded\"]")
+    private WebElement siMetricExpanded;
+
+
+    /*
+     * Others - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Others, Collapsed\"]")
+    private WebElement othersCollapsed;
+
+
+    /*
+     * Others - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Others, Expanded\"]")
+    private WebElement othersExpanded;
+
+
+    // ======================== Measures And Equivalents ======================== //
 
     /*
      * Measures and Equivalents - Collapsed
@@ -78,6 +170,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Measures and Equivalents, Collapsed\"]")
     private WebElement measuresCollapsed;
 
+
     /*
      * Measures and Equivalents - Expanded
      */
@@ -85,12 +178,16 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Measures and Equivalents, Expanded\"]")
     private WebElement measuresExpanded;
 
+
+    // ======================== Weights And Equivalents ======================== //
+
     /*
      * Weights and Equivalents - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Weights and Equivalents, Collapsed\"]")
     private WebElement weightsCollapsed;
+
 
     /*
      * Weights and Equivalents - Expanded
@@ -103,18 +200,12 @@ public class CookingFacts {
     // ======================== Time And Temperature ======================== //
 
     /*
-     * Time and Temperature Control Header
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Time and Temperature Control \"]")
-    private WebElement timeTemperatureHeader;
-
-    /*
      * Cooking Temperatures - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Cooking Temperatures, Collapsed\"]")
     private WebElement cookingTemperaturesCollapsed;
+
 
     /*
      * Cooking Temperatures - Expanded
@@ -127,38 +218,22 @@ public class CookingFacts {
     // ======================== Stages Of Sugar ======================== //
 
     /*
-     * Stages of Sugar Header
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Stages of Sugar\"]")
-    private WebElement stagesOfSugarHeader;
-
-    /*
      * Sugar Stages - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Sugar Stages, Collapsed\"]")
     private WebElement sugarStagesCollapsed;
 
+
     /*
      * Sugar Stages - Expanded
-     *
-     * Locator supplied for the application:
-     * Cooling Stages, Expanded
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Cooling Stages, Expanded\"]")
+            xpath = "//android.view.View[@content-desc=\"Sugar Stages, Expanded\"]")
     private WebElement sugarStagesExpanded;
 
 
     // ======================== Cool Food In Two Stages ======================== //
-
-    /*
-     * Cool Food in Two Stages Header
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Cool Food in Two Stages\"]")
-    private WebElement coolFoodHeader;
 
     /*
      * Cooling Stages - Collapsed
@@ -166,6 +241,7 @@ public class CookingFacts {
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Cooling Stages, Collapsed\"]")
     private WebElement coolingStagesCollapsed;
+
 
     /*
      * Cooling Stages - Expanded
@@ -175,14 +251,56 @@ public class CookingFacts {
     private WebElement coolingStagesExpanded;
 
 
-    // ======================== Avoiding Your Allergen ======================== //
+    // ======================== All 9 Allergens ======================== //
 
     /*
-     * Avoiding Your Allergen Header
+     * All 9 Allergens - Collapsed
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Avoiding Your Allergen\"]")
-    private WebElement avoidingYourAllergenHeader;
+            xpath = "//android.view.View[@content-desc=\"All 9 Allergens, Collapsed\"]")
+    private WebElement allNineAllergensCollapsed;
+
+
+    /*
+     * All 9 Allergens - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"All 9 Allergens, Expanded\"]")
+    private WebElement allNineAllergensExpanded;
+
+
+    /*
+     * Understanding Food Allergen Labels - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Understanding Food Allergen Labels, Collapsed\"]")
+    private WebElement understandingAllergenLabelsCollapsed;
+
+
+    /*
+     * Understanding Food Allergen Labels - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Understanding Food Allergen Labels, Expanded\"]")
+    private WebElement understandingAllergenLabelsExpanded;
+
+
+    // ======================== Crustacean Shellfish ======================== //
+
+    /*
+     * Crustacean Shellfish - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Crustacean Shellfish, Collapsed\"]")
+    private WebElement crustaceanShellfishCollapsed;
+
+
+    /*
+     * Crustacean Shellfish - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Crustacean Shellfish, Expanded\"]")
+    private WebElement crustaceanShellfishExpanded;
 
 
     /*
@@ -191,6 +309,7 @@ public class CookingFacts {
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Crustacean Shellfish-Free Diet Guidelines, Collapsed\"]")
     private WebElement crustaceanCollapsed;
+
 
     /*
      * Crustacean Shellfish-Free Diet Guidelines - Expanded
@@ -201,11 +320,62 @@ public class CookingFacts {
 
 
     /*
+     * Hidden Sources of Shellfish - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Shellfish, Collapsed\"]")
+    private WebElement hiddenShellfishCollapsed;
+
+
+    /*
+     * Hidden Sources of Shellfish - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Shellfish, Expanded\"]")
+    private WebElement hiddenShellfishExpanded;
+
+
+    /*
+     * Shellfish Allergy Considerations - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Shellfish Allergy Considerations, Collapsed\"]")
+    private WebElement shellfishAllergyCollapsed;
+
+
+    /*
+     * Shellfish Allergy Considerations - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Shellfish Allergy Considerations, Expanded\"]")
+    private WebElement shellfishAllergyExpanded;
+
+
+    // ======================== Egg ======================== //
+
+    /*
+     * Egg - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Egg, Collapsed\"]")
+    private WebElement eggCollapsed;
+
+
+    /*
+     * Egg - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Egg, Expanded\"]")
+    private WebElement eggExpanded;
+
+
+    /*
      * Egg Allergy Considerations - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Egg Allergy Considerations, Collapsed\"]")
     private WebElement eggAllergyCollapsed;
+
 
     /*
      * Egg Allergy Considerations - Expanded
@@ -222,6 +392,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Egg-Free Diet Guidelines, Collapsed\"]")
     private WebElement eggFreeCollapsed;
 
+
     /*
      * Egg-Free Diet Guidelines - Expanded
      */
@@ -231,11 +402,46 @@ public class CookingFacts {
 
 
     /*
+     * Hidden Sources of Egg - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Egg, Collapsed\"]")
+    private WebElement hiddenEggCollapsed;
+
+
+    /*
+     * Hidden Sources of Egg - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Egg, Expanded\"]")
+    private WebElement hiddenEggExpanded;
+
+
+    // ======================== Fish ======================== //
+
+    /*
+     * Fish - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Fish, Collapsed\"]")
+    private WebElement fishCollapsed;
+
+
+    /*
+     * Fish - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Fish, Expanded\"]")
+    private WebElement fishExpanded;
+
+
+    /*
      * Fish Allergy Considerations - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Fish Allergy Considerations, Collapsed\"]")
     private WebElement fishAllergyCollapsed;
+
 
     /*
      * Fish Allergy Considerations - Expanded
@@ -252,6 +458,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Fish-Free Diet Guidelines, Collapsed\"]")
     private WebElement fishFreeCollapsed;
 
+
     /*
      * Fish-Free Diet Guidelines - Expanded
      */
@@ -261,26 +468,12 @@ public class CookingFacts {
 
 
     /*
-     * Hidden Sources of Egg - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Egg, Collapsed\"]")
-    private WebElement hiddenEggCollapsed;
-
-    /*
-     * Hidden Sources of Egg - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Egg, Expanded\"]")
-    private WebElement hiddenEggExpanded;
-
-
-    /*
      * Hidden Sources of Fish - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Hidden Sources of Fish, Collapsed\"]")
     private WebElement hiddenFishCollapsed;
+
 
     /*
      * Hidden Sources of Fish - Expanded
@@ -290,12 +483,31 @@ public class CookingFacts {
     private WebElement hiddenFishExpanded;
 
 
+    // ======================== Milk ======================== //
+
+    /*
+     * Milk - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Milk, Collapsed\"]")
+    private WebElement milkCollapsed;
+
+
+    /*
+     * Milk - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Milk, Expanded\"]")
+    private WebElement milkExpanded;
+
+
     /*
      * Hidden Sources of Milk - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Hidden Sources of Milk, Collapsed\"]")
     private WebElement hiddenMilkCollapsed;
+
 
     /*
      * Hidden Sources of Milk - Expanded
@@ -306,101 +518,12 @@ public class CookingFacts {
 
 
     /*
-     * Hidden Sources of Peanuts - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Peanuts, Collapsed\"]")
-    private WebElement hiddenPeanutsCollapsed;
-
-    /*
-     * Hidden Sources of Peanuts - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Peanuts, Expanded\"]")
-    private WebElement hiddenPeanutsExpanded;
-
-
-    /*
-     * Hidden Sources of Sesame - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Sesame, Collapsed\"]")
-    private WebElement hiddenSesameCollapsed;
-
-    /*
-     * Hidden Sources of Sesame - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Sesame, Expanded\"]")
-    private WebElement hiddenSesameExpanded;
-
-
-    /*
-     * Hidden Sources of Shellfish - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Shellfish, Collapsed\"]")
-    private WebElement hiddenShellfishCollapsed;
-
-    /*
-     * Hidden Sources of Shellfish - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Shellfish, Expanded\"]")
-    private WebElement hiddenShellfishExpanded;
-
-
-    /*
-     * Hidden Sources of Soy - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Soy, Collapsed\"]")
-    private WebElement hiddenSoyCollapsed;
-
-    /*
-     * Hidden Sources of Soy - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Soy, Expanded\"]")
-    private WebElement hiddenSoyExpanded;
-
-
-    /*
-     * Hidden Sources of Tree Nuts - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Tree Nuts, Collapsed\"]")
-    private WebElement hiddenTreeNutsCollapsed;
-
-    /*
-     * Hidden Sources of Tree Nuts - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Tree Nuts, Expanded\"]")
-    private WebElement hiddenTreeNutsExpanded;
-
-
-    /*
-     * Hidden Sources of Wheat - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Wheat, Collapsed\"]")
-    private WebElement hiddenWheatCollapsed;
-
-    /*
-     * Hidden Sources of Wheat - Expanded
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Wheat, Expanded\"]")
-    private WebElement hiddenWheatExpanded;
-
-
-    /*
      * Milk Allergy Considerations - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Milk Allergy Considerations, Collapsed\"]")
     private WebElement milkAllergyCollapsed;
+
 
     /*
      * Milk Allergy Considerations - Expanded
@@ -417,6 +540,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Milk-Free Diet Guidelines, Collapsed\"]")
     private WebElement milkFreeCollapsed;
 
+
     /*
      * Milk-Free Diet Guidelines - Expanded
      */
@@ -425,12 +549,47 @@ public class CookingFacts {
     private WebElement milkFreeExpanded;
 
 
+    // ======================== Peanuts ======================== //
+
+    /*
+     * Peanuts - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Peanuts, Collapsed\"]")
+    private WebElement peanutsCollapsed;
+
+
+    /*
+     * Peanuts - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Peanuts, Expanded\"]")
+    private WebElement peanutsExpanded;
+
+
+    /*
+     * Hidden Sources of Peanuts - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Peanuts, Collapsed\"]")
+    private WebElement hiddenPeanutsCollapsed;
+
+
+    /*
+     * Hidden Sources of Peanuts - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Peanuts, Expanded\"]")
+    private WebElement hiddenPeanutsExpanded;
+
+
     /*
      * Peanut Allergy Considerations - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Peanut Allergy Considerations, Collapsed\"]")
     private WebElement peanutAllergyCollapsed;
+
 
     /*
      * Peanut Allergy Considerations - Expanded
@@ -447,12 +606,47 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Peanut-Free Diet Guidelines, Collapsed\"]")
     private WebElement peanutFreeCollapsed;
 
+
     /*
      * Peanut-Free Diet Guidelines - Expanded
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Peanut-Free Diet Guidelines, Expanded\"]")
     private WebElement peanutFreeExpanded;
+
+
+    // ======================== Sesame ======================== //
+
+    /*
+     * Sesame - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sesame, Collapsed\"]")
+    private WebElement sesameCollapsed;
+
+
+    /*
+     * Sesame - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Sesame, Expanded\"]")
+    private WebElement sesameExpanded;
+
+
+    /*
+     * Hidden Sources of Sesame - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Sesame, Collapsed\"]")
+    private WebElement hiddenSesameCollapsed;
+
+
+    /*
+     * Hidden Sources of Sesame - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Sesame, Expanded\"]")
+    private WebElement hiddenSesameExpanded;
 
 
     /*
@@ -462,6 +656,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Sesame-Free Diet Guidelines, Collapsed\"]")
     private WebElement sesameFreeCollapsed;
 
+
     /*
      * Sesame-Free Diet Guidelines - Expanded
      */
@@ -470,19 +665,38 @@ public class CookingFacts {
     private WebElement sesameFreeExpanded;
 
 
-    /*
-     * Shellfish Allergy Considerations - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Shellfish Allergy Considerations, Collapsed\"]")
-    private WebElement shellfishAllergyCollapsed;
+    // ======================== Soy ======================== //
 
     /*
-     * Shellfish Allergy Considerations - Expanded
+     * Soy - Collapsed
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Shellfish Allergy Considerations, Expanded\"]")
-    private WebElement shellfishAllergyExpanded;
+            xpath = "//android.view.View[@content-desc=\"Soy, Collapsed\"]")
+    private WebElement soyCollapsed;
+
+
+    /*
+     * Soy - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Soy, Expanded\"]")
+    private WebElement soyExpanded;
+
+
+    /*
+     * Hidden Sources of Soy - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Soy, Collapsed\"]")
+    private WebElement hiddenSoyCollapsed;
+
+
+    /*
+     * Hidden Sources of Soy - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Soy, Expanded\"]")
+    private WebElement hiddenSoyExpanded;
 
 
     /*
@@ -491,6 +705,7 @@ public class CookingFacts {
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Soy Allergy Considerations, Collapsed\"]")
     private WebElement soyAllergyCollapsed;
+
 
     /*
      * Soy Allergy Considerations - Expanded
@@ -507,6 +722,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Soy-Free Diet Guidelines, Collapsed\"]")
     private WebElement soyFreeCollapsed;
 
+
     /*
      * Soy-Free Diet Guidelines - Expanded
      */
@@ -515,12 +731,47 @@ public class CookingFacts {
     private WebElement soyFreeExpanded;
 
 
+    // ======================== Tree Nuts ======================== //
+
+    /*
+     * Tree Nuts - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Tree Nuts, Collapsed\"]")
+    private WebElement treeNutsCollapsed;
+
+
+    /*
+     * Tree Nuts - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Tree Nuts, Expanded\"]")
+    private WebElement treeNutsExpanded;
+
+
+    /*
+     * Hidden Sources of Tree Nuts - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Tree Nuts, Collapsed\"]")
+    private WebElement hiddenTreeNutsCollapsed;
+
+
+    /*
+     * Hidden Sources of Tree Nuts - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Tree Nuts, Expanded\"]")
+    private WebElement hiddenTreeNutsExpanded;
+
+
     /*
      * Tree Nut Allergy Considerations - Collapsed
      */
     @AndroidFindBy(
             xpath = "//android.view.View[@content-desc=\"Tree Nut Allergy Considerations, Collapsed\"]")
     private WebElement treeNutAllergyCollapsed;
+
 
     /*
      * Tree Nut Allergy Considerations - Expanded
@@ -537,6 +788,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Tree Nut-Free Diet Guidelines, Collapsed\"]")
     private WebElement treeNutFreeCollapsed;
 
+
     /*
      * Tree Nut-Free Diet Guidelines - Expanded
      */
@@ -545,19 +797,38 @@ public class CookingFacts {
     private WebElement treeNutFreeExpanded;
 
 
-    /*
-     * Understanding Food Allergen Labels - Collapsed
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Understanding Food Allergen Labels, Collapsed\"]")
-    private WebElement understandingAllergenLabelsCollapsed;
+    // ======================== Wheat ======================== //
 
     /*
-     * Understanding Food Allergen Labels - Expanded
+     * Wheat - Collapsed
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Understanding Food Allergen Labels, Expanded\"]")
-    private WebElement understandingAllergenLabelsExpanded;
+            xpath = "//android.view.View[@content-desc=\"Wheat, Collapsed\"]")
+    private WebElement wheatCollapsed;
+
+
+    /*
+     * Wheat - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Wheat, Expanded\"]")
+    private WebElement wheatExpanded;
+
+
+    /*
+     * Hidden Sources of Wheat - Collapsed
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Wheat, Collapsed\"]")
+    private WebElement hiddenWheatCollapsed;
+
+
+    /*
+     * Hidden Sources of Wheat - Expanded
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Hidden Sources of Wheat, Expanded\"]")
+    private WebElement hiddenWheatExpanded;
 
 
     /*
@@ -567,6 +838,7 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Wheat-Free Diet Guidelines, Collapsed\"]")
     private WebElement wheatFreeCollapsed;
 
+
     /*
      * Wheat-Free Diet Guidelines - Expanded
      */
@@ -574,7 +846,8 @@ public class CookingFacts {
             xpath = "//android.view.View[@content-desc=\"Wheat-Free Diet Guidelines, Expanded\"]")
     private WebElement wheatFreeExpanded;
 
-        // ======================== Header Methods ======================== //
+
+    // ======================== Header Methods ======================== //
 
     /*
      * Verify Cooking Facts Header
@@ -658,7 +931,120 @@ public class CookingFacts {
                 "Avoiding Your Allergen displayed.");
     }
 
-        // ======================== Accordion Methods ======================== //
+
+    // ======================== Top Level Allergen Methods ======================== //
+
+    /*
+     * Expand All 9 Allergens
+     */
+    public void expandAllNineAllergens() {
+
+        expandAccordion(
+                "All 9 Allergens");
+
+    }
+
+
+    /*
+     * Expand Crustacean Shellfish
+     */
+    public void expandCrustaceanShellfish() {
+
+        expandAccordion(
+                "Crustacean Shellfish");
+
+    }
+
+
+    /*
+     * Expand Egg
+     */
+    public void expandEgg() {
+
+        expandAccordion(
+                "Egg");
+
+    }
+
+
+    /*
+     * Expand Fish
+     */
+    public void expandFish() {
+
+        expandAccordion(
+                "Fish");
+
+    }
+
+
+    /*
+     * Expand Milk
+     */
+    public void expandMilk() {
+
+        expandAccordion(
+                "Milk");
+
+    }
+
+
+    /*
+     * Expand Peanuts
+     */
+    public void expandPeanuts() {
+
+        expandAccordion(
+                "Peanuts");
+
+    }
+
+
+    /*
+     * Expand Sesame
+     */
+    public void expandSesame() {
+
+        expandAccordion(
+                "Sesame");
+
+    }
+
+
+    /*
+     * Expand Soy
+     */
+    public void expandSoy() {
+
+        expandAccordion(
+                "Soy");
+
+    }
+
+
+    /*
+     * Expand Tree Nuts
+     */
+    public void expandTreeNuts() {
+
+        expandAccordion(
+                "Tree Nuts");
+
+    }
+
+
+    /*
+     * Expand Wheat
+     */
+    public void expandWheat() {
+
+        expandAccordion(
+                "Wheat");
+
+    }
+
+
+    // ======================== Accordion Methods ======================== //
 
     /*
      * Click Abbreviations
@@ -667,6 +1053,39 @@ public class CookingFacts {
 
         clickAccordion(
                 "Abbreviations");
+
+    }
+
+
+    /*
+     * Click US Customary
+     */
+    public void clickUSCustomary() {
+
+        clickAccordion(
+                "US Customary");
+
+    }
+
+
+    /*
+     * Click SI (Metric)
+     */
+    public void clickSIMetric() {
+
+        clickAccordion(
+                "SI (Metric)");
+
+    }
+
+
+    /*
+     * Click Others
+     */
+    public void clickOthers() {
+
+        clickAccordion(
+                "Others");
 
     }
 
@@ -727,12 +1146,45 @@ public class CookingFacts {
 
 
     /*
+     * Click Understanding Food Allergen Labels
+     */
+    public void clickUnderstandingFoodAllergenLabels() {
+
+        clickAccordion(
+                "Understanding Food Allergen Labels");
+
+    }
+
+
+    /*
      * Click Crustacean Shellfish-Free Diet Guidelines
      */
     public void clickCrustacean() {
 
         clickAccordion(
                 "Crustacean Shellfish-Free Diet Guidelines");
+
+    }
+
+
+    /*
+     * Click Hidden Sources Of Shellfish
+     */
+    public void clickHiddenSourcesOfShellfish() {
+
+        clickAccordion(
+                "Hidden Sources of Shellfish");
+
+    }
+
+
+    /*
+     * Click Shellfish Allergy Considerations
+     */
+    public void clickShellfishAllergy() {
+
+        clickAccordion(
+                "Shellfish Allergy Considerations");
 
     }
 
@@ -760,6 +1212,17 @@ public class CookingFacts {
 
 
     /*
+     * Click Hidden Sources Of Egg
+     */
+    public void clickHiddenSourcesOfEgg() {
+
+        clickAccordion(
+                "Hidden Sources of Egg");
+
+    }
+
+
+    /*
      * Click Fish Allergy Considerations
      */
     public void clickFishAllergy() {
@@ -777,17 +1240,6 @@ public class CookingFacts {
 
         clickAccordion(
                 "Fish-Free Diet Guidelines");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Egg
-     */
-    public void clickHiddenSourcesOfEgg() {
-
-        clickAccordion(
-                "Hidden Sources of Egg");
 
     }
 
@@ -815,72 +1267,6 @@ public class CookingFacts {
 
 
     /*
-     * Click Hidden Sources Of Peanuts
-     */
-    public void clickHiddenSourcesOfPeanuts() {
-
-        clickAccordion(
-                "Hidden Sources of Peanuts");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Sesame
-     */
-    public void clickHiddenSourcesOfSesame() {
-
-        clickAccordion(
-                "Hidden Sources of Sesame");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Shellfish
-     */
-    public void clickHiddenSourcesOfShellfish() {
-
-        clickAccordion(
-                "Hidden Sources of Shellfish");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Soy
-     */
-    public void clickHiddenSourcesOfSoy() {
-
-        clickAccordion(
-                "Hidden Sources of Soy");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Tree Nuts
-     */
-    public void clickHiddenSourcesOfTreeNuts() {
-
-        clickAccordion(
-                "Hidden Sources of Tree Nuts");
-
-    }
-
-
-    /*
-     * Click Hidden Sources Of Wheat
-     */
-    public void clickHiddenSourcesOfWheat() {
-
-        clickAccordion(
-                "Hidden Sources of Wheat");
-
-    }
-
-
-    /*
      * Click Milk Allergy Considerations
      */
     public void clickMilkAllergy() {
@@ -898,6 +1284,17 @@ public class CookingFacts {
 
         clickAccordion(
                 "Milk-Free Diet Guidelines");
+
+    }
+
+
+    /*
+     * Click Hidden Sources Of Peanuts
+     */
+    public void clickHiddenSourcesOfPeanuts() {
+
+        clickAccordion(
+                "Hidden Sources of Peanuts");
 
     }
 
@@ -925,6 +1322,17 @@ public class CookingFacts {
 
 
     /*
+     * Click Hidden Sources Of Sesame
+     */
+    public void clickHiddenSourcesOfSesame() {
+
+        clickAccordion(
+                "Hidden Sources of Sesame");
+
+    }
+
+
+    /*
      * Click Sesame-Free Diet Guidelines
      */
     public void clickSesameFree() {
@@ -936,12 +1344,12 @@ public class CookingFacts {
 
 
     /*
-     * Click Shellfish Allergy Considerations
+     * Click Hidden Sources Of Soy
      */
-    public void clickShellfishAllergy() {
+    public void clickHiddenSourcesOfSoy() {
 
         clickAccordion(
-                "Shellfish Allergy Considerations");
+                "Hidden Sources of Soy");
 
     }
 
@@ -969,6 +1377,17 @@ public class CookingFacts {
 
 
     /*
+     * Click Hidden Sources Of Tree Nuts
+     */
+    public void clickHiddenSourcesOfTreeNuts() {
+
+        clickAccordion(
+                "Hidden Sources of Tree Nuts");
+
+    }
+
+
+    /*
      * Click Tree Nut Allergy Considerations
      */
     public void clickTreeNutAllergy() {
@@ -991,12 +1410,12 @@ public class CookingFacts {
 
 
     /*
-     * Click Understanding Food Allergen Labels
+     * Click Hidden Sources Of Wheat
      */
-    public void clickUnderstandingFoodAllergenLabels() {
+    public void clickHiddenSourcesOfWheat() {
 
         clickAccordion(
-                "Understanding Food Allergen Labels");
+                "Hidden Sources of Wheat");
 
     }
 
@@ -1011,7 +1430,8 @@ public class CookingFacts {
 
     }
 
-        // ======================== Coordinate Scroll ======================== //
+
+    // ======================== Coordinate Scroll ======================== //
 
     /*
      * Scroll Down Until Element Is Visible
@@ -1021,7 +1441,7 @@ public class CookingFacts {
             String elementName) {
 
         for (int attempt = 1;
-                attempt <= 8;
+                attempt <= 15;
                 attempt++) {
 
             try {
@@ -1047,7 +1467,7 @@ public class CookingFacts {
             catch (Exception e) {
 
                 /*
-                 * Element not currently visible.
+                 * Element is not currently visible.
                  * Continue with coordinate swipe.
                  */
             }
@@ -1068,148 +1488,13 @@ public class CookingFacts {
 
 
     /*
- * Swipe To Next Content
- */
-private void swipeDownByCoordinates() {
-
-    Map<String, Object> swipe =
-            new HashMap<>();
-
-    swipe.put(
-            "left",
-            100);
-
-    swipe.put(
-            "top",
-            350);
-
-    swipe.put(
-            "width",
-            880);
-
-    swipe.put(
-            "height",
-            1750);
-
-    /*
+     * Swipe To Next Content
+     *
      * Finger moves upward.
      * Content moves upward and lower
      * Cooking Facts items become visible.
      */
-    swipe.put(
-            "direction",
-            "up");
-
-    swipe.put(
-            "percent",
-            0.70);
-
-    swipe.put(
-            "speed",
-            600);
-
-    driver.executeScript(
-            "mobile: swipeGesture",
-            swipe);
-
-    try {
-
-        Thread.sleep(
-                1000);
-
-    }
-
-    catch (InterruptedException e) {
-
-        Thread.currentThread()
-                .interrupt();
-
-        throw new RuntimeException(
-                "Interrupted while scrolling.",
-                e);
-    }
-}
-
-
-    /*
- * Scroll To Top By Coordinates
- */
-public void scrollUpToTop() {
-
-    for (int attempt = 1;
-            attempt <= 20;
-            attempt++) {
-
-        Map<String, Object> swipe =
-                new HashMap<>();
-
-        swipe.put(
-                "left",
-                100);
-
-        swipe.put(
-                "top",
-                350);
-
-        swipe.put(
-                "width",
-                880);
-
-        swipe.put(
-                "height",
-                1750);
-
-        /*
-         * Swipe finger downward to move
-         * the content back towards the top.
-         */
-        swipe.put(
-                "direction",
-                "down");
-
-        swipe.put(
-                "percent",
-                0.70);
-
-        swipe.put(
-                "speed",
-                600);
-
-        driver.executeScript(
-                "mobile: swipeGesture",
-                swipe);
-
-        System.out.println(
-                "Swipe to top performed | Attempt : "
-                        + attempt);
-
-        try {
-
-            Thread.sleep(
-                    1000);
-
-        }
-
-        catch (InterruptedException e) {
-
-            Thread.currentThread()
-                    .interrupt();
-
-            throw new RuntimeException(
-                    "Interrupted while scrolling to top.",
-                    e);
-        }
-    }
-
-    System.out.println(
-            "Cooking Facts scrolled to top.");
-}
-
-
-    /*
-     * Coordinate Swipe Up
-     */
-    private void swipeUpByCoordinates() {
+    private void swipeDownByCoordinates() {
 
         Map<String, Object> swipe =
                 new HashMap<>();
@@ -1246,28 +1531,106 @@ public void scrollUpToTop() {
                 "mobile: swipeGesture",
                 swipe);
 
-        try {
-
-            Thread.sleep(
-                    1000);
-
-        }
-
-        catch (InterruptedException e) {
-
-            Thread.currentThread()
-                    .interrupt();
-
-            throw new RuntimeException(
-                    "Interrupted while scrolling up.",
-                    e);
-        }
+        waitUtil.sleep(
+                1000);
     }
 
-        // ======================== Generic Accordion ======================== //
+
+    /*
+     * Scroll To Top By Coordinates
+     */
+    public void scrollUpToTop() {
+
+        for (int attempt = 1;
+                attempt <= 21;
+                attempt++) {
+
+            try {
+
+                WebElement header =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        "//android.view.View[@content-desc=\"COOKING FACTS\"]"));
+
+                if (header.isDisplayed()) {
+
+                    System.out.println(
+                            "Cooking Facts header visible. "
+                                    + "Already at top.");
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Header is not currently visible.
+                 * Continue scrolling towards top.
+                 */
+            }
+
+            Map<String, Object> swipe =
+                    new HashMap<>();
+
+            swipe.put(
+                    "left",
+                    100);
+
+            swipe.put(
+                    "top",
+                    350);
+
+            swipe.put(
+                    "width",
+                    880);
+
+            swipe.put(
+                    "height",
+                    1750);
+
+            swipe.put(
+                    "direction",
+                    "down");
+
+            swipe.put(
+                    "percent",
+                    0.70);
+
+            swipe.put(
+                    "speed",
+                    600);
+
+            driver.executeScript(
+                    "mobile: swipeGesture",
+                    swipe);
+
+            System.out.println(
+                    "Swipe to top performed | Attempt : "
+                            + attempt);
+
+            waitUtil.sleep(
+                    1000);
+        }
+
+        throw new RuntimeException(
+                "Cooking Facts could not be scrolled to top.");
+    }
+
+
+    // ======================== Generic Accordion ======================== //
 
     /*
      * Click Accordion
+     *
+     * Used for individual accordions.
+     *
+     * If the accordion is collapsed,
+     * it will be expanded.
+     *
+     * If the accordion is already expanded,
+     * it will be collapsed.
      */
     private void clickAccordion(
             String accordionName) {
@@ -1285,13 +1648,13 @@ public void scrollUpToTop() {
         /*
          * First Search For Collapsed State
          */
-        WebElement accordion =
-                findAccordionWithScroll(
-                        collapsedXpath,
-                        accordionName
-                                + ", Collapsed");
+        try {
 
-        if (accordion != null) {
+            WebElement accordion =
+                    findAccordionWithScroll(
+                            collapsedXpath,
+                            accordionName
+                                    + ", Collapsed");
 
             waitUtil.clickWithWait(
                     accordion);
@@ -1303,175 +1666,180 @@ public void scrollUpToTop() {
             return;
         }
 
+        catch (Exception e) {
+
+            /*
+             * Collapsed state was not found.
+             * Check if accordion is already expanded.
+             */
+        }
+
         /*
-         * If Already Expanded
+         * Search For Expanded State
          */
-        accordion =
+        WebElement accordion =
                 findAccordionWithScroll(
                         expandedXpath,
                         accordionName
                                 + ", Expanded");
 
-        if (accordion != null) {
+        waitUtil.clickWithWait(
+                accordion);
 
-            waitUtil.clickWithWait(
-                    accordion);
+        System.out.println(
+                accordionName
+                        + " collapsed.");
+    }
+
+
+    /*
+     * Expand Accordion
+     *
+     * Used for parent accordions:
+     *
+     * All 9 Allergens
+     * Crustacean Shellfish
+     * Egg
+     * Fish
+     * Milk
+     * Peanuts
+     * Sesame
+     * Soy
+     * Tree Nuts
+     * Wheat
+     *
+     * If already expanded, it does not click again.
+     */
+    private void expandAccordion(
+            String accordionName) {
+
+        String collapsedXpath =
+                "//android.view.View[@content-desc=\""
+                        + accordionName
+                        + ", Collapsed\"]";
+
+        String expandedXpath =
+                "//android.view.View[@content-desc=\""
+                        + accordionName
+                        + ", Expanded\"]";
+
+        /*
+         * Check If Already Expanded
+         */
+        List<WebElement> expandedElements =
+                driver.findElements(
+                        AppiumBy.xpath(
+                                expandedXpath));
+
+        for (WebElement element :
+                expandedElements) {
+
+            try {
+
+                if (element.isDisplayed()) {
+
+                    System.out.println(
+                            accordionName
+                                    + " is already expanded.");
+
+                    return;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Continue searching.
+                 */
+            }
+        }
+
+        /*
+         * Find Collapsed Accordion
+         */
+        WebElement collapsed =
+                findAccordionWithScroll(
+                        collapsedXpath,
+                        accordionName
+                                + ", Collapsed");
+
+        waitUtil.clickWithWait(
+                collapsed);
+
+        /*
+         * Wait Until Expanded
+         */
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(10))
+                .until(
+                        ExpectedConditions
+                                .visibilityOfElementLocated(
+                                        AppiumBy.xpath(
+                                                expandedXpath)));
+
+        System.out.println(
+                accordionName
+                        + " expanded successfully.");
+    }
+
+
+    /*
+     * Find Accordion With Coordinate Scroll
+     */
+    private WebElement findAccordionWithScroll(
+            String xpath,
+            String elementName) {
+
+        for (int attempt = 1;
+                attempt <= 15;
+                attempt++) {
+
+            try {
+
+                WebElement element =
+                        driver.findElement(
+                                AppiumBy.xpath(
+                                        xpath));
+
+                if (element.isDisplayed()) {
+
+                    System.out.println(
+                            "Accordion visible : "
+                                    + elementName
+                                    + " | Attempt : "
+                                    + attempt);
+
+                    return element;
+                }
+
+            }
+
+            catch (Exception e) {
+
+                /*
+                 * Accordion is not currently visible.
+                 * Continue scrolling.
+                 */
+            }
+
+            /*
+             * Scroll only after confirming that
+             * the required accordion is not visible.
+             */
+            swipeDownByCoordinates();
 
             System.out.println(
-                    accordionName
-                            + " collapsed.");
-
-            return;
+                    "Scrolling to accordion : "
+                            + elementName
+                            + " | Attempt : "
+                            + attempt);
         }
 
         throw new RuntimeException(
                 "Accordion could not be found : "
-                        + accordionName);
+                        + elementName);
     }
-
-
-    /*
- * Find Accordion With Coordinate Scroll
- */
-private WebElement findAccordionWithScroll(
-        String xpath,
-        String elementName) {
-
-    for (int attempt = 1;
-            attempt <= 10;
-            attempt++) {
-
-        try {
-
-            WebElement element =
-                    driver.findElement(
-                            AppiumBy.xpath(
-                                    xpath));
-
-            if (element.isDisplayed()) {
-
-                System.out.println(
-                        "Accordion visible : "
-                                + elementName
-                                + " | Attempt : "
-                                + attempt);
-
-                return element;
-            }
-
-        }
-
-        catch (Exception e) {
-
-            /*
-             * Accordion is not currently visible.
-             * Continue scrolling.
-             */
-        }
-
-        /*
-         * Scroll only after confirming that
-         * the required accordion is not visible.
-         */
-        swipeDownByCoordinates();
-
-        System.out.println(
-                "Scrolling to accordion : "
-                        + elementName
-                        + " | Attempt : "
-                        + attempt);
-    }
-
-    throw new RuntimeException(
-            "Accordion could not be found : "
-                    + elementName);
-}
-
-    /*
- * Expand And Collapse Accordion
- */
-private void expandAndCollapseAccordion(
-        String accordionName) {
-
-    String collapsedXpath =
-            "//android.view.View[@content-desc=\""
-                    + accordionName
-                    + ", Collapsed\"]";
-
-    String expandedXpath =
-            "//android.view.View[@content-desc=\""
-                    + accordionName
-                    + ", Expanded\"]";
-
-    /*
-     * Find Collapsed Accordion
-     *
-     * Scroll is performed only if the
-     * accordion is not currently visible.
-     */
-    WebElement collapsed =
-            findAccordionWithScroll(
-                    collapsedXpath,
-                    accordionName);
-
-    /*
-     * Click Collapsed Accordion
-     */
-    collapsed.click();
-
-    System.out.println(
-            accordionName
-                    + " clicked to expand.");
-
-    /*
-     * Wait Until Accordion Becomes Expanded
-     */
-    WebElement expanded =
-            new WebDriverWait(
-                    driver,
-                    Duration.ofSeconds(10))
-                    .until(
-                            ExpectedConditions
-                                    .visibilityOfElementLocated(
-                                            AppiumBy.xpath(
-                                                    expandedXpath)));
-
-    System.out.println(
-            accordionName
-                    + " expanded successfully.");
-
-    /*
-     * Click Expanded Accordion
-     * To Collapse It
-     */
-    expanded.click();
-
-    System.out.println(
-            accordionName
-                    + " clicked to collapse.");
-
-    /*
-     * Wait Until Accordion Becomes Collapsed
-     */
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(10))
-            .until(
-                    ExpectedConditions
-                            .visibilityOfElementLocated(
-                                    AppiumBy.xpath(
-                                            collapsedXpath)));
-
-    System.out.println(
-            accordionName
-                    + " collapsed successfully.");
-
-    /*
-     * Accordion is now completely collapsed.
-     * Only after this method finishes can the
-     * next accordion be searched/scrolled.
-     */
-}
-
 
 }

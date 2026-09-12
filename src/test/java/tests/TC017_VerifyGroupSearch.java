@@ -1,12 +1,12 @@
 package tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC017_VerifyGroupSearch extends BaseTest {
 
@@ -25,14 +25,19 @@ public class TC017_VerifyGroupSearch extends BaseTest {
                 "========== Verify Group Search ==========");
 
         /*
-         * Open Hamburger Menu
+         * Verify Hamburger Menu
          */
-        Thread.sleep(3000);
-        Assert.assertTrue(
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
+                "Hamburger menu is displayed.");
 
         hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                3000);
 
         /*
          * Open Control Panel

@@ -107,12 +107,12 @@ public void hideKeyboardIfVisible() {
         private WebElement control_panel;
 
         /*
-        * Exports
+        * Print
         */
-        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Exports, Collapsed']")
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Print, Collapsed']")
         private WebElement createShoppingListCollapsed;
 
-        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Exports, Expanded']")
+        @AndroidFindBy(xpath = "//android.view.View[@content-desc='Print, Expanded']")
         private WebElement createShoppingListExpanded;
 
         /*
@@ -657,29 +657,29 @@ public void clickSignOut() {
 }
 
          /*
-        * Exports - Collapsed
+        * Print - Collapsed
         */
         public boolean isCreateShoppingListCollapsedVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Exports, Collapsed']"))
+                        "//android.view.View[@content-desc='Print, Collapsed']"))
                 .isEmpty();
         }
 
         /*
-        * Exports - Expanded
+        * Print - Expanded
         */
         public boolean isCreateShoppingListExpandedVisible() {
 
         return !driver.findElements(
                 AppiumBy.xpath(
-                        "//android.view.View[@content-desc='Exports, Expanded']"))
+                        "//android.view.View[@content-desc='Print, Expanded']"))
                 .isEmpty();
         }
 
         /*
- * Expand Exports
+ * Expand Print
  */
 public void expandCreateShoppingList() {
 
@@ -692,11 +692,11 @@ public void expandCreateShoppingList() {
     createShoppingListCollapsed.click();
 
     System.out.println(
-            "Exports expanded.");
+            "Print expanded.");
 }
 
 /*
- * Collapse Exports
+ * Collapse Print
  */
 public void collapseCreateShoppingList() {
 
@@ -709,7 +709,7 @@ public void collapseCreateShoppingList() {
     createShoppingListExpanded.click();
 
     System.out.println(
-            "Exports collapsed.");
+            "Print collapsed.");
 }
         /*
         * For Self

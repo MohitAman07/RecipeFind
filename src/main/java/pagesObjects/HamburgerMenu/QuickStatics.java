@@ -42,8 +42,8 @@ public class QuickStatics {
     // ======================== Analytics ======================== //
 
     /*
-    * Back Button
-    */
+     * Back Button
+     */
     @AndroidFindBy(
             xpath = "//android.widget.FrameLayout[@resource-id=\"android:id/content\"]"
                     + "/android.widget.FrameLayout"
@@ -139,7 +139,7 @@ public class QuickStatics {
             xpath = "//android.view.View[@content-desc=\"Recipe\"]")
     private WebElement recipeTab;
 
-    // ======================== Account ======================== //
+        // ======================== Account ======================== //
 
     /*
      * Account Header
@@ -149,24 +149,19 @@ public class QuickStatics {
     private WebElement accountHeader;
 
     /*
-     * Total Users
+     * Total New Users
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Total users\"]")
+            xpath = "//android.view.View[@content-desc=\"Total new\"]")
     private WebElement totalUsers;
 
     /*
-     * Active Users
-     */
-    @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Active users\"]")
-    private WebElement activeUsers;
-
-    /*
      * Monthly User Growth
+     *
+     * First Growth belongs to Account section.
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Monthly user growth\"]")
+            xpath = "(//android.view.View[@content-desc=\"Growth\"])[1]")
     private WebElement monthlyUserGrowth;
 
     // ======================== Subscriptions ======================== //
@@ -182,14 +177,14 @@ public class QuickStatics {
      * Active Subscriptions
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Active subscriptions\"]")
+            xpath = "//android.view.View[@content-desc=\"Active\"]")
     private WebElement activeSubscriptions;
 
     /*
      * Expired Subscriptions
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Expired subscriptions\"]")
+            xpath = "//android.view.View[@content-desc=\"Expired\"]")
     private WebElement expiredSubscriptions;
 
     /*
@@ -208,9 +203,11 @@ public class QuickStatics {
 
     /*
      * Monthly Subscription Growth
+     *
+     * Second Growth belongs to Subscriptions section.
      */
     @AndroidFindBy(
-            xpath = "//android.view.View[@content-desc=\"Monthly subscription growth\"]")
+            xpath = "(//android.view.View[@content-desc=\"Growth\"])[2]")
     private WebElement monthlySubscriptionGrowth;
 
     // ======================== Social And Community ======================== //
@@ -264,11 +261,11 @@ public class QuickStatics {
             xpath = "//android.view.View[@content-desc=\"Group with most recipes\"]")
     private WebElement groupWithMostRecipes;
 
-    // ======================== Analytics Methods ======================== //
+        // ======================== Analytics Methods ======================== //
 
     /*
-    * Click Back Button
-    */
+     * Click Back Button
+     */
     public void clickBackButton() {
 
         new WebDriverWait(
@@ -440,7 +437,7 @@ public class QuickStatics {
                 resetCalendar);
 
         System.out.println(
-                "Calendar reset clicked.");
+                "Reset Calendar clicked.");
     }
 
     /*
@@ -481,7 +478,7 @@ public class QuickStatics {
                 "Recipe tab clicked.");
     }
 
-    // ======================== Account Methods ======================== //
+        // ======================== Account Methods ======================== //
 
     /*
      * Verify Account Header
@@ -500,27 +497,24 @@ public class QuickStatics {
     }
 
     /*
-     * Get Total User Count
+     * Get Total New User Count
      */
-    public String getTotalUserCount() {
+    public String getTotalNewUserCount() {
 
         return getMetricValue(
-                "Total users");
-    }
-
-    /*
-     * Get Active User Count
-     */
-    public String getActiveUserCount() {
-
-        return getMetricValue(
-                "Active users");
+                "Total new");
     }
 
     /*
      * Get Monthly User Growth
      */
     public String getMonthlyUserGrowth() {
+
+        String xpath =
+                "(//android.view.View[@content-desc=\"Growth\"])[1]"
+                        + "/following::android.view.View["
+                        + "string-length(@content-desc) > 0"
+                        + "][1]";
 
         WebElement growth =
                 new WebDriverWait(
@@ -530,7 +524,7 @@ public class QuickStatics {
                                 ExpectedConditions
                                         .visibilityOfElementLocated(
                                                 AppiumBy.xpath(
-                                                        "(//android.widget.ScrollView/android.view.View[contains(@content-desc,\"%\")])[1]")));
+                                                        xpath)));
 
         String value =
                 growth.getAttribute(
@@ -567,7 +561,7 @@ public class QuickStatics {
     public String getActiveSubscriptionCount() {
 
         return getMetricValue(
-                "Active subscriptions");
+                "Active");
     }
 
     /*
@@ -576,7 +570,7 @@ public class QuickStatics {
     public String getExpiredSubscriptionCount() {
 
         return getMetricValue(
-                "Expired subscriptions");
+                "Expired");
     }
 
     /*
@@ -602,6 +596,12 @@ public class QuickStatics {
      */
     public String getMonthlySubscriptionGrowth() {
 
+        String xpath =
+                "(//android.view.View[@content-desc=\"Growth\"])[2]"
+                        + "/following::android.view.View["
+                        + "string-length(@content-desc) > 0"
+                        + "][1]";
+
         WebElement growth =
                 new WebDriverWait(
                         driver,
@@ -610,7 +610,7 @@ public class QuickStatics {
                                 ExpectedConditions
                                         .visibilityOfElementLocated(
                                                 AppiumBy.xpath(
-                                                        "(//android.widget.ScrollView/android.view.View[contains(@content-desc,\"%\")])[2]")));
+                                                        xpath)));
 
         String value =
                 growth.getAttribute(
@@ -623,7 +623,7 @@ public class QuickStatics {
         return value;
     }
 
-    // ======================== Social And Community Methods ======================== //
+        // ======================== Social And Community Methods ======================== //
 
     /*
      * Mandatory Coordinate Scroll Down
@@ -832,7 +832,8 @@ public class QuickStatics {
                 "Group with most recipes");
     }
 
-    // ======================== Dynamic Helpers ======================== //
+
+        // ======================== Dynamic Helpers ======================== //
 
     /*
      * Get Metric Value Using Label As Anchor
@@ -843,7 +844,8 @@ public class QuickStatics {
         String xpath =
                 "//android.view.View[@content-desc=\""
                         + label
-                        + "\"]/following-sibling::android.view.View[1]";
+                        + "\"]"
+                        + "/following-sibling::android.view.View[1]";
 
         WebElement value =
                 new WebDriverWait(
@@ -955,238 +957,183 @@ public class QuickStatics {
                 List.of(swipe));
     }
 
+        // ======================== Content Status ======================== //
 
-// ======================== Content Status ======================== //
+    /*
+     * Content Status Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"CONTENT STATUS\"]")
+    private WebElement contentStatusHeader;
 
-/*
- * Content Status Header
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"CONTENT STATUS\"]")
-private WebElement contentStatusHeader;
+    /*
+     * Top Exported Recipe
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Top exported recipe\"]")
+    private WebElement topExportedRecipe;
 
-/*
- * Top Exported Recipe
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Top exported recipe\"]")
-private WebElement topExportedRecipe;
+    /*
+     * Community
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Community\"]")
+    private WebElement community;
 
-/*
- * Community
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Community\"]")
-private WebElement community;
+    /*
+     * AI
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"AI\"]")
+    private WebElement ai;
 
-/*
- * AI
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"AI\"]")
-private WebElement ai;
+    /*
+     * Pending Recipes
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Pending\"]")
+    private WebElement pendingRecipes;
 
-/*
- * Published Recipes
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Published recipes\"]")
-private WebElement publishedRecipes;
-
-/*
- * Pending Recipes
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Pending recipes\"]")
-private WebElement pendingRecipes;
-
-/*
- * Pending Delete Recipes
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Pending delete recipes\"]")
-private WebElement pendingDeleteRecipes;
-
-/*
- * Monthly Recipe Growth
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Monthly recipe growth\"]")
-private WebElement monthlyRecipeGrowth;
+    /*
+     * Pending Delete Recipes
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Pending delete\"]")
+    private WebElement pendingDeleteRecipes;
 
 
-// ======================== Engagement ======================== //
+    // ======================== Engagement ======================== //
 
-/*
- * Engagement Header
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"ENGAGEMENT\"]")
-private WebElement engagementHeader;
+    /*
+     * Engagement Header
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"ENGAGEMENT\"]")
+    private WebElement engagementHeader;
 
-/*
- * Top Liked Recipe
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Top liked recipe\"]")
-private WebElement topLikedRecipe;
+    /*
+     * Top Liked Recipe
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Top liked recipe\"]")
+    private WebElement topLikedRecipe;
 
-/*
- * Top Commented Recipe
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Top commented recipe\"]")
-private WebElement topCommentedRecipe;
+    /*
+     * Top Commented Recipe
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Top commented recipe\"]")
+    private WebElement topCommentedRecipe;
 
-/*
- * Top Favorite Recipe
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Top favorite recipe\"]")
-private WebElement topFavoriteRecipe;
+    /*
+     * Top Favorite Recipe
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"Top favorite recipe\"]")
+    private WebElement topFavoriteRecipe;
 
-/*
- * Recipes With Likes
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Recipes with likes\"]")
-private WebElement recipesWithLikes;
+    /*
+     * Recipes With Likes
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"With likes\"]")
+    private WebElement recipesWithLikes;
 
-/*
- * Recipes With Comments
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Recipes with comments\"]")
-private WebElement recipesWithComments;
+    /*
+     * Recipes With Comments
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"With comments\"]")
+    private WebElement recipesWithComments;
 
-/*
- * Recipes With Favorites
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Recipes with favorites\"]")
-private WebElement recipesWithFavorites;
+    /*
+     * Recipes With Favorites
+     */
+    @AndroidFindBy(
+            xpath = "//android.view.View[@content-desc=\"With favorites\"]")
+    private WebElement recipesWithFavorites;
 
+        // ======================== Content Status Methods ======================== //
 
-// ======================== Export Share ======================== //
+    /*
+     * Verify Content Status Header
+     */
+    public void verifyContentStatusHeader() {
 
-/*
- * Export Share Header
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"EXPORTS/SHARE\"]")
-private WebElement exportsShareHeader;
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(10))
+                .until(
+                        ExpectedConditions.visibilityOf(
+                                contentStatusHeader));
 
-/*
- * Total Recipe Exports
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Total recipe exports\"]")
-private WebElement totalRecipeExports;
+        System.out.println(
+                "Content Status section displayed.");
+    }
 
-/*
- * Most Exported Recipe
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Most exported recipe\"]")
-private WebElement mostExportedRecipe;
-
-/*
- * Exports This Month
- */
-@AndroidFindBy(
-        xpath = "//android.view.View[@content-desc=\"Exports this month\"]")
-private WebElement exportsThisMonth;
-
-
-// ======================== Content Status Methods ======================== //
-
-/*
- * Verify Content Status Header
- */
-public void verifyContentStatusHeader() {
-
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(10))
-            .until(
-                    ExpectedConditions.visibilityOf(
-                            contentStatusHeader));
-
-    System.out.println(
-            "Content Status section displayed.");
-}
-
-/*
- * Get Top Exported Recipe
- */
-public String getTopExportedRecipe() {
+    public String getTopExportedRecipe() {
 
     return getRecipeMetricValue(
-            "Top exported recipe");
+            "Top exported");
 }
 
-/*
- * Get Community Count
- */
-public String getCommunityCount() {
+    /*
+     * Get Community Count
+     */
+    public String getCommunityCount() {
 
-    return getRecipeMetricValue(
-            "Community");
-}
+        return getRecipeMetricValue(
+                "Community");
+    }
 
-/*
- * Get AI Count
- */
-public String getAICount() {
+    /*
+     * Get AI Count
+     */
+    public String getAICount() {
 
-    return getRecipeMetricValue(
-            "AI");
-}
+        return getRecipeMetricValue(
+                "AI");
+    }
 
-/*
- * Get Published Recipes Count
- */
-public String getPublishedRecipesCount() {
 
-    return getRecipeMetricValue(
-            "Published recipes");
-}
+    /*
+     * Get Pending Recipes Count
+     */
+    public String getPendingRecipesCount() {
 
-/*
- * Get Pending Recipes Count
- */
-public String getPendingRecipesCount() {
+        return getRecipeMetricValue(
+                "Pending");
+    }
 
-    return getRecipeMetricValue(
-            "Pending recipes");
-}
+    /*
+     * Get Pending Delete Recipes Count
+     */
+    public String getPendingDeleteRecipesCount() {
 
-/*
- * Get Pending Delete Recipes Count
- */
-public String getPendingDeleteRecipesCount() {
+        return getRecipeMetricValue(
+                "Pending delete");
+    }
 
-    return getRecipeMetricValue(
-            "Pending delete recipes");
-}
-
-/*
+    /*
  * Get Monthly Recipe Growth
  */
 public String getMonthlyRecipeGrowth() {
 
     String xpath =
-            "//android.view.View[@content-desc=\"Monthly recipe growth\"]"
-                    + "/following::android.view.View[contains(@content-desc,\"%\")][1]";
+            "(//android.view.View[@content-desc=\"Growth\"])[1]"
+                    + "/following::android.view.View["
+                    + "string-length(@content-desc) > 0"
+                    + "][1]";
 
     WebElement growth =
             new WebDriverWait(
                     driver,
                     Duration.ofSeconds(10))
                     .until(
-                            ExpectedConditions.visibilityOfElementLocated(
-                                    AppiumBy.xpath(
-                                            xpath)));
+                            ExpectedConditions
+                                    .visibilityOfElementLocated(
+                                            AppiumBy.xpath(
+                                                    xpath)));
 
     String value =
             growth.getAttribute(
@@ -1198,276 +1145,290 @@ public String getMonthlyRecipeGrowth() {
 
     return value;
 }
+        // ======================== Engagement Methods ======================== //
 
+    /*
+     * Verify Engagement Header
+     */
+    public void verifyEngagementHeader() {
 
-// ======================== Engagement Methods ======================== //
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(10))
+                .until(
+                        ExpectedConditions.visibilityOf(
+                                engagementHeader));
 
-/*
- * Verify Engagement Header
- */
-public void verifyEngagementHeader() {
+        System.out.println(
+                "Engagement section displayed.");
+    }
 
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(10))
-            .until(
-                    ExpectedConditions.visibilityOf(
-                            engagementHeader));
-
-    System.out.println(
-            "Engagement section displayed.");
-}
-
-/*
- * Get Top Liked Recipe
- */
-public String getTopLikedRecipe() {
+    public String getTopLikedRecipe() {
 
     return getRecipeMetricValue(
-            "Top liked recipe");
+            "Top liked");
 }
 
-/*
- * Get Top Commented Recipe
- */
-public String getTopCommentedRecipe() {
+    public String getTopCommentedRecipe() {
 
     return getRecipeMetricValue(
-            "Top commented recipe");
+            "Top commented");
 }
 
-/*
- * Get Top Favorite Recipe
- */
-public String getTopFavoriteRecipe() {
+    /*
+     * Get Top Favorite Recipe
+     */
+    public String getTopFavoriteRecipe() {
 
     return getRecipeMetricValue(
-            "Top favorite recipe");
+            "Top favorite");
 }
 
 /*
- * Get Recipes With Likes Count
+ * Get Verified Recipes Count
  */
-public String getRecipesWithLikesCount() {
+public String getVerifiedRecipesCount() {
 
     return getRecipeMetricValue(
-            "Recipes with likes");
+            "Verified");
 }
 
 /*
- * Get Recipes With Comments Count
+ * Get Shared Count
  */
-public String getRecipesWithCommentsCount() {
+public String getSharedCount() {
 
     return getRecipeMetricValue(
-            "Recipes with comments");
+            "Shared");
 }
 
-/*
- * Get Recipes With Favorites Count
+    /*
+     * Get Recipes With Likes Count
+     */
+    public String getRecipesWithLikesCount() {
+
+        return getRecipeMetricValue(
+                "With likes");
+    }
+
+    /*
+     * Get Recipes With Comments Count
+     */
+    public String getRecipesWithCommentsCount() {
+
+        return getRecipeMetricValue(
+                "With comments");
+    }
+
+    /*
+     * Get Recipes With Favorites Count
+     */
+    public String getRecipesWithFavoritesCount() {
+
+        return getRecipeMetricValue(
+                "With favorites");
+    }
+
+    // ======================== Export Share Methods ======================== //
+
+    /*
+ * Export Share Header
  */
-public String getRecipesWithFavoritesCount() {
+@AndroidFindBy(
+        xpath = "//android.view.View[contains(@content-desc,\"EXPORTS\")]")
+private WebElement exportsShareHeader;
 
-    return getRecipeMetricValue(
-            "Recipes with favorites");
-}
+    /*
+     * Verify Export Share Header
+     */
+    public void verifyExportsShareHeader() {
+
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(10))
+                .until(
+                        ExpectedConditions.visibilityOf(
+                                exportsShareHeader));
+
+        System.out.println(
+                "Exports/Share section displayed.");
+    }
 
 
-// ======================== Export Share Methods ======================== //
+    /*
+        * Get Total Recipe Exports
+        */
+        public String getTotalRecipeExports() {
 
-/*
- * Verify Export Share Header
- */
-public void verifyExportsShareHeader() {
+        return getRecipeMetricValue(
+                "Total exports");
+        }
 
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(10))
-            .until(
-                    ExpectedConditions.visibilityOf(
-                            exportsShareHeader));
-
-    System.out.println(
-            "Exports/Share section displayed.");
-}
-
-/*
- * Get Total Recipe Exports
- */
-public String getTotalRecipeExports() {
-
-    return getRecipeMetricValue(
-            "Total recipe exports");
-}
-
-/*
+    /*
  * Get Most Exported Recipe
  */
 public String getMostExportedRecipe() {
 
     return getRecipeMetricValue(
-            "Most exported recipe");
+            "Most exported");
 }
 
-/*
- * Get Exports This Month
- */
-public String getExportsThisMonth() {
+    /*
+     * Get Exports This Month
+     */
+    public String getExportsThisMonth() {
 
-    return getRecipeMetricValue(
-            "Exports this month");
-}
-
-/*
- * Get Recipe Metric Value
- *
- * Label is used as anchor.
- */
-private String getRecipeMetricValue(
-        String label) {
-
-    String xpath =
-            "//android.view.View[@content-desc=\""
-                    + label
-                    + "\"]"
-                    + "/following::android.view.View["
-                    + "not(@content-desc=\""
-                    + label
-                    + "\")"
-                    + " and string-length(@content-desc) > 0"
-                    + "][1]";
-
-    WebElement value =
-            new WebDriverWait(
-                    driver,
-                    Duration.ofSeconds(10))
-                    .until(
-                            ExpectedConditions
-                                    .visibilityOfElementLocated(
-                                            AppiumBy.xpath(
-                                                    xpath)));
-
-    String metricValue =
-            value.getAttribute(
-                    "content-desc");
-
-    System.out.println(
-            label
-                    + " : "
-                    + metricValue);
-
-    return metricValue;
-}
-
-/*
- * Mandatory Scroll Down To Engagement
- */
-public void scrollDownToEngagement() {
-
-    performSwipe(
-            540,
-            1500,
-            540,
-            500);
-
-    try {
-
-        Thread.sleep(
-                1500);
-
-    }
-
-    catch (InterruptedException e) {
-
-        Thread.currentThread()
-                .interrupt();
-
-        throw new RuntimeException(
-                "Interrupted while scrolling to Engagement.",
-                e);
+        return getRecipeMetricValue(
+                "Exports this month");
     }
 
     /*
-     * Wait Until Engagement Header Is Visible
+     * Get Recipe Metric Value
+     *
+     * Label is used as anchor.
      */
-    new WebDriverWait(
-            driver,
-            Duration.ofSeconds(10))
-            .until(
-                    ExpectedConditions
-                            .visibilityOfElementLocated(
-                                    AppiumBy.xpath(
-                                            "//android.view.View[@content-desc=\"ENGAGEMENT\"]")));
+    private String getRecipeMetricValue(
+            String label) {
 
-    System.out.println(
-            "Mandatory scroll completed to Engagement section.");
-}
+        String xpath =
+                "//android.view.View[@content-desc=\""
+                        + label
+                        + "\"]"
+                        + "/following::android.view.View["
+                        + "not(@content-desc=\""
+                        + label
+                        + "\")"
+                        + " and string-length(@content-desc) > 0"
+                        + "][1]";
 
+        WebElement value =
+                new WebDriverWait(
+                        driver,
+                        Duration.ofSeconds(10))
+                        .until(
+                                ExpectedConditions
+                                        .visibilityOfElementLocated(
+                                                AppiumBy.xpath(
+                                                        xpath)));
 
-/*
- * Scroll Down To Exports Share
- */
-public void scrollDownToExportsShare() {
+        String metricValue =
+                value.getAttribute(
+                        "content-desc");
 
-    performSwipe(
-            540,
-            1500,
-            540,
-            500);
+        System.out.println(
+                label
+                        + " : "
+                        + metricValue);
 
-    try {
+        return metricValue;
+    }
 
-        Thread.sleep(
+        /*
+     * Mandatory Scroll Down To Engagement
+     */
+    public void scrollDownToEngagement() {
+
+        performSwipe(
+                540,
+                1500,
+                540,
+                500);
+
+        try {
+
+            Thread.sleep(
+                    1500);
+
+        }
+
+        catch (InterruptedException e) {
+
+            Thread.currentThread()
+                    .interrupt();
+
+            throw new RuntimeException(
+                    "Interrupted while scrolling to Engagement.",
+                    e);
+        }
+
+        /*
+         * Wait Until Engagement Header Is Visible
+         */
+        new WebDriverWait(
+                driver,
+                Duration.ofSeconds(10))
+                .until(
+                        ExpectedConditions
+                                .visibilityOfElementLocated(
+                                        AppiumBy.xpath(
+                                                "//android.view.View[@content-desc=\"ENGAGEMENT\"]")));
+
+        System.out.println(
+                "Mandatory scroll completed to Engagement section.");
+    }
+
+    /*
+     * Scroll Down To Exports Share
+     */
+    public void scrollDownToExportsShare() {
+
+        performSwipe(
+                540,
+                1500,
+                540,
+                500);
+
+        try {
+
+            Thread.sleep(
+                    1500);
+
+        }
+
+        catch (InterruptedException e) {
+
+            Thread.currentThread()
+                    .interrupt();
+
+            throw new RuntimeException(
+                    "Interrupted while scrolling to Exports/Share.",
+                    e);
+        }
+
+        System.out.println(
+                "Scrolled down to Exports/Share.");
+    }
+
+    /*
+     * Scroll Up To Analytics
+     */
+    public void scrollUpToAnalytics() {
+
+        performSwipe(
+                540,
+                500,
+                540,
                 1500);
 
+        try {
+
+            Thread.sleep(
+                    1500);
+
+        }
+
+        catch (InterruptedException e) {
+
+            Thread.currentThread()
+                    .interrupt();
+
+            throw new RuntimeException(
+                    "Interrupted while scrolling to Analytics.",
+                    e);
+        }
+
+        System.out.println(
+                "Scrolled up to Analytics.");
     }
-
-    catch (InterruptedException e) {
-
-        Thread.currentThread()
-                .interrupt();
-
-        throw new RuntimeException(
-                "Interrupted while scrolling to Exports/Share.",
-                e);
-    }
-
-    System.out.println(
-            "Scrolled down to Exports/Share.");
-}
-
-
-/*
- * Scroll Up To Analytics
- */
-public void scrollUpToAnalytics() {
-
-    performSwipe(
-            540,
-            500,
-            540,
-            1500);
-
-    try {
-
-        Thread.sleep(
-                1500);
-
-    }
-
-    catch (InterruptedException e) {
-
-        Thread.currentThread()
-                .interrupt();
-
-        throw new RuntimeException(
-                "Interrupted while scrolling to Analytics.",
-                e);
-    }
-
-    System.out.println(
-            "Scrolled up to Analytics.");
-}
-
 
 }

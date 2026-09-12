@@ -2,6 +2,7 @@ package pagesObjects.Contribute.MyRecipiesDashboard;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
@@ -83,24 +84,24 @@ public class MyRecipes {
     private WebElement horizontalScroll;
 
     @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='All']")
-    private WebElement allTab;
+        xpath = "//android.widget.Button[starts-with(@content-desc,'All')]")
+        private WebElement allTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Submitted']")
-    private WebElement submittedTab;
+        @AndroidFindBy(
+                xpath = "//android.widget.Button[starts-with(@content-desc,'Submitted')]")
+        private WebElement submittedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Verified']")
-    private WebElement verifiedTab;
+        @AndroidFindBy(
+                xpath = "//android.widget.Button[starts-with(@content-desc,'Verified')]")
+        private WebElement verifiedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Rejected']")
-    private WebElement rejectedTab;
+        @AndroidFindBy(
+                xpath = "//android.widget.Button[starts-with(@content-desc,'Rejected')]")
+        private WebElement rejectedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Delete Pending']")
-    private WebElement deletePendingTab;
+        @AndroidFindBy(
+                xpath = "//android.widget.Button[starts-with(@content-desc,'Delete Pending')]")
+        private WebElement deletePendingTab;
 
         /*
      * Dynamic Recipe Card
@@ -206,18 +207,7 @@ public class MyRecipes {
                                 + "')]//android.widget.Button[@content-desc='Nutrition Panel']"));
     }
 
-    /*
-     * Dynamic Delete Nutrition Panel
-     */
-    private WebElement deleteNutritionPanel(
-            String recipeName) {
 
-        return driver.findElement(
-                AppiumBy.xpath(
-                        "//android.view.View[contains(@content-desc,'"
-                                + recipeName
-                                + "')]//android.widget.Button[@content-desc='Delete nutrition panel']"));
-    }
 
 
     /*
@@ -434,6 +424,177 @@ public void clickRecipeCard(
                 "Name selected.");
     }
 
+
+       /*
+ * Horizontal Scroll To Make Tab Visible
+ */
+private void scrollHorizontalTabs(WebElement tab) {
+
+    /*
+     * Check if tab is already visible
+     */
+    try {
+
+        if (tab.isDisplayed()) {
+
+            System.out.println(
+                    "Tab is already visible.");
+
+            return;
+        }
+
+    } catch (Exception e) {
+        // Continue with scrolling.
+    }
+
+    /*
+     * Swipe left to find the tab
+     */
+    for (int i = 1; i <= 3; i++) {
+
+        swipeTabsLeft();
+
+        waitUtil.sleep(500);
+
+        try {
+
+            if (tab.isDisplayed()) {
+
+                System.out.println(
+                        "Tab became visible after left swipe : "
+                        + i);
+
+                return;
+            }
+
+        } catch (Exception e) {
+            // Continue scrolling.
+        }
+    }
+
+    /*
+     * Swipe right to find the tab
+     */
+    for (int i = 1; i <= 3; i++) {
+
+        swipeTabsRight();
+
+        waitUtil.sleep(500);
+
+        try {
+
+            if (tab.isDisplayed()) {
+
+                System.out.println(
+                        "Tab became visible after right swipe : "
+                        + i);
+
+                return;
+            }
+
+        } catch (Exception e) {
+            // Continue scrolling.
+        }
+    }
+
+    throw new RuntimeException(
+            "Unable to make Control Panel tab visible.");
+}
+
+/*
+ * Horizontal Swipe To Left
+ */
+private void swipeTabsLeft() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    900,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    200,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    waitUtil.sleep(1000);
+
+    System.out.println(
+            "Control Panel tabs swiped left.");
+}
+
+/*
+ * Horizontal Swipe To Right
+ */
+private void swipeTabsRight() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    200,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    900,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    waitUtil.sleep(1000);
+
+    System.out.println(
+            "Control Panel tabs swiped right.");
+}
+
     /*
      * All Tab
      */
@@ -442,19 +603,26 @@ public void clickRecipeCard(
         return allTab.isDisplayed();
     }
 
-    public void clickAllTab() {
+        /*
+ * Click All Tab
+ */
+public void clickAllTab() {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"All\"))"));
+    scrollHorizontalTabs(
+            allTab);
 
-        waitUtil.clickWithWait(
-                allTab);
+    waitUtil.waitForElementVisible(
+            allTab);
 
-        System.out.println(
-                "All tab selected.");
-    }
+    waitUtil.clickWithWait(
+            allTab);
+
+    System.out.println(
+            "All tab clicked.");
+}
+
+
+
 
     /*
      * Submitted Tab
@@ -464,19 +632,23 @@ public void clickRecipeCard(
         return submittedTab.isDisplayed();
     }
 
-    public void clickSubmittedTab() {
+    /*
+ * Click Submitted Tab
+ */
+public void clickSubmittedTab() {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Submitted\"))"));
+    scrollHorizontalTabs(
+            submittedTab);
 
-        waitUtil.clickWithWait(
-                submittedTab);
+    waitUtil.waitForElementVisible(
+            submittedTab);
 
-        System.out.println(
-                "Submitted tab selected.");
-    }
+    waitUtil.clickWithWait(
+            submittedTab);
+
+    System.out.println(
+            "Submitted tab clicked.");
+}
 
     /*
      * Verified Tab
@@ -488,17 +660,18 @@ public void clickRecipeCard(
 
     public void clickVerifiedTab() {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Verified\"))"));
+    scrollHorizontalTabs(
+            verifiedTab);
 
-        waitUtil.clickWithWait(
-                verifiedTab);
+    waitUtil.waitForElementVisible(
+            verifiedTab);
 
-        System.out.println(
-                "Verified tab selected.");
-    }
+    waitUtil.clickWithWait(
+            verifiedTab);
+
+    System.out.println(
+            "Verified tab clicked.");
+}
 
     /*
      * Rejected Tab
@@ -510,18 +683,18 @@ public void clickRecipeCard(
 
     public void clickRejectedTab() {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Rejected\"))"));
+    scrollHorizontalTabs(
+            rejectedTab);
 
-        waitUtil.clickWithWait(
-                rejectedTab);
+    waitUtil.waitForElementVisible(
+            rejectedTab);
 
-        System.out.println(
-                "Rejected tab selected.");
-    }
+    waitUtil.clickWithWait(
+            rejectedTab);
 
+    System.out.println(
+            "Rejected tab clicked.");
+}
     /*
      * Delete Pending Tab
      */
@@ -532,17 +705,19 @@ public void clickRecipeCard(
 
     public void clickDeletePendingTab() {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Delete Pending\"))"));
+    scrollHorizontalTabs(
+            deletePendingTab);
 
-        waitUtil.clickWithWait(
-                deletePendingTab);
+    waitUtil.waitForElementVisible(
+            deletePendingTab);
 
-        System.out.println(
-                "Delete Pending tab selected.");
-    }
+    waitUtil.clickWithWait(
+            deletePendingTab);
+
+    System.out.println(
+            "Delete Pending tab clicked.");
+}
+
     /*
      * Recipe Menu
      */
@@ -603,20 +778,20 @@ public void clickRecipeCard(
                         + recipeName);
     }
 
-    /*
-     * Delete Nutrition Panel
-     */
-    public void clickDeleteNutritionPanel(
-            String recipeName) {
+//     /*
+//      * Delete Nutrition Panel
+//      */
+//     public void clickDeleteNutritionPanel(
+//             String recipeName) {
 
-        waitUtil.clickWithWait(
-                deleteNutritionPanel(
-                        recipeName));
+//         waitUtil.clickWithWait(
+//                 deleteNutritionPanel(
+//                         recipeName));
 
-        System.out.println(
-                "Delete Nutrition Panel clicked : "
-                        + recipeName);
-    }
+//         System.out.println(
+//                 "Delete Nutrition Panel clicked : "
+//                         + recipeName);
+//     }
 
     /*
      * Cooking Time
@@ -802,23 +977,23 @@ public void clickRecipeCard(
         }
     }
 
-    /*
-     * Verify Delete Nutrition Panel
-     */
-    public boolean isDeleteNutritionPanelDisplayed(
-            String recipeName) {
+//     /*
+//      * Verify Delete Nutrition Panel
+//      */
+//     public boolean isDeleteNutritionPanelDisplayed(
+//             String recipeName) {
 
-        try {
+//         try {
 
-            return deleteNutritionPanel(
-                    recipeName)
-                    .isDisplayed();
+//             return deleteNutritionPanel(
+//                     recipeName)
+//                     .isDisplayed();
 
-        } catch (Exception e) {
+//         } catch (Exception e) {
 
-            return false;
-        }
-    }
+//             return false;
+//         }
+//     }
 
     /*
      * Verify My Recipes Tab

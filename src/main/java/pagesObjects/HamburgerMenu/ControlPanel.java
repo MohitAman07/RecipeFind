@@ -1,8 +1,11 @@
 package pagesObjects.HamburgerMenu;
 
 import java.time.Duration;
+import java.util.Arrays;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -75,25 +78,45 @@ public class ControlPanel {
             xpath = "//android.widget.HorizontalScrollView")
     private WebElement horizontalScroll;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='All']")
-    private WebElement allTab;
+//     @AndroidFindBy(
+//             xpath = "//android.widget.Button[@content-desc='All']")
+//     private WebElement allTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Submitted']")
-    private WebElement submittedTab;
+//     @AndroidFindBy(
+//             xpath = "//android.widget.Button[@content-desc='Submitted']")
+//     private WebElement submittedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Verified']")
-    private WebElement verifiedTab;
+//     @AndroidFindBy(
+//             xpath = "//android.widget.Button[@content-desc='Verified']")
+//     private WebElement verifiedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Rejected']")
-    private WebElement rejectedTab;
+//     @AndroidFindBy(
+//             xpath = "//android.widget.Button[@content-desc='Rejected']")
+//     private WebElement rejectedTab;
 
-    @AndroidFindBy(
-            xpath = "//android.widget.Button[@content-desc='Delete Pending']")
-    private WebElement deletePendingTab;
+//     @AndroidFindBy(
+//             xpath = "//android.widget.Button[@content-desc='Delete Pending']")
+//     private WebElement deletePendingTab;
+
+@AndroidFindBy(
+        xpath = "//android.widget.Button[starts-with(@content-desc,'All')]")
+private WebElement allTab;
+
+@AndroidFindBy(
+        xpath = "//android.widget.Button[starts-with(@content-desc,'Submitted')]")
+private WebElement submittedTab;
+
+@AndroidFindBy(
+        xpath = "//android.widget.Button[starts-with(@content-desc,'Verified')]")
+private WebElement verifiedTab;
+
+@AndroidFindBy(
+        xpath = "//android.widget.Button[starts-with(@content-desc,'Rejected')]")
+private WebElement rejectedTab;
+
+@AndroidFindBy(
+    xpath = "//android.widget.Button[starts-with(@content-desc,'Delete Pending')]")
+private WebElement deletePendingTab;
 
     /*
      * Change Status Screen
@@ -162,18 +185,6 @@ public class ControlPanel {
                                 + "')]"));
     }
 
-//     /*
-//      * Dynamic Recipe Menu (3 Dots)
-//      */
-//     private WebElement recipeMenu(
-//             String recipeName) {
-
-//         return driver.findElement(
-//                 AppiumBy.xpath(
-//                         "//android.view.View[contains(@content-desc,'"
-//                                 + recipeName
-//                                 + "')]/android.widget.Button"));
-//     }
 
 /*
  * Dynamic Recipe Menu (3 Dots)
@@ -291,17 +302,8 @@ private WebElement recipeMenu(
         waitUtil.clickWithWait(searchField);
     }
 
-//     public void enterSearchText(
-//             String recipeName) {
 
-//         waitUtil.clickWithWait(searchField);
-
-//         searchField.clear();
-
-//         searchField.sendKeys(recipeName);
-//     }
-
-//        /*
+// /*
 //  * Enter Search Text
 //  */
 // public void enterSearchText(
@@ -312,70 +314,127 @@ private WebElement recipeMenu(
 
 //     searchField.click();
 
-// //     searchField.clear();
-
-//     /*
-//      * Wait Until Search Field Is Cleared
-//      */
-//     new WebDriverWait(
-//             driver,
-//             Duration.ofSeconds(5))
-//             .until(
-//                     driver -> {
-
-//                         String currentText =
-//                                 searchField.getAttribute(
-//                                         "text");
-
-//                         return currentText == null
-//                                 || currentText.isEmpty();
-//                     });
+//     searchField.clear();
 
 //     /*
 //      * Enter One Character At A Time
 //      */
-//     String enteredText =
-//             "";
-
 //     for (char character :
 //             searchText.toCharArray()) {
 
-//         enteredText =
-//                 enteredText
-//                         + character;
-
-//         final String expectedText =
-//                 enteredText;
-
-//         /*
-//          * Enter Single Character
-//          */
 //         searchField.sendKeys(
 //                 String.valueOf(
 //                         character));
 
+//         try {
+
+//             Thread.sleep(
+//                     3000);
+
+//         }
+
+//         catch (InterruptedException e) {
+
+//             Thread.currentThread()
+//                     .interrupt();
+
+//             throw new RuntimeException(
+//                     "Interrupted while entering search text.",
+//                     e);
+//         }
+
 //         /*
-//          * Wait Until Character Is Entered
+//          * Check Complete Recipe Card
+//          * After Each Character
 //          */
-//         new WebDriverWait(
-//                 driver,
-//                 Duration.ofSeconds(5))
-//                 .until(
-//                         driver -> {
+//         try {
 
-//                             String currentText =
-//                                     searchField.getAttribute(
-//                                             "text");
+//             WebElement recipeCard =
+//                     driver.findElement(
+//                             AppiumBy.xpath(
+//                                     "//android.view.View[contains(@content-desc,'"
+//                                             + searchText
+//                                             + "')]"));
 
-//                             return currentText != null
-//                                     && currentText.equals(
-//                                             expectedText);
-//                         });
+//             if (recipeCard.isDisplayed()) {
+
+//                 System.out.println(
+//                         "Recipe card appeared during search : "
+//                                 + searchText);
+
+//                 return;
+//             }
+
+//         }
+
+//         catch (Exception e) {
+
+//             /*
+//              * Recipe card is not available yet.
+//              * Continue entering next character.
+//              */
+//             System.out.println(
+//                     "Recipe card not available yet. "
+//                             + "Continuing search : "
+//                             + searchText);
+//         }
 //     }
 
+//     /*
+//      * Full Search Text Entered
+//      */
 //     System.out.println(
-//             "Search text entered : "
+//             "Full search text entered : "
 //                     + searchText);
+
+//     /*
+//      * Wait For Final Recipe Result
+//      */
+//     try {
+
+//         Thread.sleep(
+//                 5000);
+
+//     }
+
+//     catch (InterruptedException e) {
+
+//         Thread.currentThread()
+//                 .interrupt();
+
+//         throw new RuntimeException(
+//                 "Interrupted while waiting for search result.",
+//                 e);
+//     }
+
+//     /*
+//      * Final Recipe Card Check
+//      */
+//     try {
+
+//         WebElement recipeCard =
+//                 driver.findElement(
+//                         AppiumBy.xpath(
+//                                 "//android.view.View[contains(@content-desc,'"
+//                                         + searchText
+//                                         + "')]"));
+
+//         if (recipeCard.isDisplayed()) {
+
+//             System.out.println(
+//                     "Recipe card displayed after full search : "
+//                             + searchText);
+
+//         }
+
+//     }
+
+//     catch (Exception e) {
+
+//         System.out.println(
+//                 "Recipe card not displayed after full search : "
+//                         + searchText);
+//     }
 // }
 
 /*
@@ -387,9 +446,19 @@ public void enterSearchText(
     waitUtil.waitForElementVisible(
             searchField);
 
-    searchField.click();
+    waitUtil.clickWithWait(
+            searchField);
 
     searchField.clear();
+
+    /*
+     * Sequential Input Delay
+     */
+    int inputDelay =
+            3000;
+
+    boolean recipeFound =
+            false;
 
     /*
      * Enter One Character At A Time
@@ -401,22 +470,12 @@ public void enterSearchText(
                 String.valueOf(
                         character));
 
-        try {
-
-            Thread.sleep(
-                    3000);
-
-        }
-
-        catch (InterruptedException e) {
-
-            Thread.currentThread()
-                    .interrupt();
-
-            throw new RuntimeException(
-                    "Interrupted while entering search text.",
-                    e);
-        }
+        /*
+         * Wait After Each Character
+         * To Allow Search Results To Load
+         */
+        waitUtil.sleep(
+                inputDelay);
 
         /*
          * Check Complete Recipe Card
@@ -437,7 +496,10 @@ public void enterSearchText(
                         "Recipe card appeared during search : "
                                 + searchText);
 
-                return;
+                recipeFound =
+                        true;
+
+                break;
             }
 
         }
@@ -456,31 +518,41 @@ public void enterSearchText(
     }
 
     /*
-     * Full Search Text Entered
+     * If Recipe Is Found During Sequential Search
      */
-    System.out.println(
-            "Full search text entered : "
-                    + searchText);
+    if (recipeFound) {
+        return;
+    }
 
     /*
-     * Wait For Final Recipe Result
+     * Sequential Search Did Not Find Recipe
+     *
+     * Clear The Search Field And Enter
+     * The Complete Search Text
      */
-    try {
+    System.out.println(
+            "Recipe not found using sequential search. "
+                    + "Trying complete search text.");
 
-        Thread.sleep(
-                5000);
+    searchField.clear();
 
-    }
+    /*
+     * Small Delay After Clearing
+     */
+    waitUtil.sleep(
+            1000);
 
-    catch (InterruptedException e) {
+    /*
+     * Enter Complete Search String
+     */
+    searchField.sendKeys(
+            searchText);
 
-        Thread.currentThread()
-                .interrupt();
-
-        throw new RuntimeException(
-                "Interrupted while waiting for search result.",
-                e);
-    }
+    /*
+     * Wait For Search Result
+     */
+    waitUtil.sleep(
+            5000);
 
     /*
      * Final Recipe Card Check
@@ -497,7 +569,7 @@ public void enterSearchText(
         if (recipeCard.isDisplayed()) {
 
             System.out.println(
-                    "Recipe card displayed after full search : "
+                    "Recipe card displayed after complete search : "
                             + searchText);
 
         }
@@ -507,7 +579,7 @@ public void enterSearchText(
     catch (Exception e) {
 
         System.out.println(
-                "Recipe card not displayed after full search : "
+                "Recipe card not displayed after complete search : "
                         + searchText);
     }
 }
@@ -617,89 +689,266 @@ public void enterSearchText(
     }
 
     /*
-     * All Tab
+ * Horizontal Scroll To Make Tab Visible
+ */
+private void scrollHorizontalTabs(WebElement tab) {
+
+    /*
+     * Check if tab is already visible
      */
-    public void clickAllTab() {
+    try {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"All\"))"));
+        if (tab.isDisplayed()) {
 
-        Assert.assertTrue(
-                allTab.isDisplayed(),
-                "All tab is not displayed.");
+            System.out.println(
+                    "Tab is already visible.");
 
-        waitUtil.clickWithWait(allTab);
+            return;
+        }
+
+    } catch (Exception e) {
+        // Continue with scrolling.
     }
 
     /*
-     * Submitted Tab
+     * Swipe left to find the tab
      */
-    public void clickSubmittedTab() {
+    for (int i = 1; i <= 3; i++) {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Submitted\"))"));
+        swipeTabsLeft();
 
-        Assert.assertTrue(
-                submittedTab.isDisplayed(),
-                "Submitted tab is not displayed.");
+        waitUtil.sleep(500);
 
-        waitUtil.clickWithWait(submittedTab);
+        try {
+
+            if (tab.isDisplayed()) {
+
+                System.out.println(
+                        "Tab became visible after left swipe : "
+                        + i);
+
+                return;
+            }
+
+        } catch (Exception e) {
+            // Continue scrolling.
+        }
     }
 
     /*
-     * Verified Tab
+     * Swipe right to find the tab
      */
-    public void clickVerifiedTab() {
+    for (int i = 1; i <= 3; i++) {
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Verified\"))"));
+        swipeTabsRight();
 
-        Assert.assertTrue(
-                verifiedTab.isDisplayed(),
-                "Verified tab is not displayed.");
+        waitUtil.sleep(500);
 
-        waitUtil.clickWithWait(verifiedTab);
+        try {
+
+            if (tab.isDisplayed()) {
+
+                System.out.println(
+                        "Tab became visible after right swipe : "
+                        + i);
+
+                return;
+            }
+
+        } catch (Exception e) {
+            // Continue scrolling.
+        }
     }
 
-    /*
-     * Rejected Tab
-     */
-    public void clickRejectedTab() {
+    throw new RuntimeException(
+            "Unable to make Control Panel tab visible.");
+}
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Rejected\"))"));
+/*
+ * Horizontal Swipe To Left
+ */
+private void swipeTabsLeft() {
 
-        Assert.assertTrue(
-                rejectedTab.isDisplayed(),
-                "Rejected tab is not displayed.");
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
 
-        waitUtil.clickWithWait(rejectedTab);
-    }
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
 
-    /*
-     * Delete Pending Tab
-     */
-    public void clickDeletePendingTab() {
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    900,
+                    675));
 
-        horizontalScroll.findElement(
-                AppiumBy.androidUIAutomator(
-                        "new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollIntoView("
-                                + "new UiSelector().description(\"Delete Pending\"))"));
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
 
-        Assert.assertTrue(
-                deletePendingTab.isDisplayed(),
-                "Delete Pending tab is not displayed.");
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    200,
+                    675));
 
-        waitUtil.clickWithWait(deletePendingTab);
-    }
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    waitUtil.sleep(1000);
+
+    System.out.println(
+            "Control Panel tabs swiped left.");
+}
+
+/*
+ * Horizontal Swipe To Right
+ */
+private void swipeTabsRight() {
+
+    PointerInput finger =
+            new PointerInput(
+                    PointerInput.Kind.TOUCH,
+                    "finger");
+
+    Sequence swipe =
+            new Sequence(
+                    finger,
+                    1);
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ZERO,
+                    PointerInput.Origin.viewport(),
+                    200,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerDown(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(
+            finger.createPointerMove(
+                    Duration.ofMillis(800),
+                    PointerInput.Origin.viewport(),
+                    900,
+                    675));
+
+    swipe.addAction(
+            finger.createPointerUp(
+                    PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(
+            Arrays.asList(
+                    swipe));
+
+    waitUtil.sleep(1000);
+
+    System.out.println(
+            "Control Panel tabs swiped right.");
+}
+
+        /*
+ * Click All Tab
+ */
+public void clickAllTab() {
+
+    scrollHorizontalTabs(
+            allTab);
+
+    waitUtil.waitForElementVisible(
+            allTab);
+
+    waitUtil.clickWithWait(
+            allTab);
+
+    System.out.println(
+            "All tab clicked.");
+}
+
+/*
+ * Click Submitted Tab
+ */
+public void clickSubmittedTab() {
+
+    scrollHorizontalTabs(
+            submittedTab);
+
+    waitUtil.waitForElementVisible(
+            submittedTab);
+
+    waitUtil.clickWithWait(
+            submittedTab);
+
+    System.out.println(
+            "Submitted tab clicked.");
+}
+
+/*
+ * Click Verified Tab
+ */
+public void clickVerifiedTab() {
+
+    scrollHorizontalTabs(
+            verifiedTab);
+
+    waitUtil.waitForElementVisible(
+            verifiedTab);
+
+    waitUtil.clickWithWait(
+            verifiedTab);
+
+    System.out.println(
+            "Verified tab clicked.");
+}
+
+/*
+ * Click Rejected Tab
+ */
+public void clickRejectedTab() {
+
+    scrollHorizontalTabs(
+            rejectedTab);
+
+    waitUtil.waitForElementVisible(
+            rejectedTab);
+
+    waitUtil.clickWithWait(
+            rejectedTab);
+
+    System.out.println(
+            "Rejected tab clicked.");
+}
+
+
+
+/*
+ * Click Delete Pending Tab
+ */
+public void clickDeletePendingTab() {
+
+    scrollHorizontalTabs(
+            deletePendingTab);
+
+    waitUtil.waitForElementVisible(
+            deletePendingTab);
+
+    waitUtil.clickWithWait(
+            deletePendingTab);
+
+    System.out.println(
+            "Delete Pending tab clicked.");
+}
 
     /*
      * Open Recipe

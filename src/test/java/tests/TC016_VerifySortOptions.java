@@ -7,6 +7,7 @@ import base.BaseTest;
 import driver.DriverFactory;
 import pagesObjects.HamburgerMenu.ControlPanel;
 import pagesObjects.HamburgerMenu.Hamburger;
+import utils.ValidationUtil;
 
 public class TC016_VerifySortOptions extends BaseTest {
 
@@ -23,13 +24,19 @@ public class TC016_VerifySortOptions extends BaseTest {
                 "========== Verify Sort Options ==========");
 
         /*
-         * Open Hamburger Menu
+         * Verify Hamburger Menu
          */
-        Assert.assertTrue(
+        Thread.sleep(
+                3000);
+
+        ValidationUtil.verifyTrue(
                 hamburger.isHamburgerMenuVisible(),
-                "Hamburger menu is not displayed.");
+                "Hamburger menu is displayed.");
 
         hamburger.clickHamburgerMenu();
+
+        Thread.sleep(
+                3000);
 
         /*
          * Open Control Panel
