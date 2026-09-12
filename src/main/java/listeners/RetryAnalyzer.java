@@ -102,6 +102,10 @@ public class RetryAnalyzer
                  */
                 try {
 
+                        hamburger.clickBackButton();
+
+                        Thread.sleep(1500);
+
                     homeDashboard.clickHomeButton();
 
                     Thread.sleep(
@@ -125,6 +129,9 @@ public class RetryAnalyzer
                 try {
 
                     if (hamburger.isHamburgerMenuVisible()) {
+
+                        Thread.sleep(
+                                2000);
 
                         hamburger.clickHamburgerMenu();
 

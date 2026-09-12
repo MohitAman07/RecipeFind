@@ -1665,85 +1665,271 @@ private Set<String> convertAllergensToSet(
         }
     }
 
-    /*
-     * Complete Nutrition Facts Validation
-     */
-    public boolean verifyCurrentNutritionFacts(
-            String recipeName,
-            String servings) {
+//     /*
+//      * Complete Nutrition Facts Validation
+//      */
+//     public boolean verifyCurrentNutritionFacts(
+//             String recipeName,
+//             String servings) {
 
-        try {
+//         try {
+
+//             System.out.println(
+//                     "==================================================");
+
+//             System.out.println(
+//                     "Starting Complete Nutrition Facts Validation");
+
+//             /*
+//              * Nutrition Facts Header
+//              */
+//             if (!isNutritionFactsDisplayed()) {
+
+//                 System.out.println(
+//                         "Nutrition Facts header validation failed.");
+
+//                 return false;
+//             }
+
+//             /*
+//              * Recipe Name With Servings
+//              */
+//             if (!isRecipeNameWithServingsDisplayed(
+//                     recipeName,
+//                     servings)) {
+
+//                 System.out.println(
+//                         "Recipe name with servings validation failed.");
+
+//                 return false;
+//             }
+
+//             /*
+//              * Nutrition Values
+//              */
+//             if (!verifyAllNutritionValues()) {
+
+//                 System.out.println(
+//                         "Nutrition values validation failed.");
+
+//                 return false;
+//             }
+
+//             /*
+//              * Ingredients
+//              */
+//             String currentIngredients =
+//                     getCurrentIngredients();
+
+//             if (currentIngredients == null
+//                     || currentIngredients.isEmpty()) {
+
+//                 System.out.println(
+//                         "Nutrition Facts ingredients validation failed.");
+
+//                 return false;
+//             }
+
+//             System.out.println(
+//                     "Current Ingredients : "
+//                             + currentIngredients);
+
+//             /*
+//              * Expected Allergens
+//              */
+//             String expectedAllergens =
+//                     getExpectedAllergens(
+//                             currentIngredients);
+
+//             System.out.println(
+//                     "Expected Allergens : "
+//                             + expectedAllergens);
+
+//             /*
+//              * Actual Allergens
+//              */
+//             String currentAllergens =
+//                     getCurrentContainsAllergens();
+
+//             if (currentAllergens == null
+//                     || currentAllergens.isEmpty()
+//                     || currentAllergens
+//                             .trim()
+//                             .equalsIgnoreCase(
+//                                     "CONTAINS:")) {
+
+//                 System.out.println(
+//                         "Nutrition Facts allergens validation failed.");
+
+//                 return false;
+//             }
+
+//             System.out.println(
+//                     "Actual Allergens : "
+//                             + currentAllergens);
+
+//             /*
+//     * Compare Allergens
+//     *
+//     * Order is ignored.
+//     */
+//     Set<String> expectedAllergenSet =
+//             convertAllergensToSet(
+//                     expectedAllergens);
+
+//     Set<String> actualAllergenSet =
+//             convertAllergensToSet(
+//                     currentAllergens);
+
+//     if (!expectedAllergenSet.equals(
+//             actualAllergenSet)) {
+
+//         System.out.println(
+//                 "Allergen validation failed.");
+
+//         System.out.println(
+//                 "Expected Allergen Set : "
+//                         + expectedAllergenSet);
+
+//         System.out.println(
+//                 "Actual Allergen Set : "
+//                         + actualAllergenSet);
+
+//         return false;
+//     }
+
+//     System.out.println(
+//             "Allergen validation passed. Order ignored.");
+
+
+//             System.out.println(
+//                     "Complete Nutrition Facts validation completed successfully.");
+
+//             System.out.println(
+//                     "==================================================");
+
+//             return true;
+
+//         } catch (Exception e) {
+
+//             System.out.println(
+//                     "Complete Nutrition Facts validation failed.");
+
+//             System.out.println(
+//                     "Reason : "
+//                             + e.getMessage());
+
+//             return false;
+//         }
+//     }
+
+
+/*
+ * Complete Nutrition Facts Validation
+ */
+public boolean verifyCurrentNutritionFacts(
+        String recipeName,
+        String servings) {
+
+    try {
+
+        System.out.println(
+                "==================================================");
+
+        System.out.println(
+                "Starting Complete Nutrition Facts Validation");
+
+        /*
+         * Nutrition Facts Header
+         */
+        if (!isNutritionFactsDisplayed()) {
 
             System.out.println(
-                    "==================================================");
+                    "Nutrition Facts header validation failed.");
+
+            return false;
+        }
+
+        /*
+         * Recipe Name With Servings
+         */
+        if (!isRecipeNameWithServingsDisplayed(
+                recipeName,
+                servings)) {
 
             System.out.println(
-                    "Starting Complete Nutrition Facts Validation");
+                    "Recipe name with servings validation failed.");
 
-            /*
-             * Nutrition Facts Header
-             */
-            if (!isNutritionFactsDisplayed()) {
+            return false;
+        }
 
-                System.out.println(
-                        "Nutrition Facts header validation failed.");
-
-                return false;
-            }
-
-            /*
-             * Recipe Name With Servings
-             */
-            if (!isRecipeNameWithServingsDisplayed(
-                    recipeName,
-                    servings)) {
-
-                System.out.println(
-                        "Recipe name with servings validation failed.");
-
-                return false;
-            }
-
-            /*
-             * Nutrition Values
-             */
-            if (!verifyAllNutritionValues()) {
-
-                System.out.println(
-                        "Nutrition values validation failed.");
-
-                return false;
-            }
-
-            /*
-             * Ingredients
-             */
-            String currentIngredients =
-                    getCurrentIngredients();
-
-            if (currentIngredients == null
-                    || currentIngredients.isEmpty()) {
-
-                System.out.println(
-                        "Nutrition Facts ingredients validation failed.");
-
-                return false;
-            }
+        /*
+         * Nutrition Values
+         */
+        if (!verifyAllNutritionValues()) {
 
             System.out.println(
-                    "Current Ingredients : "
-                            + currentIngredients);
+                    "Nutrition values validation failed.");
 
-            /*
-             * Expected Allergens
-             */
-            String expectedAllergens =
-                    getExpectedAllergens(
-                            currentIngredients);
+            return false;
+        }
+
+        /*
+         * Ingredients
+         */
+        String currentIngredients =
+                getCurrentIngredients();
+
+        if (currentIngredients == null
+                || currentIngredients.isEmpty()) {
 
             System.out.println(
-                    "Expected Allergens : "
-                            + expectedAllergens);
+                    "Nutrition Facts ingredients validation failed.");
+
+            return false;
+        }
+
+        System.out.println(
+                "Current Ingredients : "
+                        + currentIngredients);
+
+        /*
+         * Expected Allergens
+         */
+        String expectedAllergens =
+                getExpectedAllergens(
+                        currentIngredients);
+
+        System.out.println(
+                "Expected Allergens : "
+                        + expectedAllergens);
+
+        /*
+         * Contains / Allergens
+         *
+         * Contains section is conditional.
+         *
+         * If the recipe contains allergenic
+         * ingredients, the Contains section
+         * must be displayed and validated.
+         *
+         * If the recipe does not contain any
+         * allergenic ingredients, the Contains
+         * section is not required.
+         */
+        if (expectedAllergens == null
+                || expectedAllergens
+                        .trim()
+                        .equalsIgnoreCase(
+                                "CONTAINS:")) {
+
+            System.out.println(
+                    "No allergenic ingredients found.");
+
+            System.out.println(
+                    "Contains / Allergens section is not required.");
+
+        } else {
 
             /*
              * Actual Allergens
@@ -1769,59 +1955,67 @@ private Set<String> convertAllergensToSet(
                             + currentAllergens);
 
             /*
-    * Compare Allergens
-    *
-    * Order is ignored.
-    */
-    Set<String> expectedAllergenSet =
-            convertAllergensToSet(
-                    expectedAllergens);
+             * Convert Expected Allergens
+             * Into Set
+             */
+            Set<String> expectedAllergenSet =
+                    convertAllergensToSet(
+                            expectedAllergens);
 
-    Set<String> actualAllergenSet =
-            convertAllergensToSet(
-                    currentAllergens);
+            /*
+             * Convert Actual Allergens
+             * Into Set
+             */
+            Set<String> actualAllergenSet =
+                    convertAllergensToSet(
+                            currentAllergens);
 
-    if (!expectedAllergenSet.equals(
-            actualAllergenSet)) {
+            /*
+             * Compare Allergens
+             *
+             * Order is ignored.
+             */
+            if (!expectedAllergenSet.equals(
+                    actualAllergenSet)) {
+
+                System.out.println(
+                        "Allergen validation failed.");
+
+                System.out.println(
+                        "Expected Allergen Set : "
+                                + expectedAllergenSet);
+
+                System.out.println(
+                        "Actual Allergen Set : "
+                                + actualAllergenSet);
+
+                return false;
+            }
+
+            System.out.println(
+                    "Allergen validation passed. Order ignored.");
+        }
 
         System.out.println(
-                "Allergen validation failed.");
+                "Complete Nutrition Facts validation completed successfully.");
 
         System.out.println(
-                "Expected Allergen Set : "
-                        + expectedAllergenSet);
+                "==================================================");
+
+        return true;
+
+    } catch (Exception e) {
 
         System.out.println(
-                "Actual Allergen Set : "
-                        + actualAllergenSet);
+                "Complete Nutrition Facts validation failed.");
+
+        System.out.println(
+                "Reason : "
+                        + e.getMessage());
 
         return false;
     }
-
-    System.out.println(
-            "Allergen validation passed. Order ignored.");
-
-
-            System.out.println(
-                    "Complete Nutrition Facts validation completed successfully.");
-
-            System.out.println(
-                    "==================================================");
-
-            return true;
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "Complete Nutrition Facts validation failed.");
-
-            System.out.println(
-                    "Reason : "
-                            + e.getMessage());
-
-            return false;
-        }
-    }
+}
 
     /*
      * Existing Compatibility Method

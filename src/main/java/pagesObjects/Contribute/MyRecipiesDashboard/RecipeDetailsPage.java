@@ -463,6 +463,37 @@ public class RecipeDetailsPage {
                 "Edit recipe clicked.");
     }
 
+ /*
+ * Enter Serving Limit During Edit Recipe
+ */
+public void enterEditServingLimit(
+        String servingLimit) {
+
+    WebElement editServingLimitField =
+            driver.findElement(
+                    AppiumBy.xpath(
+                            "(//android.view.View[@content-desc='Servings']"
+                                    + "/preceding::android.widget.EditText)"
+                                    + "[last()]"));
+
+    waitUtil.waitForElementVisible(
+            editServingLimitField);
+
+    waitUtil.clickWithWait(
+            editServingLimitField);
+
+    editServingLimitField.clear();
+
+    editServingLimitField.sendKeys(
+            servingLimit);
+
+    hideKeyboard();
+
+    System.out.println(
+            "Edit serving limit entered : "
+                    + servingLimit);
+}
+
     /*
      * Verify Delete Recipe Button
      */
