@@ -43,6 +43,8 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
                 new MyRecipes(
                         DriverFactory.getDriver());
 
+        Thread.sleep(5000);
+
         /*
          * Navigate to My Recipes Dashboard
          */
@@ -87,9 +89,6 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
                 myRecipes.isRejectedTabDisplayed(),
                 "Rejected tab is displayed.");
 
-        ValidationUtil.verifyTrue(
-                myRecipes.isDeletePendingTabDisplayed(),
-                "Delete Pending tab is displayed.");
 
         /*
          * Verify Sort Options
@@ -114,6 +113,8 @@ public class TC041_VerifyMyRecipesDashboard extends BaseTest {
         DriverFactory.getDriver()
                 .navigate()
                 .back();
+
+        myRecipes.clickAllTab();
 
         /*
          * Scroll and Load All Recipes

@@ -304,7 +304,7 @@ public class TC042_VerifyNotificationAfterGroupAssignment extends BaseTest {
                 new Notification(
                         DriverFactory.getDriver());
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         /*
          * Verify Notification Bell
